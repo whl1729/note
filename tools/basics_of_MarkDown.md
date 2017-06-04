@@ -14,9 +14,9 @@
 
 输入内容：
 
-	\#\#\#\# 四级标题  
-	\#\#\#\#\# 五级标题  
-	\#\#\#\#\#\# 六级标题
+	#### 四级标题  
+	##### 五级标题  
+	###### 六级标题
 
 显示结果：
 >#### 四级标题 
@@ -59,6 +59,7 @@
     \!\[cat\]\(http://octodex.github.com/images/octdrey-catburn.jpg\) 
 
 显示结果:
+
 <img src="http://octodex.github.com/images/octdrey-catburn.jpg" width=100 height=100 align=center />
 
 ### 引用
@@ -70,7 +71,7 @@
 输入内容：
 
 > 我喜欢尼采的一句话：
-    \>凡不能毁灭我的，必将使我强大。
+>    \>凡不能毁灭我的，必将使我强大。
 
 输出内容：
 

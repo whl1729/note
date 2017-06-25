@@ -4,3 +4,8 @@
 ```
 sudo apt-get install vim-gnome
 ```
+* Q: 在CentOS系统安装lxml一直失败，提示“Error: unknown pseudo-op: `.'”等。
+  A: 增加编译选项`-O0`后终于编译成功。
+```
+sudo CFLAGS="-O0" pip install lxml
+```

@@ -472,3 +472,51 @@ head -n    显示前n条记录
 tail -n    显示最后n条记录
 ```
 
+<h2 id="4">4 变量</h2>
+
+<h3 id="4.1">4.1 变量赋值与环境</h3>
+
+#### 4.1.1 修改或打印环境变量
+
+* 语法
+
+```
+export name[=word] ...      导出环境变量
+export -p                   打印导出的环境变量
+readonly name[=word] ...    设置环境变量为只读（不能修改）
+readonly -p                 打印只读的环境变量i
+env                         打印所有环境变量
+```
+
+* 举例
+
+```
+export PATH=SPATH:/usr/local/bin
+readonly hours_per_day=24 seconds_per_hour=600 days_per_eek=7
+```
+
+#### 4.1.2 删除环境变量
+
+* 语法
+
+```
+unset [ -v ] variable ...    删除指定的变量，这是默认行为模式
+unset -f function ...        删除指定的函数
+```
+
+* 举例
+
+```
+unset full_name
+unset -v first middle last
+
+who_is_on() {
+    who | awk '{ print $1 }' | sort -u
+}
+...
+unset -f who_is_on
+```
+
+<h3 id="4.2">4.2 参数展开</h3>
+
+

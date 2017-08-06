@@ -116,7 +116,9 @@ TODO: 学习基本的交互命令
 
 ## Python数据类型
 
-### 内置数据类型
+### 数据类型概述
+
+#### 内置数据类型
 
 * 数字
 * 字符串
@@ -126,7 +128,7 @@ TODO: 学习基本的交互命令
 * 文件
 * 其他类型（集合、类型、None、布尔型等）
 
-### 查看对象的所有方法
+#### 查看对象的所有方法
 
 使用`dir(object_name)`或`help(object_type)`可以查看对象的所有方法：
 ```
@@ -136,7 +138,7 @@ TODO: 学习基本的交互命令
 ['__class__', '__cmp__', '__contains__', '__delattr__', '__delitem__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__init__', '__iter__', '__le__', '__len__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setitem__', '__sizeof__', '__str__', '__subclasshook__', 'clear', 'copy', 'fromkeys', 'get', 'has_key', 'items', 'iteritems', 'iterkeys', 'itervalues', 'keys', 'pop', 'popitem', 'setdefault', 'update', 'values', 'viewitems', 'viewkeys', 'viewvalues']
 ```
 
-### 动态类型
+#### 动态类型
 
 * 动态类型：类型是在运行过程中自动决定的，而不是通过代码声明。动态类型以及由它提供的多态性，是Python语言简洁性和灵活性的基础。
 
@@ -159,6 +161,43 @@ TODO: 学习基本的交互命令
 [24, 3, 4]
 >>> L2              # But so is L2
 [24, 3, 4]
+```
+
+#### 拷贝
+
+* 没有限制条件的分片表达式（L[:]）能够复制序列
+* 字典copy方法（D.copy()）能够复制字典
+* 有些内置函数能够生成拷贝（list(L)）
+* copy标准库模块能够生成完整拷贝
+* 无条件值的分片以及字典copy方法只能做顶层复制，不能复制嵌套的数据结构。如果需要一个深层嵌套的数据结构的完整的、完全独立的拷贝，那么就要使用标准的copy模块：首先`import copy`，然后使用`x = copy.deepcopy(y)`对任意嵌套对象y做完整复制。
+
+#### 比较
+Python中不同类型的比较方法：
+
+* 数字通过相对大小进行比较
+* 字符串按照字典顺序进行比较
+* 列表和元组从左到右对每部分的内容进行比较
+* 字典通过排序之后的（键、值）列表进行比较
+
+
+#### 相等性
+
+* "==" 操作符测试值的相等性
+* "is" 表达式测试对象的同一性（即测试二者是否同一个对象）
+
+#### python中真和假的含义
+
+* 数字如果非零，则为真
+* 其他对象如果非空，则为真
+* 特殊数据类型None永远为假（None类似于C语言中的NULL指针）
+
+#### 循环数据结果
+如果一个复合对象包含指向自身的引用，就称之为循环对象。无论何时Python在对象中检测到循环，都会打印成[...]，而不会陷入无限循环。
+```
+>>> L = ['grail']
+>>> L.append(L)
+>>> L
+['grail', [...]]
 ```
 
 ### 数字
@@ -205,7 +244,7 @@ TODO: 学习基本的交互命令
 * `len(s2)`       
 * `"a %s parrot" % type` 字符串格式化
 * `s2.find('pa')`
-* `s2.rstrip`
+* `s2.rstrip`           去掉行终止符，如换行符等
 * `s2.replace('pa', 'xx')`
 * `s1.split(',')`
 * `s1.isdigit()`
@@ -328,5 +367,167 @@ TODO: 学习基本的交互命令
 88
 >>> Matrix.get((2,3,6), 0)
 0
+```
+
+### 元祖
+
+#### 元祖的主要属性
+
+* 任意对象的有序集合。元祖可以嵌入到任何类别的对象中。
+* 通过偏移存取。元祖支持所有基于偏移的操作，如索引和分片。
+* 属于不可变序列类型。元祖不支持任何原处修改操作。
+* 固定长度、异构、任意嵌套。
+* 对象引用的数组。元祖存储指向其他对象的引用，并且对元祖进行索引操作的速度相对较快。
+
+> 备注：
+> 1. 元组的不可变性只适用于元祖本身顶层而非其内容。例如，元组内部的列表是可以像平时那样修改的。
+
+#### 元祖的常见操作
+
+* ()                              空元祖
+* t1 = (0,)                       单个元素的元祖（逗号表示这是元祖，而非表达式）
+* t2 = (0, 'Ni', 1.2, )           四个元素的元祖
+* t3 = ('abc', ('def', 'ghi'))    嵌套元祖
+* t1[i]                           索引
+* t3[i][j]                        索引的索引
+* t1[i:j]                         分片
+* len(t1)                         长度
+* t1 + t2                         合并
+* t2 * 3                          重复
+* for x in t                      迭代
+* 'spam' in t2                    成员关系
+
+#### 为什么有了列表还要元祖
+
+1. 元组的角色类似于其他语言中的“常数”声明，你可以确保元祖在程序中不会被另一个引用修改。
+2. 元祖可以用在列表无法使用的地方。例如作为字典键。一些内置操作可能也要求或暗示使用元祖而不是列表。
+
+### 文件
+
+#### 文件的常见操作
+
+* output = open('/tmp/spam', 'w')    创建输出文件（'w'指写入）
+* input = open('data', 'r')          创建输入文件（'r'指读写）
+* input = open('data')               创建输入文件（默认是'r'）
+* aString = input.read()             读取整个文件到进单一字符串
+* aString = input.read(N)            读取之后的N个字节到单一字符串
+* aString = input.readline()         读取下一行（包括行末标示符）到一个字符串
+* aList = input.readlines()          读取整个文件到字符串列表
+* output.write(aString)              写入字节字符串到文件
+* output.writelines(aString)         写入列表中所有字符串到文件
+* output.close()                     手动关闭
+* output.flush()                     把输出缓冲区刷到硬盘中，但不关闭文件
+* anyFile.seek(N)                    修改文件位置到偏移量N处以便进行下一个操作
+* eval(aString)                      把字符串当做可执行程序来执行
+* pickle.dump(), pickle.load()       直接在文件中存储几乎任何Python对象
+
+> 备注：
+> 1. 手动进行文件close方法调用是我们需要养成的一个好习惯。
+
+## Python语句
+
+### Python语句简介
+
+#### Python语句集
+
+* 赋值：创建引用值
+`a, b, c = 'good', 'bad', 'ugly'`
+
+* 调用：执行函数
+`log.write("it's been a long day without you my friend")`
+
+* print：打印对象
+`print 'The killer', joke`
+
+* if/elif/else：选择动作
+```
+if "python" in text:
+    print x
+```
+
+* for/else：序列迭代
+```
+for x in mylist:
+    print x
+```
+
+* while/else：一般循环
+```
+while X > Y:
+    print 'hello'
+```
+
+* pass：空占位符
+```
+while True:
+    pass
+```
+
+* break, continue：循环跳跃
+```
+while True:
+    if not line: break
+```
+
+* try/except/finally：捕捉异常
+```
+try:
+    action()
+except:
+    print 'action error'
+```
+
+* raise：触发异常
+`raise endSearch, location`
+
+* import, from：模块读取
+```
+import sys
+from sys import stdin
+```
+
+* def, return, yield：创建函数
+```
+def func(a, b, c=1, *d):
+    return a+b+c+d[0]
+
+def gen(n):
+    for i in n, yield i*2
+```
+
+* class：创建对象
+```
+class subclass(Superclass):
+    staticData = []
+```
+
+* global：命名空间
+```
+def func():
+    global x, y
+    x = 'new'
+```
+
+* del：删除引用
+```
+del data[k]
+del data[i:j]
+del obj.attr
+del variable
+```
+
+* exec：执行代码字符串
+```
+exec "import " + modName
+exec code in gdict, ldict
+```
+
+* assert：调试检查
+`assert X > Y`
+
+* with/as：环境管理器
+```
+with open('data') as myfile:
+    process(myfile)
 ```
 

@@ -384,18 +384,18 @@ Python中不同类型的比较方法：
 
 #### 元祖的常见操作
 
-* ()                              空元祖
-* t1 = (0,)                       单个元素的元祖（逗号表示这是元祖，而非表达式）
-* t2 = (0, 'Ni', 1.2, )           四个元素的元祖
-* t3 = ('abc', ('def', 'ghi'))    嵌套元祖
-* t1[i]                           索引
-* t3[i][j]                        索引的索引
-* t1[i:j]                         分片
-* len(t1)                         长度
-* t1 + t2                         合并
-* t2 * 3                          重复
-* for x in t                      迭代
-* 'spam' in t2                    成员关系
+* `()                           `   空元祖
+* `t1 = (0,)                    `   单个元素的元祖（逗号表示这是元祖，而非表达式）
+* `t2 = (0, 'Ni', 1.2, )        `   四个元素的元祖
+* `t3 = ('abc', ('def', 'ghi')) `   嵌套元祖
+* `t1[i]                        `   索引
+* `t3[i][j]                     `   索引的索引
+* `t1[i:j]                      `   分片
+* `len(t1)                      `   长度
+* `t1 + t2                      `   合并
+* `t2 * 3                       `   重复
+* `for x in t                   `   迭代
+* `'spam' in t2                 `   成员关系
 
 #### 为什么有了列表还要元祖
 
@@ -406,20 +406,20 @@ Python中不同类型的比较方法：
 
 #### 文件的常见操作
 
-* output = open('/tmp/spam', 'w')    创建输出文件（'w'指写入）
-* input = open('data', 'r')          创建输入文件（'r'指读写）
-* input = open('data')               创建输入文件（默认是'r'）
-* aString = input.read()             读取整个文件到进单一字符串
-* aString = input.read(N)            读取之后的N个字节到单一字符串
-* aString = input.readline()         读取下一行（包括行末标示符）到一个字符串
-* aList = input.readlines()          读取整个文件到字符串列表
-* output.write(aString)              写入字节字符串到文件
-* output.writelines(aString)         写入列表中所有字符串到文件
-* output.close()                     手动关闭
-* output.flush()                     把输出缓冲区刷到硬盘中，但不关闭文件
-* anyFile.seek(N)                    修改文件位置到偏移量N处以便进行下一个操作
-* eval(aString)                      把字符串当做可执行程序来执行
-* pickle.dump(), pickle.load()       直接在文件中存储几乎任何Python对象
+* `output = open('/tmp/spam', 'w')`    创建输出文件（'w'指写入）
+* `input = open('data', 'r')`          创建输入文件（'r'指读写）
+* `input = open('data')`               创建输入文件（默认是'r'）
+* `aString = input.read()`             读取整个文件到进单一字符串
+* `aString = input.read(N)`            读取之后的N个字节到单一字符串
+* `aString = input.readline()`         读取下一行（包括行末标示符）到一个字符串
+* `aList = input.readlines()`          读取整个文件到字符串列表
+* `output.write(aString)`              写入字节字符串到文件
+* `output.writelines(aString)`         写入列表中所有字符串到文件
+* `output.close()`                     手动关闭
+* `output.flush()`                     把输出缓冲区刷到硬盘中，但不关闭文件
+* `anyFile.seek(N)`                    修改文件位置到偏移量N处以便进行下一个操作
+* `eval(aString)`                      把字符串当做可执行程序来执行
+* `pickle.dump(), pickle.load()`       直接在文件中存储几乎任何Python对象
 
 > 备注：
 > 1. 手动进行文件close方法调用是我们需要养成的一个好习惯。
@@ -431,13 +431,13 @@ Python中不同类型的比较方法：
 #### Python语句集
 
 * 赋值：创建引用值
-`a, b, c = 'good', 'bad', 'ugly'`
+```a, b, c = 'good', 'bad', 'ugly'```
 
 * 调用：执行函数
-`log.write("it's been a long day without you my friend")`
+```log.write("it's been a long day without you my friend")```
 
 * print：打印对象
-`print 'The killer', joke`
+```print 'The killer', joke```
 
 * if/elif/else：选择动作
 ```
@@ -490,7 +490,6 @@ from sys import stdin
 ```
 def func(a, b, c=1, *d):
     return a+b+c+d[0]
-
 def gen(n):
     for i in n, yield i*2
 ```
@@ -523,7 +522,7 @@ exec code in gdict, ldict
 ```
 
 * assert：调试检查
-`assert X > Y`
+```assert X > Y```
 
 * with/as：环境管理器
 ```
@@ -531,3 +530,175 @@ with open('data') as myfile:
     process(myfile)
 ```
 
+#### Python增加了什么
+
+Python中新的语法成分是冒号（:）。所有Python的复合语句都有相同的一般形式：首行以冒号结尾，下一行嵌套的代码往往按照缩进的格式书写。
+```
+Header line:
+    Nested statement block
+```
+
+#### Python删除了什么
+
+* 括号是可选的。例如if语句中不需要括号：`if x < y`
+* 终止行就是终止语句。一行的结束会自动终止出现在该行的语句，不需使用分号。
+* 缩进的结束就是代码块的结束。不需像类C语言那样，在嵌套块前后输入begin/end、then/endif或者大括号。取而代之的是，在Python中一致把嵌套块里所有的语句向右缩进相同的距离，以缩进来确定代码块的开头与结尾。
+
+> 备注：
+> 1. 根据逻辑结构将代码对齐是令程序具有可读性的主要部分，因而具备了可重用性和可维护性。
+> 2. Python允许一行中出现多个简单语句，这时需要使用分号来隔开：`a = 1; b = 2; print a + b`
+> 3. Python允许一个语句横跨多行，这时需要用括号（括号、方括号或大括号）把语句括起来。
+```
+mlist = [111,
+         222,
+         333]
+```
+> 4. Python允许简单语句（比如赋值操作、打印和函数调用）紧跟在冒号后面：`if x > y: print x`。但较复杂的语句仍然必须单独编辑放在自己的行里。
+
+#### 用try语句处理错误
+```
+reply = raw_input('Enter number:')
+try:
+    num = int(reply)
+except:
+    print 'Bad!' * 8
+else:
+    print num ** 2
+```
+
+### 赋值语句
+
+#### 赋值语句的一些特性
+
+* 赋值语句建立对象引用值。Python赋值语句会把对象引用值存储在变量名或数据结构的元素内。
+* 变量名在首次赋值时会被创建。
+* 变量名在引用前必须先赋值。使用未赋值的变量名是一种错误，会引发异常。
+* 隐式赋值语句：import、from、def、class、for、函数参数。
+
+#### 赋值语句的形式
+
+* `spam = 'Spam'`                   基本形式
+* `spam, ham = 'yum', 'YUM'`        元祖赋值运算（位置性）
+* `[spam, ham] = ['yum', 'YUM']`    列表赋值运算（位置性）
+* `a, b, c, d = 'spam'`             序列赋值运算（通用性）：赋值为's'，b赋值为'p'等
+* `spam = ham = 'lunch'`            多重目标赋值
+* `spams += 42`                     自增赋值语句
+
+#### 序列赋值语句
+
+* 元组赋值语句经常会省略括号。例如：`spam, ham = 'wanna', 'be'`实际是`(spam, ham) = ('wanna', 'be')`的简便写法。
+
+* 元组赋值语句可用来交换两变量的值，而不需自行创建临时变量。例如：
+```
+>>> nudge = 1
+>>> wink = 2
+>>> nudge, wink = wink, nudge
+>>> nudge, wink
+>>> (2, 1)
+```
+
+* 使用分片来灵活赋值
+```
+>>> str = 'spam'
+>>> a, b, c = str[0], str[1], str[2:]
+>>> a, b, c = list(string[:2]) + [string[2:]]
+```
+
+* 赋值嵌套序列
+```
+>>> ((a, b), c) = ('SP', 'AM')
+>>> a, b, c
+>>> ('S', 'P', 'AM')
+```
+
+* 赋值一系列整数给一组变量
+```
+>>> red, green, blue = range(3)
+>>> red, blue
+(0, 2)
+```
+
+#### 多目标赋值语句
+多目标赋值语句就是把所有提供的变量名都赋值为右侧的对象，亦即多个变量共享一个对象。
+
+* 对不可变类型，修改某一变量不影响其他变量。
+```
+>>> a = b = 0
+>>> b = b + 1
+>>> a, b
+(0, 1)
+```
+
+* 对可变类型，修改某一变量会影响其他变量。
+```
+>>> a = b = []
+>>> b.append(42)
+>>> a, b
+>>> ([42], [42])
+```
+
+#### 自增赋值语句
+
+* 数字自增，例如：`x += 1`。注意Python没有`x++`或`x--`运算符，因为Python不允许对不可变对象在原处进行修改。
+
+* 字符串自增，例如：`str += 'spam'`。
+
+* 增强赋值语句比合并运算效率更高。因为合并运算必须建立新对象，复制左侧的列表，再复制右侧的列表。与之相比，增强赋值语句是在原处修改，只需在内存块的末尾增加元素。
+
+#### 命名惯例
+
+* 以单一下划线开头的变量名不会被`from module import *`语句导入。
+* 前后有下划线的变量名是系统定义的变量名，对解释器有特殊意义。
+* 以两下划线开头、但结尾没有两个下划线的变量名是类的本地（“压缩”）变量。
+* 类变量名通常与一个大写字母开头，而模块变量名以小写字母开头。
+
+### 表达式
+
+#### 常见Python表达式语句
+
+* `spam(eggs, ham)`               函数调用
+* `spam.ham(eggs)`                方法调用
+* `spam`                          在交互模式解释器内打印变量
+* `spam < ham and ham != eggs`    符号表达式
+* `spam < ham < eggs`             范围测试
+
+> 备注：
+> 1. Python不允许把赋值语句嵌入到其他表达式中，理由是避免常见的编码错误：当用“==”做相等测试时，不会打成“=”而意外修改变量的值。
+
+#### 表达式语句与原处修改
+列表的append，sort或reverse等方法，会对列表做原处的修改，特别注意：这些方法在列表修改后并不会把列表返回，而是返回None对象。如果你赋值这类运算的结果给该变量的变量名，只会丢失该列表。
+```
+>>> L = [1, 2]
+>>> L = L.append(3)  # append returns None, not L
+>>> print L          # so we lose our list
+None
+```
+
+### 打印
+
+#### print语句形式
+
+* `print spam, ham`                  把对象打印至sys.stdout，在元素之间增加一个空格，以及在末尾增加换行字符
+* `print spam, ham,`                 一样，但是在文本末尾没有加换行字符
+* `print >> myfile, spam, ham`       输出到myfile.write，而不是sys.stdout.write
+* `print '%s...%s' % (spam, ham)`    格式化打印
+
+#### print与sys.stdout的关系
+`print x`
+等价于
+```
+import sys
+sys.stdout.write(str(x) + '\n')
+```
+
+我们可以让print语句将字符串打印到其他地方。例如：
+```
+import sys
+sys.stdout = open('log.txt', 'a')  # redirect prints to file
+...
+print x, y, x                      # shows up in log.txt
+```
+
+### 判断语句
+
+### 循环语句

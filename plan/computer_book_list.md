@@ -10,9 +10,9 @@
 
 ## TP301.1 计算机组成原理
 
-1. 深入理解计算机系统
-2. 计算机组成与设计：硬件/软件接口
-3. Intel 64 and IA-32 Architectures Software Developer Manuals
+- 深入理解计算机系统
+- 计算机组成与设计：硬件/软件接口
+- Intel - and IA-- Architectures Software Developer Manuals
 
 ## TP301.6 算法
 

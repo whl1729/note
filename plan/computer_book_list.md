@@ -41,13 +41,13 @@
 
 ## TP311.4 编程方法
 
-- 编程艺术
-- 代码大全
-- 代码之美
+- The Practices of Programming（程序设计实践）
+- Code Complete（代码大全）
+- Beautiful Code: Leading Programmers Explain How They Think（代码之美）
+- Unix编程艺术
 - 代码整洁之道
 - 重构：改善既有代码的设计
 - 敏捷软件开发
-- 程序设计实践
 - 程序员修炼之道
 
 ## TP311.5 软件工程
@@ -58,12 +58,12 @@
 - 程序开发心理学
 - 人件
 
-
 ## TP312 编程语言
 
 ### TP312-0 编程语言原理
 
 - Elements of Programming（编程原本）
+- A Discipline of Programming（编程的修炼）
 - Programming Language Pragmatics（程序设计语言：实践之路）
 - Concepts of Programming Languages（程序设计语言概念）
 

@@ -16,17 +16,22 @@
 
 ## TP301.6 算法
 
-- 算法导论
-- 计算机程序设计艺术
+- Introduction to Algorithms（算法导论）
+- Algorithms - Robert Sedgewick / Kevin Wayne（算法）
+- Programming Pearls（编程珠玑）
+- The Art of Computer Programming（计算机程序设计艺术）
+- Introduction to Algorithms: A Creative Approach（算法引论）
+- Introduction to the Design and Analysis of Algorithms（算法设计与分析基础）
+- Algorithm Design Manual（算法设计指南）
+- The Science of Programming - David Gries
 - 如何求解问题：现代启发式方法
 - 编程之美
-- 编程珠玑
-- 算法引论
 
 ## TP311.1 数据结构
 
 - Data Structures and Program Design in C++
 - Data Structures and Algorithm Analysis in C
+- Advanced Data Structures（有相应的MIT课程）
 - 数据结构_严蔚敏
 - 剑指offer
 

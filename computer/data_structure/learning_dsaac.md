@@ -41,6 +41,24 @@
 
 ## 刷题笔记
 
+### 21. Bug 9: 删除节点后忘记更新父节点的孩子信息
+做习题4.11时，自己好几处地方删除节点后忘记更新父节点的孩子信息。尤其是删除叶节点后，要将父节点的left/right置为NULL。
+
+### 20. Bug 8: 内存拷贝后误释放内存
+习题4.11要求使用游标（cursor）而非指针来实现二叉搜索树，在实现删除操作时，我犯了个误释放内存的错误，导致删除某个节点时误把其他节点也干掉了。。
+```
+/* error code: I want to delete right child, but delete right child's right child */
+memcpy(g_arr + cur, g_arr + g_arr[cur].right, sizeof(Node));
+cursor_free(g_arr[cur].right);
+```
+如上文代码段所示，我的初衷是把当前节点的右孩子节点拷贝到当前节点，然后删除右孩子节点，但结局是右孩子的右孩子节点壮烈牺牲了！正确做法是用临时变量保存右孩子节点的位置。
+```
+/* correct code */
+right = g_arr[cur].right;
+memcpy(g_arr + cur, g_arr + right, sizeof(Node));
+cursor_free(right);
+```
+
 ### 19. Bug 7: 误将`=`写成`==`导致赋值语句不生效
 今天实现完splay tree的查找操作时，执行时运行结果不对。使用gdb调试时，发现有次调用`cmp_data()`函数时的返回结果有问题，看了好一会才意识到问题所在：自己多写了一个等号！结果调用完`cmp_data()`函数后，不是将返回值赋给`result`，而是将返回值与`result`作比较，然后默默地丢弃了比较结果，再执行下一个语句。因此，`result`的值根本没改变！两点体会：一是以后要细心些，二是C编译器未免太信任程序员了吧，遇到这种情况能不能报个警啊......（可能修改编译选项可以实现，有空研究下）。
 ```

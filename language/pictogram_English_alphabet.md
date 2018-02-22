@@ -588,5 +588,79 @@ M构成的许多单词与女性或婚姻相关，可能是因为字母m形如女
     * neutral 中间的
     * next 接下来的
 
-### N
+### O
+象形图案是眼睛。相关含义有眼睛、光学、全面和圆形。典型词汇有observe（观察）、optics（光学）、look（看）、hole（洞）。
+
+1. 眼睛、观察、椭圆
+字母O来自象形符号中的眼睛图案，腓尼基人将其简化为椭圆，因此有些以字母O开头的单词具有观察、椭圆等相关含义。
+    * observe 观察
+    * ocular 眼镜的
+    * oblate 扁圆的
+    * orbit 天体轨道
+
+2. 圆形
+字母O是一个圆形形状。
+    * open 开
+    * hole 洞
+    * moon 月亮
+    * loop 环
+
+3. 全
+由圆形派生出“全”的意思。
+    * ommi- 全
+    * omnibus 公共骑车
+    * omnipotence 全能
+    * omniscience 全知
+
+4. 棒状、针状物体的头端
+-od和-ob常表示棒状、针状物体的头端。
+    * rod 杆、棒
+    * tripod 三脚架
+    * electrode 电极
+    * diode 二极管
+
+### P
+象形图案是嘴和纸。相关含义有张嘴、说话、文字、传播。典型词汇有phase（短语）、proposal（提议）、publicize（宣传）、print（印刷）。
+
+1. 嘴、说话、语言
+通常认为字母P起源于埃及象形文字“嘴”的图案，与“说话、语言”等有关。
+    * paean 赞美歌、颂歌
+    * parley 和谈、会谈
+    * persuade 劝说、说服
+    * preach 说教、布道
+    * pronounce 发音
+
+2. 文字、语言
+也有观点认为字母P来自埃及象形图案莎草纸，英语中表示纸的单词paper就是来自于古埃及语表示莎草的单词papyrus。由纸生出文字、语言的含义。
+    * prose 散文
+    * prospectus 计划书
+    * poster 海报
+    * portrait 肖像、描写
+    * pictograph 象形字
+
+### Q
+象形图案是毛线团、日升日落。相关含义有线团、纠缠、疑问、困惑。典型词汇有query（询问）、question（问题、难题）。
+
+1. 困惑、疑问
+字母Q来自象形符号羊毛线团，由此派生出困惑、疑问等含义。
+    * quandary 困惑
+    * qualm 疑虑
+    * query 询问
+    * question 问题、难题
+
+2. 四
+字母Q构成的词很多与“四”有关。
+    * quad 四边形、四胞胎之一
+    * quadruple 四倍的
+    * quarter 四分之一、季度、一刻钟
+    * quartet 四重唱
+    * quarto 四开本
+
+3. 五
+还有一些与“五”有关。
+    * quintet 五重奏
+    * quintuple 五倍的
+    * quintuplicate 一式五份
+
+### R
 

@@ -92,7 +92,7 @@
 - The C++ Standard Library 
 - C++程序设计原理与实践
 - C++语言的设计和演化
-- Inside the C++ Object Model
+- Inside the C++ Object Model（深入理解C++对象模型）
 
 ### Java
 

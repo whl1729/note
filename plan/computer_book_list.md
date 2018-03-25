@@ -1,5 +1,11 @@
 # 我的书单——计算机类
 
+## O1 数学
+
+- 离散数学及其英语
+- 组合数学
+- 图论
+
 ## TP30 计算机科普
 
 - 编程人生
@@ -20,7 +26,7 @@
 - Algorithms - Robert Sedgewick / Kevin Wayne（算法）
 - Programming Pearls（编程珠玑）
 - The Art of Computer Programming（计算机程序设计艺术）
-- Introduction to Algorithms: A Creative Approach（算法引论）
+- Introduction to Algorithms: A Creative Approach（算法引论：一种创造性方法）
 - Introduction to the Design and Analysis of Algorithms（算法设计与分析基础）
 - Algorithm Design Manual（算法设计指南）
 - The Science of Programming - David Gries

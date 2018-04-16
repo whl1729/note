@@ -6,6 +6,15 @@
 - 组合数学
 - 图论
 
+## TP2 人工智能
+
+- 人工智能：一种现代方法
+- 机器学习（周志华）
+- The Elements Of Statistical Learning
+- Pattern Recogintion and Machine Learning
+- An Introduction to Statistical Learning with Application in R
+- Convex Optimization
+
 ## TP30 计算机科普
 
 - 编程人生

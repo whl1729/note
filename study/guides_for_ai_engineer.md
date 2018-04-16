@@ -93,7 +93,7 @@
 4. 凸优化
 推荐书籍：Stephen Boyd的《Convex Optimization》
 
-5. 机器学习
+6. 机器学习
 推荐书籍：《The Elements of Statistical Learning》
 
 ### 计算机基础

@@ -2,17 +2,40 @@
 
 ## O1 数学
 
-- 离散数学及其英语
+- linear algebra done right（线性代数应该这样学）
+- 概率论及其应用
+- 离散数学及其应用
 - 组合数学
 - 图论
 
 ## TP2 人工智能
 
+### 科普
+- 科学的极致：漫谈人工智能
+- 哥德尔、巴尔、艾舍尔：集异璧之大成
+- 终极算法
+- 人工智能简史
+- 人工智能时代: 人机共生下财富、工作与思维的大未来
+- 走近2050——注意力、互联网与人工智能
+- 奇点邻近
+- 情感机器
+- 图灵的大教堂——当人工智能之父与计算机之父相遇
+- 复杂——诞生于混沌与秩序边缘的科学
+- 心智社会——从细胞到人工智能，人类思维的优雅解读
+- 人工智能狂潮：机器人会超越人类吗？
+- 科学+预见人工智能
+
+### 经典
 - 人工智能：一种现代方法
 - 机器学习（周志华）
+- 统计机器学习（李航）
+- Deep Learning （Ian Goodfellow and Yoshua Bengi and Aaron Courville）
 - The Elements Of Statistical Learning
 - Pattern Recogintion and Machine Learning
 - An Introduction to Statistical Learning with Application in R
+- Neural Networks and Deep Learning (Michael Nielsen)
+- Neural Network Design
+- Machine Learning: a Probabilistic Perspective
 - Convex Optimization
 
 ## TP30 计算机科普

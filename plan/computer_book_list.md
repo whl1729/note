@@ -31,12 +31,14 @@
 - 统计机器学习（李航）
 - Deep Learning （Ian Goodfellow and Yoshua Bengi and Aaron Courville）
 - The Elements Of Statistical Learning
-- Pattern Recogintion and Machine Learning
+- Pattern Recogintion and Machine Learning (Christopher Bishop)
 - An Introduction to Statistical Learning with Application in R
 - Neural Networks and Deep Learning (Michael Nielsen)
 - Neural Network Design
 - Machine Learning: a Probabilistic Perspective
 - Convex Optimization
+- Information Theory, Inference and Learning Algorithms
+- Foundations of Statistical Natural Language Processing (Christopher D. Manning / Hinrich Schütze )
 
 ## TP30 计算机科普
 

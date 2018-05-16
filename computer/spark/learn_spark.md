@@ -41,6 +41,7 @@ msg = sc.parallelize(List("pandas", "i like pandas"))
 4. 遍历RDD元素
 ```
 lines.take(10).foreach(println)
+println(lines.collect().mkString(","))
 ```
 
 5. Scala函数传参
@@ -63,4 +64,25 @@ class SearchFunction(val query: String) {
         rdd.map(x => x.split(query_))
     }
 }
+```
+
+6. flatMap与Map的区别
+flatMap相当于先Map，再将Map出来的列表首尾相连。
+```
+var lines = sc.parallelize(List("Hello World", "Thank you"))
+var map_line = lines.map(lambda line : line.split(" "))
+var flatmap_line = lines.flatMap(lambda line : line.split(" "))
+map_line.first()
+flatmap_line.first()
+```
+
+7. 集合操作
+```
+var a = sc.parallelize(List("coffee", "coffee", "panda", "monkey", "tea"))
+var b = sc.parallelize(List(""))
+a.district()
+a.union(b)
+a.intersection(b)
+a.subtract(b)
+a.cartesian(b)
 ```

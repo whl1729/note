@@ -5,9 +5,11 @@
 # alias git commands
 alias gad="git add ."
 alias gco="git commit"
+alias glo="git log"
 alias gph="git push"
 alias gpl="git pull"
 alias gst="git status"
+alias gck="git checkout"
 
 # If not running interactively, don't do anything
 case $- in
@@ -124,3 +126,6 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+export SPARK_HOME=/home/along/src/spark
+export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin

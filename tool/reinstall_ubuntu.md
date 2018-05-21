@@ -59,9 +59,11 @@ git config --global core.editor "vim"
 ```
 alias gad="git add ."
 alias gco="git commit"
+alias glo="git log"
 alias gph="git push"
 alias gpl="git pull"
 alias gst="git status"
+alias gck="git checkout"
 ```
 3. 配置SSH key
 ```

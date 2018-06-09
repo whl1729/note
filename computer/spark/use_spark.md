@@ -1,5 +1,19 @@
 # spark使用笔记
 
+## 查看spark调试信息
+
+### 相关网页
+1. fs.defaultFS => `hdfs://master:9000`
+2. mapreduce.jobhistory.address => `master:10020`
+3. mapreduce.jobhistory.webapp.address => `master:19888`
+2. yarn.resourcemanager.address => `master:8032`
+3. yarn.resourcemanager.webapp.address => `master:8088`
+
+## 编译spark
+```
+./build/mvn -Pyarn -Phadoop-2.7 -Dhadoop.version=2.7.3 -DskipTests clean package
+```
+
 ## 部署spark
 
 ### 修改配置文件

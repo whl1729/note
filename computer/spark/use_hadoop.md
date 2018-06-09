@@ -36,4 +36,13 @@
 
 ### 格式化namenode
 
-执行命令`hdfs namenode -format`。
+进入hadoop根目录，执行命令`bin/hdfs namenode -format`。
+
+### 启动hadoop集群
+
+进入hadoop根目录，执行命令`sbin/start-all.sh`
+
+### 常见问题
+
+1. Q：启动hadoop后，输入jps没查看到datanode？
+   A：删掉data/datanode/current目录下的VERSION文件，重新格式化后再启动hadoop。

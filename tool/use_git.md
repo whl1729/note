@@ -8,3 +8,9 @@
 
 3. 设置git使用的编辑器：
 `git config --global core.editor "vim"`
+
+4. 查看远程仓库的地址：
+`git remote -v`
+
+5. 添加远程仓库：
+`git remote add whl git@github.com:whl1729/spark.git`

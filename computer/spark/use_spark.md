@@ -29,6 +29,22 @@
 3. 修改`slaves`
     * 配置slave节点的主机名
 
+## 提交spark应用
+
+1. 参考资料：[Submitting Applications](https://spark.apache.org/docs/latest/submitting-applications.html)
+
+2. 使用`spark-submit`运行spark应用
+```
+./bin/spark-submit \
+  --class <main-class> \
+  --master <master-url> \
+  --deploy-mode <deploy-mode> \
+  --conf <key>=<value> \
+  ... # other options
+  <application-jar> \
+  [application-arguments]
+```
+
 ## 使用spark shell
 
 1. 进入spark shell界面：
@@ -171,3 +187,19 @@ a.cartesian(b)
 5. the driver process runs through the user application, sends work to executors in the form of tasks
 6. tasks are run on executor processes to compute and save results
 7. if the driver's main() method exits or it calls SparkContext.stop(), it will terminate the executors and release resources from the cluster manager
+
+### BlockManager
+blockManager是一个块管理者，每个executor中都会有一个BlockManager。
+
+1. blockManager的应用场景
+    * spark shuffle过程的数据就是通过blockManager来存储的
+    * spark broadcast 将task调度到多个executor的时候，broadCast底层使用的数据存储就是blockManager。
+    * 对一个rdd进行cache的时候，cache的数据就是通过blockManager来存放的。
+    * spark streaming中一个ReceiverInputDStream接受到的数据也是先放在BlockManager中，然后封装为一个BlockRdd进行下一步运算的。
+
+2. blockManager四大对象
+    * ConnectionManager: 负责与其他的BlockManager连接
+    * BlockTransferService: 与其他的BlockManager连接成功后负责进行数据的传输。
+    * MemoryStore: 负责管理内存中的数据。
+    * DiskStore: 负责管理磁盘上的数据。
+

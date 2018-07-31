@@ -52,7 +52,7 @@ bin/workloads/ml/kmeans/spark/run.sh -->
 ${HADOOP_EXECUTABLE} --config ${HADOOP_CONF_DIR} jar $job_jar $job_name $tail_arguments
 
 // run_spark_job
-// LIB_JARS=
-// SPARK_PROP_CONF=report/kmeans/spark/conf/sparkbench/spark.conf
-${SPARK_HOME}/bin/spark-submit ${LIB_JARS} --properties-file ${SPARK_PROP_CONF} --master ${SPARK_MASTER} ${YARN_OPTS} ${CLS} $@
+// /usr/local/dragon/spark/bin/spark-submit  --properties-file /usr/local/dragon/hiBench/report/kmeans/spark/conf/sparkbench/spark.conf --class com.intel.hibench.sparkbench.ml.DenseKMeans --master yarn-client --num-executors 6 --executor-cores 8 --executor-memory 2g /usr/local/dragon/hiBench/sparkbench/assembly/target/sparkbench-assembly-7.1-SNAPSHOT-dist.jar -k 10 --numIterations 5 hdfs://master:9000/user/HiBench/Kmeans/Input/samples
+
+${SPARK_HOME}/bin/spark-submit ${LIB_JARS} --properties-file ${SPARK_PROP_CONF} --class ${CLS} --master ${SPARK_MASTER} ${YARN_OPTS} ${SPARKBENCH_JAR} $@"
 ```

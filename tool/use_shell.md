@@ -9,6 +9,15 @@ grep -E 'warning|error'
 egrep 'warning|error'
 ```
 
+## awk
+
+### build-in变量
+1. `NR`：Number of Record. 表示从awk开始执行后，按照记录分隔符读取的数据次数，默认的记录分隔符为换行符，因此默认的就是读取的数据行数。
+
+2. `FNR`：File Number of Record. awk处理多个输入文件的时候，在处理完第一个文件后，NR并不会从1开始，而是继续累加，因此就出现了FNR，每当处理一个新文件的时候，FNR就从1开始计数。
+
+3. `NF`：Number of Field. 表示目前的记录被分割的字段的数目。
+
 ## shell特殊变量
 
 * `$#` 传递到shell脚本或函数的参数总数

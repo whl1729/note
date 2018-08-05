@@ -35,7 +35,12 @@
     * `gT`: 跳转到上一个标签页
     * `3gt`: 跳转到第3个标签页
 
-6. 高亮当前单词：`shift + *`
+6. 高亮当前单词
+    * `shift + *`: 向下查找并高亮显示
+    * `shift + #`: 向上查找并高亮显示
+    * `g + d`: 高亮显示光标所属单词，"n" 查找
+
+7. 支持markdown实时预览：[iamcco/markdown-preview.vim](https://github.com/iamcco/markdown-preview.vim)
 
 ## vim插件
 

@@ -1,6 +1,6 @@
-# MIT 6.828学习笔记1：课程介绍（Overview）
+# MIT 6.828 课程介绍
 
-本文是对MIT 6.828操作系统课程介绍的简单摘录，详细介绍见[6.828: Learning by doing](https://pdos.csail.mit.edu/6.828/2017/overview.html)以及朱佳顺的[推荐一门课：6.828](http://lifeofzjs.com/blog/2016/02/24/recommmend-6-dot-828/).
+本文是对MIT 6.828操作系统课程介绍的简单摘录，详细介绍见[6.828: Learning by doing](https://pdos.csail.mit.edu/6.828/2017/overview.html)以及朱佳顺的[推荐一门课：6.828](http://lifeofzjs.com/blog/2016/02/24/recommmend-6-dot-828/)。学习资源均可以在课程主页找到，包括课程讲义、源代码、工具使用、实验作业等。2017年的课程主页中没有教学视频，想看视频的可以在[2011年的课程主页](https://pdos.csail.mit.edu/6.828/2011/schedule.html)中找。（无字幕，再加上我英语听力很差，基本听不懂......）
 
 ## what you will learn
 

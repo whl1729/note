@@ -1,5 +1,7 @@
 # MIT 6.828学习笔记1：课程介绍（Overview）
 
+本文是对MIT 6.828操作系统课程介绍的简单摘录，详细介绍见[6.828: Learning by doing](https://pdos.csail.mit.edu/6.828/2017/overview.html)以及朱佳顺的[推荐一门课：6.828](http://lifeofzjs.com/blog/2016/02/24/recommmend-6-dot-828/).
+
 ## what you will learn
 
 * virtual memory, kernel and user mode, system calls, threads, context switches, interrupts, interprocess communication, coordination of concurrent activities.

@@ -1,5 +1,65 @@
 # spark源码分析
 
+## executor执行任务的流程
+
+1. executor产生过程
+阅读思路：
+    * 从`output_kmeans_run.log`中的executor创建信息出发，找到相关代码。
+```
+CoarseGrainedSchedulerBackend.receiveAndReply -->
+    case RegisterExecutor(executorId):
+        listenerBus.post(SparkListenerExecutorAdded(executorId, data))  /* send msg */ 
+        SparkListenerBus.doPostEvent  /* recv msg */
+            case SparkListenerExecutorAdded:  
+                onExecutorAdded(executorId)
+```
+    * 从executorDataMap开始，找到添加executor的地方，往回找调用者。
+```
+    CoarseGrainedExecutorBackend.onStart -->
+        ref.ask[Boolean](RegisterExecutor(executorId, self, hostname, cores, extractLogUrls))  /* send */
+        case RegisterExecutor(executorId, executorRef, hostname, cores, logUrls) /* recv */  =>
+            val data = new ExecutorData(executorRef, executorAddress, hostname, cores, cores, logUrls)
+            executorDataMap.put(executorId, data)
+    case RegisteredExecutor =>
+        executor = new Executor(executorId, hostname, env, userClassPath, isLocal = false)
+```
+
+2. 将task分配给executor
+阅读思路：从ExecutorAllocationManager.onTaskStart函数开始往回找调用者。
+
+```
+makeOffers() -->
+    activeExecutors = executorDataMap.filterKeys(executorIsAlive)
+    resourceOffer(execId, host) -->
+        info = new TaskInfo(taskId, index, attemptNum, curTime, execId, host, taskLocality, speculative)
+        taskStarted(task, TaskInfo) -->
+            eventProcessLoop.post(BeginEvent(task, taskInfo)) /* send */
+            handleBeginEvent(TaskInfo) /* recv */ -->
+                listenerBus.post(SparkListenerTaskStart(task.stageId, stageAttemptId, taskInfo))  /* send */
+                ExecutorAllocationManager.onTaskStart(SparkListenerTaskStart)  /* recv */
+```
+
+## executor metrics
+
+### 数据获取
+```
+getCurrentMetrics() -->
+    MetricGetter.values.map(_.getMetricValue(memoryManager)).toArray -->
+        JVMHeapMemory.getMetricValue(memoryManager: MemoryManager) -->
+            ManagementFactory.getMemoryMXBean.getHeapMemoryUsage().getUsed()
+```
+
+### 数据更新
+```
+Heartbeater.start() -->
+    reportHeartbeat() -->
+        driverUpdates = _heartbeater.getCurrentMetrics()
+        listenerBus.post(SparkListenerExecutorMetricsUpdate("driver", accumUpdates, Some(driverUpdates))) -->
+            doPostEvent(listener, event) --> 
+                listener.onExecutorMetricsUpdate(metricsUpdate) -->
+                    peakMetrics.compareAndUpdate(executorUpdates)
+```
+
 ## spark集群启动
 
 ### start-all.sh
@@ -59,25 +119,4 @@ bin/spark-submit -->
         . bin/load-spark-env.sh
         // LAUNCH_CLASSPATH=assembly/target/scala-$SPARK_SCALA_VERSION/jars/*:launcher/target/scala-$SPARK_SCALA_VERSION/classes
         java -Xmx128m -cp "$LAUNCH_CLASSPATH" org.apache.spark.launcher.Main "$@"
-```
-
-## executor metrics
-
-### 数据获取
-```
-getCurrentMetrics() -->
-    MetricGetter.values.map(_.getMetricValue(memoryManager)).toArray -->
-        JVMHeapMemory.getMetricValue(memoryManager: MemoryManager) -->
-            ManagementFactory.getMemoryMXBean.getHeapMemoryUsage().getUsed()
-```
-
-### 数据更新
-```
-Heartbeater.start() -->
-    reportHeartbeat() -->
-        driverUpdates = _heartbeater.getCurrentMetrics()
-        listenerBus.post(SparkListenerExecutorMetricsUpdate("driver", accumUpdates, Some(driverUpdates))) -->
-            doPostEvent(listener, event) --> 
-                listener.onExecutorMetricsUpdate(metricsUpdate) -->
-                    peakMetrics.compareAndUpdate(executorUpdates)
 ```

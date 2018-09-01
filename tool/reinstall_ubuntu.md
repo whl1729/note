@@ -45,6 +45,7 @@ sudo apt-get purge fcitx-ui-qimpanel // solve the problem of two icons
 ### vim
 1. `sudo apt-get install vim`
 2. 配置~/.vimrc文件
+3. [Building-vim-from-source](https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source)
 
 ### git
 1. `sudo apt-get install git`

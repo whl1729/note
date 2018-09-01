@@ -42,6 +42,10 @@
 
 7. 支持markdown实时预览：[iamcco/markdown-preview.vim](https://github.com/iamcco/markdown-preview.vim)
 
+## ex命令
+
+1. `:11,19g/./s/^/* /g`：在第11~19行中的非空行开头加上星号
+
 ## vim插件
 
 ### CtrlSF

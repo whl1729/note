@@ -14,3 +14,12 @@
 
 5. 添加远程仓库：
 `git remote add whl git@github.com:whl1729/spark.git`
+
+6. `git diff`命令详解：
+    * `git diff <filename>`：查看文件在工作目录与暂存区的差别。如果还没 add 进暂存区，则查看文件自身修改前后的差别。
+    * `git diff <branch> <filename>`：查看当前分支的文件和另一分支的区别。
+    * `git diff <commit> <filename>`：查看工作目录同Git仓库指定 commit 的内容的差异。<commit>=HEAD 时：查看工作目录同最近一次 commit 的内容的差异。HEAD表示最近一次commit，HEAD^表示上次commit。
+    * `git diff --cached <filename>`：查看已经 add 进暂存区但是尚未 commit 的内容同最新一次 commit 时的内容的差异。 
+    * `git diff --cached <commit> <filename>`：查看已经 add 进暂存区但是尚未 commit 的内容同某一次 commit 的内容差异。
+    * `git diff <commit> <commit>`：查看某两次commit之间的差别。
+

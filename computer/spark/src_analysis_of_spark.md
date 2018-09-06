@@ -1,5 +1,26 @@
 # spark源码分析
 
+## stage开始阶段的流程分析
+
+1. 由submitStage开始往下分析
+```
+DAGScheduler. handleJobSubmitted , handleMapStageSubmitted -->
+    DAGScheduler.submitStage(stage: Stage) -->
+        DAGScheduler.submitMissingTasks(stage, jobId) -->
+            listenerBus.post(SparkListenerStageSubmitted(stage.latestInfo, properties))  /* send msg */
+            ExecutorAllocationManager.onStageSubmitted(SparkListenerStageSubmitted)  /* recv msg */
+```
+
+2. 分析handleJobSubmitted -> submitStage 流程
+```
+SparkContext.submitJob -->
+    DAGScheduler.submitJob -->
+        DAGScheduler.handleJobSubmitted -->
+            DAGScheduler.submitStage(stage: Stage) -->
+```
+
+3. 分析handleMapStageSubmitted -> submitStage 流程
+
 ## executor执行任务的流程
 
 1. executor产生过程
@@ -37,6 +58,20 @@ makeOffers() -->
             handleBeginEvent(TaskInfo) /* recv */ -->
                 listenerBus.post(SparkListenerTaskStart(task.stageId, stageAttemptId, taskInfo))  /* send */
                 ExecutorAllocationManager.onTaskStart(SparkListenerTaskStart)  /* recv */
+```
+
+3. 分析executor launchTask过程
+```
+CoarseGrainedExecutorBackend.statusUpdate(taskId: Long, state: TaskState, data: ByteBuffer) -->
+    val msg = StatusUpdate(executorId, taskId, state, data)
+    driverRef.send(msg) --> /* send msg */
+    CoarseGrainedSchedulerBackend.receive -->  /* recv msg */
+        case StatusUpdate(executorId, taskId, state, data) -->
+            CoarseGrainedSchedulerBackend.makeOffers -->
+                CoarseGrainedSchedulerBackend.launchTasks -->
+                    executorData.executorEndpoint.send(LaunchTask)  /* send msg */
+                    CoarseGrainedExecutorBackend.receive -->  /* recv msg */
+                        case LaunchTask:  executor.launchTask(this, taskDesc)
 ```
 
 ## executor metrics

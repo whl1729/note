@@ -1,5 +1,14 @@
 # spark使用笔记
 
+## executor与driver的通信
+
+1. 每个executor对应一个CoarseGrainedExecutorBackend进程。executor通过CoarseGrainedExecutorBackend向cluster manager汇报任务运行状态等信息。
+
+2. job, stage and task: 一个job包括若干个stage，一个stage包括若干个task。
+    * 当需要执行一个RDD的action时，会生成一个job。
+    * 一个Job会被拆分为多组Task，每组任务被称为一个Stage， 就像Map Stage，Reduce Stage。Stage的划分在RDD的论文中有详细的介绍，简单的说是以shuffle和result这两种类型来划分。 
+    * task是被送到 executor 上的工作单元。一般来说，一个 rdd 有多少个 partition，就会有多少个 task，因为每一个 task 只是处理一个 partition 上的数据。
+
 ## 查看spark调试信息
 
 ### 相关网页

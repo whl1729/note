@@ -23,3 +23,6 @@
     * `git diff --cached <commit> <filename>`：查看已经 add 进暂存区但是尚未 commit 的内容同某一次 commit 的内容差异。
     * `git diff <commit> <commit>`：查看某两次commit之间的差别。
 
+7. [Git User Manual](https://mirrors.edge.kernel.org/pub/software/scm/git/docs/user-manual.html)
+
+8. 查看某次提交的详细修改信息：`git show COMMIT`

@@ -23,7 +23,6 @@
 - 复杂——诞生于混沌与秩序边缘的科学
 - 心智社会——从细胞到人工智能，人类思维的优雅解读
 - 人工智能狂潮：机器人会超越人类吗？
-- 科学+预见人工智能
 
 ### 经典
 - 人工智能：一种现代方法
@@ -52,6 +51,8 @@
 
 - 深入理解计算机系统
 - 计算机组成与设计：硬件/软件接口
+- 计算机组成：结构化方法
+- 计算机体系结构：量化研究方法
 - Intel - and IA-- Architectures Software Developer Manuals
 
 ## TP301.6 算法
@@ -72,7 +73,7 @@
 - Data Structures and Program Design in C++
 - Data Structures and Algorithm Analysis in C
 - Advanced Data Structures（有相应的MIT课程）
-- 数据结构_严蔚敏
+- 数据结构-严蔚敏
 - 剑指offer
 
 ## TP311.2 数据库

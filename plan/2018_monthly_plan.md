@@ -29,12 +29,15 @@
 - [ ] 【辞职】跟踪离职电子流进度
 
 #### 9月16日
-- [ ] 【技术】做mit 6.828 lab1 Exercise1：读完《PC Assembly Language》第7章
-- [ ] 【技术】做mit 6.828 lab1 Exercise2
+- [x] 【技术】做mit 6.828 lab1 Exercise1：读完《PC Assembly Language》第7章
+- [x] 【技术】做mit 6.828 lab1 Exercise2
 - [ ] 【阅读】阅读《朝话》
-- [ ] 【博客】写《汇编语言》学习笔记
+- [x] 【博客】写《汇编语言》学习笔记
 - [ ] 【博客】写《朝话》读书笔记
-- [ ] 【单词】记完100个单词，累计4600个
+- [x] 【单词】记完100个单词，累计4600个
+
+> 备注：今天在CSDN看到[JasonLeaster的博客](https://me.csdn.net/u011368821)，写得非常认真细心，值得学习。
+
 
 #### 9月15日
 - [x] 【技术】做mit 6.828 lab1 Exercise1：读完《PC Assembly Language》第7章前2节

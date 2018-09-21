@@ -52,3 +52,10 @@
 
 1. 基本用法：`:CtrlSF pattern dir`（如果后面不带dir则默认是当前目录搜索）
 2. 使用`j k h l`浏览CtrlSP窗口，使用`Ctrl + j/k`在匹配项中跳转，使用q退出CtrlSP窗口
+
+### ex命令
+
+1. 全局搜索
+    * `:g/pattern/p`: 寻找并显示文件中所有包含模式pattern的行
+    * `:g!/pattern/nu`: 寻找并显示文件汇总所有不包含模式pattern的行，并显示其行号
+    * `20,40g/pattern/p`: 寻找并显示第20到40行之间所有包含模式pattern的行

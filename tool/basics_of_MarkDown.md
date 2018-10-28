@@ -235,3 +235,145 @@
 ## 补充
 
 1. 换行：空格+空格+回车。
+
+## Markdown书写数学公式
+
+参考资料：
+1. [Markdown中写数学公式](http://jzqt.github.io/2015/06/30/Markdown%E4%B8%AD%E5%86%99%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/)
+2. [MarkDown 插入数学公式实验大集合](https://juejin.im/post/5a6721bd518825733201c4a2)
+
+### 插入数学公式
+
+1. 在Markdown中插入数学公式的语法是`$formula$`和`$$formula$$`。前者是行内公式，即公式在文中与文字等混编，不独占一行；后者是独立公式，即公式独占一行，不与文中其他文字等混编。
+
+2. 行内公式示例：`质能方程$E = mc^2$`显示为：
+
+质能方程$E = mc^2$
+
+3. 独立公式示例：`质能方程$$E = mc^2$$`显示为：
+
+质能方程$$E = mc^2$$
+
+### 上下标
+
+1. 使用`^`来表示上标，`_`来表示下标，如果上下标的内容多于一个字符，则使用`{}`来将这些内容括起来。示例：`$$x = a_{1}^n + a_{2}^n + a_{3}^n$$`显示为$$x = a_{1}^n + a_{2}^n + a_{3}^n$$.
+
+2. 上下标是可以嵌套的。示例：`$e^{x^2}$`显示为$e^{x^2}$.
+
+3. 如果希望左右两边都能有上下标，可以使用`\sideset`语法。示例：`$\sideset{^1_2}{^3_4}A$`显示为$\sideset{^1_2}{^3_4}A$.
+
+### 括号
+`()`，`[]`和`|`都表示它们自己，但是`{}`因为有特殊作用，因此当需要显示大括号时一般使用`\lbrace \rbrace`来表示。示例：`$$f(x, y) = 100 * \lbrace[(x + y) * 3] - 5\rbrace$$`显示为$$f(x, y) = 100 * \lbrace[(x + y) * 3] - 5\rbrace$$.
+
+### 分数
+分数使用`\frac{分母}{分子}`这样的语法，不过推荐使用`\cfrac`来代替`\frac`，显示公式不会太挤。示例：`$$\frac{1}{3} 与 \cfrac{1}{3}$$`显示为$$\frac{1}{3} 与 \cfrac{1}{3}$$.
+
+### 开方
+开方使用`\sqrt[次数][被开方数]`这样的语法。示例：`$$\sqrt[3]{X}$$`显示为$$\sqrt[3]{x}$$，`$$\sqrt{5 - x}$$`显示为$$\sqrt{5 - x}$$.
+
+### 希腊字母
+
+代码    |    大写    |    代码    |    小写
+------- | ---------- | ---------- | -------
+`A`     | A       | `\alpha` | \alpha
+`B`     | B       | `\beta`  | \beta
+`\Gamma` | \Gamma | `\gamma` | \gamma
+`\Delta` | \Delta | `\delta` | \delta
+`E`     | E       | `\epsilon` | \epsilon
+`Z`     | Z       | `\zeta`  | \zeta
+`H`     | H       | `\eta`   | \eta
+`\Theta` | \Theta | `\theta` | \theta
+`I`     | I       | `\iota`  | \iota
+`K`     | K       | `\kappa` | \kappa
+`\Lambda` | \Lambda | `lambda` | \lambda
+`M`     | M       | `\mu`    | \mu
+`N`     | N       | `\nu`    | \nu
+`\Xi`   | \Xi     | `\xi`    | \xi
+`O`     | O       | `\omicron` | \omicron
+`\Pi`   | \Pi     | `\pi`    | \pi
+`P`     | P       | `\rho`   | \rho
+`\Sigma` | \Sigma | `\sigma` | \sigma
+`T`     | T       | \tau     | \tau
+`\Upsilon` | \Upsilon | `\upsilon` | \upsilon
+`\Phi`  | \Phi    | `\phi`   | \phi
+`X`     | X       | `\chi`   | \chi
+`\Psi`  | \Psi    | `\psi`   | \psi
+`\Omega` | \Omega | `\omega` | \omega
+
+### 关系字符串
+
+代码     |     符号
+-------- | --------
+`\pm`      | \pm
+`\times`   | \times
+`\div`     | \div
+`\mid`     | \mid
+`\nmid`    | \nmid
+`\cdot`    | \cdot
+`\circ`    | \circ
+`\ast`     | \ast
+`\bigodot` | \bigodot
+`\bigotimes` | \bigotimes
+`\bigoplus` | \bigoplus
+`\leq`     | \leq
+`\geq`     | \geq
+`\neq`     | \neq
+`\approx`  | \approx
+`\equiv`   | \equiv
+`\sum`     | \sum
+`\prod`    | \prod
+`\coprod`  | \coprod
+
+### 集合运算符
+
+代码     |     符号
+-------- | --------
+`\emptyset` | \emptyset
+`\in`      | \in
+`\notin`   | \notin
+`\subset`  | \subset
+`\supset`  | \supset
+`\subseteq` | \subseteq
+`\supseteq` | \supseteq
+`\bigcap`  | \bigcap
+`\bigcup`  | \bigcup
+`\bigvee`  | \bigvee
+`\bigwedge` | \bigwedge
+`\biguplus` | \biguplus
+`\bigsqcup` | \bigsqcup
+
+### 对数运算符
+
+代码     |     符号
+-------- | --------
+`\log`     | \log
+`\lg`      | \lg
+`\ln`      | \ln
+
+### 三角运算符
+
+代码     |     符号
+-------- | --------
+\bot     | \bot
+\angle   | \algle
+\sin     | \sin
+\cos     | \cos
+\tan     | \tan
+\cot     | \cot
+\sec     | \sec
+\csc     | \csc
+
+### 微积分运算符
+
+代码     |     符号
+-------- | --------
+`\prime`   | \prime
+`\int`     | \int
+`\iint`    | \iint
+`\iiint`   | \iiint
+`\iiiint`  | \iiiint
+`\oint`    | \oint
+`\lim`     | \lim
+`\infty`   | \infty
+`\nabla`   | \nabla
+`\mathrm{d}` | \mathrm{d}

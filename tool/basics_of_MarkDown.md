@@ -244,6 +244,8 @@
 
 ### 插入数学公式
 
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
 1. 在Markdown中插入数学公式的语法是`$formula$`和`$$formula$$`。前者是行内公式，即公式在文中与文字等混编，不独占一行；后者是独立公式，即公式独占一行，不与文中其他文字等混编。
 
 2. 行内公式示例：`质能方程$E = mc^2$`显示为：

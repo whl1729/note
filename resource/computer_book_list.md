@@ -186,6 +186,9 @@
 
 ## TP316 操作系统
 
+- [Operating Systems: Three Easy Pieces （操作系统：三大简易元素）](http://pages.cs.wisc.edu/~remzi/OSTEP/)
+- Operating System Concepts （操作系统概念）
+- Operating Systems:Internals and Design Principles （操作系统：精髓与设计原理）
 - 鸟哥的Linux私房菜
 - Unix环境高级编程
 - 现代操作系统

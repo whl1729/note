@@ -3,13 +3,16 @@
 # for examples
 
 # alias git commands
-alias gad="git add ."
-alias gco="git commit"
-alias glo="git log"
+alias ga="git add"
+alias gb="git branch"
+alias gc="git commit"
+alias gd="git diff"
+alias gh="git hist -all"
+alias gl="git log"
+alias gk="git checkout"
 alias gph="git push"
 alias gpl="git pull"
 alias gst="git status"
-alias gck="git checkout"
 
 # If not running interactively, don't do anything
 case $- in

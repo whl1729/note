@@ -84,23 +84,13 @@ The pointer to zero is used to get a proper instance, but as typeof is resolved 
     * 系统自启动程序
     * 将加载程序BootLoader从磁盘的引导扇区加载到0x7c00
 
-3. 为什么不直接由BIOS加载操作系统，而是先由BIOS加载BootLoader，而BootLoader再去加载操作系统？答：不同操作系统的文件系统不同，BIOS不可能全部能识别。
+3. 为什么不直接由BIOS加载操作系统，而是先由BIOS加载BootLoader，而BootLoader再去加载操作系统？答：不同操作系统的文件系统不同，BIOS不可能全部能识别。（伍注：这里有点像分层的思想，为了适配各种不同操作系统的加载，在BIOS与操作系统之间加多一层boot loader，Boot loader来负责识别和加载各种系统，而BIOS的任务得以减轻，并且可以做得相对简单和稳定）
 
 4. BIOS在加载BootLoader前需进行的工作
     * BIOS读取主引导扇区代码，得到主引导记录
     * 主引导扇区代码读取活动分区的引导扇区代码
 
-5. 硬件自检主要检测内存和显卡等关键部件的存在或工作状态。
-
-6. BIOS有一个ESCD表，扩展系统配置数据。
-
-7. BIOS系统调用：只能在x86的实模式下访问。BIOS以中断调用的方式 提供了基本的I/O功能。
-    * INT 10h: 字符显示
-    * INT 13h: 磁盘扇区读写
-    * INT 15h: 检测内存大小
-    * INT 16h: 键盘输入
-
-8. BIOS初始化过程
+5. BIOS初始化过程
     * 硬件自检POST
     * 检测系统中内存和显卡等关键部件的存在和工作状态
     * 查找并执行显卡等接口卡BIOS，进行设备初始化；
@@ -108,7 +98,13 @@ The pointer to zero is used to get a proper instance, but as typeof is resolved 
     * 更新CMOS中的扩展系统配置数据ESCD
     * 按指定启动顺序从软盘、硬盘或光驱启动
 
-9. 中断、异常和系统调用比较
+6. BIOS系统调用：只能在x86的实模式下访问。BIOS以中断调用的方式 提供了基本的I/O功能。
+    * INT 10h: 字符显示
+    * INT 13h: 磁盘扇区读写
+    * INT 15h: 检测内存大小
+    * INT 16h: 键盘输入
+
+7. 中断、异常和系统调用比较
     * 源头
         * 中断：外设
         * 异常：应用程序意想不到的行为
@@ -125,18 +121,18 @@ The pointer to zero is used to get a proper instance, but as typeof is resolved 
         * 应用程序指令
         * 系统调用：等待和持续
 
-10. 函数调用和系统调用的不同处
+8. 函数调用和系统调用的不同处
     * 系统调用：INT和IRET指令用于系统调用。系统调用时，需要堆栈切换和特权级的转换
     * 函数调用：CALL和RET用于常规调用。常规调用时没有堆栈切换。
 
-11. 可屏蔽中断 vs 不可屏蔽中断
+9. 可屏蔽中断 vs 不可屏蔽中断
     * 80386有两根引脚INTR和NMI接受外部中断请求信号。
     * INTR接受可屏蔽中断请求。 NMI接受不可屏蔽中断请求。
     * 在80386中，标志寄存器EFLAGS中的IF标志决定是否屏蔽可屏蔽中断请求。
 
-12. 异常进一步分类为故障(Fault)、陷阱(Trap)和中止(Abort)。
+10. 异常进一步分类为故障(Fault)、陷阱(Trap)和中止(Abort)。
 
-13. 中断向量（参考[LINUX-内核-中断分析](https://blog.csdn.net/haolianglh/article/details/51946687)）
+11. 中断向量（参考[LINUX-内核-中断分析](https://blog.csdn.net/haolianglh/article/details/51946687)）
     * 每个中断和异常是由0～255之间的一个数来标识。在Intel中，把这个8位的无符号整数叫做一个向量（vector），所以，x86中中断和异常都有自己的向量。其中，异常和非屏蔽中断两者的向量是固定的，而可屏蔽中断的向量可以通过对中断控制器的编程来改变。
     * x86体系结构的异常和非屏蔽中断占用了0～19这20个中断向量。且其中仅有2号向量用于非屏蔽中断，其余19个全部分类为异常。
     * 128（即0x80）号向量被系统调用占用。不同系统调用通过系统调用号进一步区分。执行int指令前系统调用号会被放置在某个固定的寄存器中，比如Linux的系统调用号是由eax传入的。

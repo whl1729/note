@@ -4,7 +4,7 @@
 * ~/.vimrc
 * ~/.bashrc
 * /etc/shadowsocks.json
-* ~/.ssh/*
+* ~/.ssh/\*
 
 ## install ubuntu
 1. "legacy USB support" should be enabled, otherwise the computer cannot read input from USB devices.
@@ -22,18 +22,23 @@ sudo dpkg -i sogou_xxx.deb
 sudo apt-get purge fcitx-ui-qimpanel // solve the problem of two icons
 ```
 
-2. 打开System Settings --> Language Support --> Language，keyboard input method system选择fcitx
+2. 如果是ubuntu 18，接下来的步骤：
+    * 打开Settings -> Region & Language -> Manage Installed Language，在弹出的Language Support中的keyboard input method system选择fcitx
+    * 在桌面右上方点击输入法菜单，选择Configure Current input method，在input method一栏点击"+"，添加sogou pinyin
 
-3. 打开System Setting --> Text Entry，input source添加sogou pinyin，然后右下角点击形如钳子的图标，Input Methods Configurations添加sogou pinyin。
+3. 如果是ubuntu 14，接下来的步骤：
+    * 打开System Settings -> Language Support -> Language，keyboard input method system选择fcitx
+    * 打开System Setting -> Text Entry，input source添加sogou pinyin，然后右下角点击形如钳子的图标，Input Methods Configurations添加sogou pinyin。
 
 ### chrome
+0. 下载chrome安装包：注意如果在windows系统下载linux安装包，需要在网页左下方点击other platform，否则会默认下载windows版本的安装包。
 1. `sudo dpkg -i google-chrome-xxx.deb`
 2. `sudo apt install shadowsocks`
 3. 新增并配置/etc/shadowsocks.json文件，参考博客[Ununtu下shadowsocks配置说明](https://www.linuxidc.com/Linux/2015-09/123579.htm)
 4. 在/etc/rc.local文件中添加`sslocal -c /etc/shadowsocks.json > /var/log/ss.log &`
-5. [下载SwitchOmega的.crx文件](https://www.switchyomega.com/download.html)，并拖到[chrome拓展程序页面](chrome://extensions/)
-6. 在SwitchyOmega配置页面，点击SETTINGS --> Import/Export --> Restore frome file，然后选择本地的OmegaOptions.bak文件
-7. 点击PROFILES --> Shadowsocks --> Proxy servers，Protocol选择`SOCKS5`，Server和port要和/etc/shadowsocks.json保持一致，一般为`127.0.0.1:1080`
+5. [下载SwitchOmega的.crx文件](https://www.switchyomega.com/download.html)，并拖到[chrome拓展程序页面](chrome://extensions/)。注意：最新版的Chrome不允许拖拽crx到扩展程序里，这时可以将crx文件后缀改为zip并解压，然后勾选developer模式，点击load unpacked来加载加压后的文件即可。
+6. 在SwitchyOmega配置页面，点击SETTINGS -> Import/Export -> Restore frome file，然后选择本地的OmegaOptions.bak文件
+7. 点击PROFILES -> Shadowsocks -> Proxy servers，Protocol选择`SOCKS5`，Server和port要和/etc/shadowsocks.json保持一致，一般为`127.0.0.1:1080`
 
 ### foxit
 
@@ -44,8 +49,12 @@ sudo apt-get purge fcitx-ui-qimpanel // solve the problem of two icons
 
 ### vim
 1. `sudo apt-get install vim`
-2. 配置~/.vimrc文件
-3. [Building-vim-from-source](https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source)
+2. 参考[use vim as ide](https://github.com/yangyangwithgnu/use_vim_as_ide)来配置~/.vimrc文件
+    * 安装插件管理工具Vundle：`git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
+    * 拷贝note/tool/conf/vimrc到`~/.vimrc`
+    * 打开vim，输入`:PluginInstall`来安装vim插件
+
+3. 如果vim版本过低，可以重装或通过源码重新编译最新版的vim：[Building-vim-from-source](https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source)
 
 ### git
 1. `sudo apt-get install git`

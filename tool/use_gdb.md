@@ -16,6 +16,22 @@
 * `thread n`: GDB默认只关注一个线程，此命令可以让GDB关注线程n.
 * `info threads`: 列出所有线程的状态和所在的函数。
 
+## Tsinghua os实验课提供的gdb命令
+* `info win `显示窗口的大小
+* `layout next `切换到下一个布局模式
+* `layout prev `切换到上一个布局模式
+* `layout src `只显示源代码
+* `layout asm `只显示汇编代码
+* `layout split `显示源代码和汇编代码
+* `layout regs `增加寄存器内容显示
+* `focus cmd/src/asm/regs/next/prev `切换当前窗口
+* `refresh `刷新所有窗口
+* `tui reg next `显示下一组寄存器
+* `tui reg system `显示系统寄存器
+* `update `更新源代码窗口和当前执行点
+* `winheight name +/- line `调整 name窗口的高度
+* `tabset nchar `设置tab为nchar个字符
+
 ## 基础知识
 
 ### Stepping

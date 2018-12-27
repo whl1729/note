@@ -47,6 +47,7 @@
 9. 从光标处删除到指定字符c（包括字符c）：dfc
 
 10. 删除文档中的^M符号：使用ex命令替换^M为空即可，注意通过Ctrl-v, Ctrl-m来输入^M。详见[Vim 中如何去掉 ^M 字符？](https://www.zhihu.com/question/22130727).
+
 ## ex命令
 
 1. `:11,19g/./s/^/* /g`：在第11~19行中的非空行开头加上星号
@@ -57,6 +58,19 @@
 
 1. 基本用法：`:CtrlSF pattern dir`（如果后面不带dir则默认是当前目录搜索）
 2. 使用`j k h l`浏览CtrlSP窗口，使用`Ctrl + j/k`在匹配项中跳转，使用q退出CtrlSP窗口
+3. In CtrlSF window:
+    * Enter, o, double-click - Open corresponding file of current line in the window which CtrlSF is launched from.
+    * <C-O> - Like Enter but open file in a horizontal split window.
+    * t - Like Enter but open file in a new tab.
+    * p - Like Enter but open file in a preview window.
+    * P - Like Enter but open file in a preview window and switch focus to it.
+    * O - Like Enter but always leave CtrlSF window opening.
+    * T - Like t but focus CtrlSF window instead of new opened tab.
+    * M - Switch result window between normal view and compact view.
+    * q - Quit CtrlSF window.
+    * <C-J> - Move cursor to next match.
+    * <C-K> - Move cursor to previous match.
+    * <C-C> - Stop a background searching process.
 
 ### ex命令
 

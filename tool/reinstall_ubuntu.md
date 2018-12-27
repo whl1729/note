@@ -48,13 +48,13 @@ sudo apt-get purge fcitx-ui-qimpanel // solve the problem of two icons
 3. `source ~/.bashrc`
 
 ### vim
-1. `sudo apt-get install vim`
+1. 使用命令`sudo apt-get install vim`或通过源码重新编译最新版的vim：[Building-vim-from-source](https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source)
+
 2. 参考[use vim as ide](https://github.com/yangyangwithgnu/use_vim_as_ide)来配置~/.vimrc文件
     * 安装插件管理工具Vundle：`git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
     * 拷贝note/tool/conf/vimrc到`~/.vimrc`
     * 打开vim，输入`:PluginInstall`来安装vim插件
-
-3. 如果vim版本过低，可以重装或通过源码重新编译最新版的vim：[Building-vim-from-source](https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source)
+    * 安装CtrlSF事需要依赖ag，参考[vim搜索插件ctrlsf](https://catdoc.iteye.com/blog/2162402)
 
 ### git
 1. `sudo apt-get install git`

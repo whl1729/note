@@ -48,10 +48,6 @@
 
 10. 删除文档中的^M符号：使用ex命令替换^M为空即可，注意通过Ctrl-v, Ctrl-m来输入^M。详见[Vim 中如何去掉 ^M 字符？](https://www.zhihu.com/question/22130727).
 
-## ex命令
-
-1. `:11,19g/./s/^/* /g`：在第11~19行中的非空行开头加上星号
-
 ## vim插件
 
 ### CtrlSF
@@ -72,9 +68,22 @@
     * <C-K> - Move cursor to previous match.
     * <C-C> - Stop a background searching process.
 
-### ex命令
+### ctags
 
-1. 全局搜索
+1. 在项目根目录下使用`ctags -R *`生成索引文件
+2. ctags常用命令
+    * `Ctrl-]` Jump to the tag underneath the cursor
+    * `:ts <tag> <RET>`  Search for a particular tag
+    * `:tn`  Go to the next definition for the last tag
+    * `:tp`  Go to the previous definition for the last tag
+    * `:ts`  List all of the definitions of the last tag
+    * `Ctrl-t`  Jump back up in the tag stack
+
+## ex命令
+
+1. `:11,19g/./s/^/* /g`：在第11~19行中的非空行开头加上星号
+
+2. 全局搜索
     * `:g/pattern/p`: 寻找并显示文件中所有包含模式pattern的行
     * `:g!/pattern/nu`: 寻找并显示文件汇总所有不包含模式pattern的行，并显示其行号
     * `20,40g/pattern/p`: 寻找并显示第20到40行之间所有包含模式pattern的行

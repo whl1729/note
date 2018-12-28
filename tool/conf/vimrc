@@ -335,6 +335,8 @@ nmap <Leader>tn :tnext<CR>
 " 反向遍历同名标签
 nmap <Leader>tp :tprevious<CR>
 
+set tags+=tags;~
+
 " 基于语义的代码导航
 
 nnoremap <leader>jc :YcmCompleter GoToDeclaration<CR>

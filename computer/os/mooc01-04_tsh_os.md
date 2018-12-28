@@ -43,26 +43,26 @@
 
 ## 第二讲 实验零 操作系统实验环境准备
 
-2. ucore使用了面向对象的编程方法。
+1. ucore使用了面向对象的编程方法。
     * 面向对象编程方法。虽然ucore是用C语言开发的，但可以通过函数指针来建立一个通用的数据结构来提供统一的接口，而具体实现可以不一样。
     * 通用数据结构。如双向链表。
 
-3. [type \*)0)->member in C?](https://stackoverflow.com/questions/13723422/why-this-0-in-type0-member-in-c):   
+2. [type \*)0)->member in C?](https://stackoverflow.com/questions/13723422/why-this-0-in-type0-member-in-c):   
 The pointer to zero is used to get a proper instance, but as typeof is resolved at compile-time and not at run-time the address used in the pointer doesn't have to be a proper or valid address.
 
-5. 源码编辑工具
+3. 源码编辑工具
     * eclipse-CDT：基于Eclipse的C/C++集成开发环境、跨平台、丰富的分析理解代码的功能
     * Understand：跨平台、丰富的分析理解代码的功能
 
-6. 源码比较工具：meld
+4. 源码比较工具：meld
 
-7. qemu：硬件模拟器。可模拟多种CPU硬件环境，本实验中，用于模拟一台intel x86-32的计算机系统。
+5. qemu：硬件模拟器。可模拟多种CPU硬件环境，本实验中，用于模拟一台intel x86-32的计算机系统。
 
 > qemu模拟x86-32时需要配置哪些东西？
 
-8. 80386共有4种运行模式：实模式、保护模式、SMM模式和虚拟8086模式。
+6. 80386共有4种运行模式：实模式、保护模式、SMM模式和虚拟8086模式。
 
-9. 物理地址 vs 线性地址
+7. 物理地址 vs 线性地址
     * 物理内存地址空间：处理器提交到总线上用于访问计算机系统中的内存和外设的最终地址，一个计算机系统只有一个物理地址空间
     * 线性地址空间：在操作系统的虚存管理下每个运行的应用程序能访问的地址空间，每个运行的应用程序都认为自己独享整个计算机系统的地址空间，这样可让多个运行的应用程序之间相互隔离
     * 逻辑地址空间：应用程序直接使用的地址空间

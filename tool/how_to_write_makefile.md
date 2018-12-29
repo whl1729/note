@@ -1,5 +1,10 @@
 ## 如何写Makefile
-参考资料：[跟我一起写Makefile](http://blog.csdn.net/haoel/article/details/2886)或者[seisman整理后的版本](https://github.com/seisman/how-to-write-makefile)
+参考资料：
+1. [跟我一起写Makefile](http://wiki.ubuntu.com.cn/index.php?title=%E8%B7%9F%E6%88%91%E4%B8%80%E8%B5%B7%E5%86%99Makefile&variant=zh-cn)或者[seisman整理后的版本](https://github.com/seisman/how-to-write-makefile)
+
+2. [阮一峰：Make 命令教程](https://blog.csdn.net/a_ran/article/details/43937041)
+
+3. [GNU make's manual](https://www.gnu.org/software/make/manual/html_node/index.html#SEC_Contents)
 
 ### 基本语法
 ```
@@ -14,7 +19,7 @@ target target-name : prerequisite-file-name
 ### 基本原理
 1. makefile的工作过程：make 会一层又一层地去找文件的依赖关系，直到最终编译出第一个目标文件。在找寻的过程中，如果出现错误，比如最后被依赖的文件找不到，那么 make 就会直接退出，并报错，而对于所定义的命令的错误，或是编译不成功， make 根本不理。 make 只管文件的依赖性，即，如果在我找了依赖关系之后，冒号后面的文件还是不在，那么对不起，我就不工作啦。
 
-2. make clean的工作原理：像 clean 这种，没有被第一个目标文件直接或间接关联，那么它后面所定义的命令将不会被自动执行，不过，我们可以显示要 make 执行。即命令——make clean ，以此来清除所有的目标文件，以便重编译。下面是更稳健的clean写法。其中.PHONY 表示 clean 是一个“伪目标”。而在 rm 命令前面加了一个小减号的意思就是，也许某些文件出现问题，但不要管，继续做后面的事。
+2. make clean的工作原理：像 clean 这种，没有被第一个目标文件直接或间接关联，那么它后面所定义的命令将不会被自动执行，不过，我们可以显式要 make 执行。即命令——make clean ，以此来清除所有的目标文件，以便重编译。下面是更稳健的clean写法。其中.PHONY 表示 clean 是一个“伪目标”。而在 rm 命令前面加了一个小减号的意思就是，也许某些文件出现问题，但不要管，继续做后面的事。如果没有.PHONY语句显式声明这是伪目标，则存在以下问题：如果当前目录中，正好有一个文件叫做clean，那么这个命令不会执行。因为Make发现clean文件已经存在，就认为没有必要重新构建了，就不会执行指定的rm命令。
 ```
 .PHONY : clean
 clean :
@@ -29,6 +34,12 @@ clean :
     - 为所有的目标文件创建依赖关系链。
     - 根据依赖关系，决定哪些目标要重新生成。
     - 执行生成命令。
+
+4. 每行命令在一个单独的shell中执行。这些Shell之间没有继承关系。比如下面代码执行后，取不到foo的值。因为两行命令在两个不同的进程执行。一个解决办法是将两行命令写在一行，中间用分号分隔。另一个解决办法是在换行符前加反斜杠转义。
+```
+    export foo=bar
+    echo "foo=[$$foo]"
+```
 
 ### 书写规则
 
@@ -90,6 +101,21 @@ $(objects): %.o: %.c
 5. override：如果某变量通常是在 make 的命令行参数设置的，那么 Makefile 中对这个变量的赋值会被忽略。如果你想在 Makefile 中设置这类参数的值，那么，你可以使用“override”指示符。
 
 6. 环境变量：如果我们在环境变量中设置了 CFLAGS 环境变量，那么我们就可以在所有的 Makefile 中使用这个变量了。这对于我们使用统一的编译参数有比较大的好处。如果 Makefile 中定义了 CFLAGS，那么则会使用 Makefile 中的这个变量，如果没有定义则使用系统环境变量的值，一个共性和个性的统一，很像“全局变量”和“局部变量”的特性。
+
+#### 自动变量
+1. `$@` $@指代当前目标，就是Make命令当前构建的那个目标。比如，make foo的 $@ 就指代foo。
+
+2. `$<` $< 指代第一个前置条件。比如，规则为 t: p1 p2，那么$< 就指代p1。
+
+3. `$?` $? 指代比目标更新的所有前置条件，之间以空格分隔。比如，规则为 t: p1 p2，其中 p2 的时间戳比 t 新，$?就指代p2。
+
+4. `$^` $^ 指代所有前置条件，之间以空格分隔。比如，规则为 t: p1 p2，那么 $^ 就指代 p1 p2 。
+
+5. `$*` $* 指代匹配符 % 匹配的部分， 比如% 匹配 f1.txt 中的f1 ，$* 就表示 f1。
+
+6. `$(@D) 和 $(@F)` $(@D) 和 $(@F) 分别指向 $@ 的目录名和文件名。比如，$@是 src/input.c，那么$(@D) 的值为 src ，$(@F) 的值为 input.c。
+
+7. `$(<D) 和 $(<F)` $(\<D) 和 $(\<F) 分别指向 $\< 的目录名和文件名。
 
 ### 使用条件判断
 1. `ifdef <variable-name>` 如果变量<variable-name>的值非空，那到表达式为真。否则，表达式为假。

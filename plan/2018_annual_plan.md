@@ -29,6 +29,7 @@
 
 - [ ] 完成mit 6.828课程
 - [ ] 完成cmu csapp课程
+- [ ] 完成计算机网络wireshark实验
 - [ ] 刷leetcode
 - [ ] 确定自己想做的工作
 

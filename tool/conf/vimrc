@@ -117,6 +117,12 @@ call vundle#end()
 filetype plugin indent on
 " <<<<
 
+" 显示行尾的空格
+Bundle 'ShowTrailingWhitespace'
+
+" 删除行尾的空格
+nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<CR>
+
 " 配色方案
 set background=dark
 "colorscheme solarized
@@ -209,6 +215,15 @@ set tabstop=4
 set shiftwidth=4
 " 让 vim 把连续数量的空格视为一个制表符
 set softtabstop=4
+set expandtab
+set smarttab
+
+"c文件自动缩进
+set cindent
+"自动对齐
+set autoindent
+"文件自动检测外部更改
+set autoread
 
 " 缩进可视化插件 Indent Guides
 " 随 vim 自启动
@@ -349,7 +364,7 @@ nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
 " 查找
 
 " 使用 ctrlsf.vim 插件在工程内全局查找光标所在关键字，设置快捷键。快捷键速记法：search in project
-nnoremap <Leader>s :CtrlSF<CR>
+nnoremap <Leader>f :CtrlSF<CR>
 let g:ctrlsf_ackprg = 'ag'
 let g:ctrlsf_auto_focus = {
     \ "at": "start"

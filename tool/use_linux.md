@@ -50,6 +50,10 @@ patch -p1 -u < ../diff.patch
     * 如果你还没装gcc编译环境或自己不确定装没装，不妨先执行 ：`sudo apt-get install build-essential`
     * 选项 -Wall 开启编译器几乎所有常用的警告──强烈建议你始终使用该选项。编译器有很多其他的警告选项，但-Wall 是最常用的。默认情况下GCC 不会产生任何警告信息。
 
+4. Understand工具
+    - [安装教程](https://blog.csdn.net/shixiaolu63/article/details/81937440)
+    - code: 09E58CD1FB79
+
 ## ubuntu
 
 ### 1. 如何从vim中复制内容到系统剪切板？

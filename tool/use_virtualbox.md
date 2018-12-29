@@ -5,3 +5,7 @@
     * 启动ubuntu，在ubuntu界面上方的Device菜单下面勾选“Insert Guest Additions CD Image...”，在弹出的提示框中点击Run，运行完成后重启即可。
 
 2. 通过host key（我的是Right Ctrl）可以让按键在host与guest之间切换。
+
+3. 在windows 10与Ubuntu虚拟机之间共享文件夹：要在`/mnt`下面创建文件作为挂载点，我一开始创建"~/share"作为挂载点没成功。
+
+4. 在虚拟机中输入F5、F6等功能键：同时输入Fn + F5、Fn + F6.

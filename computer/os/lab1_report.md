@@ -4,15 +4,15 @@
 
 ## 练习1：理解通过make生成执行文件的过程
 
-详见[《ucore lab1 exercise1》实验报告](lab1_exercise1_report.md)
+详见[《ucore lab1 exercise1》实验报告](lab1_exercise1_make_ucore.md)
 
 ## 练习2：使用qemu执行并调试lab1中的软件
 
-详见[《ucore lab1 exercise2》实验报告](lab1_exercise2_report.md)
+详见[《ucore lab1 exercise2》实验报告](lab1_exercise2_use_gdb.md)
 
 ## 练习3：分析bootloader进入保护模式的过程
 
-详见[《ucore lab1 exercise3》实验报告](lab1_exercise3_report.md)
+详见[《ucore lab1 exercise3》实验报告](lab1_exercise3_real2protect.md)
 
 ## 实验指导书笔记
 

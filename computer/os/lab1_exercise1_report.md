@@ -116,6 +116,24 @@ SED		:= sed
 symfile = $(call cgtype,$(call toobj,$(1)),o,sym)
 ```
 
+8. 第151行是调用create_target函数：`$(call create_target,kernel)`，而create_target的定义为`create_target = $(eval $(call do_create_target,$(1),$(2),$(3),$(4),$(5)))`，可见create_target只是进一步调用了do_create_target的函数：`do_create_target(kernel)`
+
+9. do_create_target的定义如下。由于只有一个输入参数，temp_objs为空字符串，并且走的是else分支，因此感觉这里的函数调用是直接返回，啥也没干？
+```
+// add packets and objs to target (target, #packes, #objs[, cc, flags])
+define do_create_target
+__temp_target__ = $(call totarget,$(1))
+__temp_objs__ = $$(foreach p,$(call packetname,$(2)),$$($$(p))) $(3)
+TARGETS += $$(__temp_target__)
+ifneq ($(4),)
+$$(__temp_target__): $$(__temp_objs__) | $$$$(dir $$$$@)
+	$(V)$(4) $(5) $$^ -o $$@
+else
+$$(__temp_target__): $$(__temp_objs__) | $$$$(dir $$$$@)
+endif
+endef
+```
+
 #### 生成bootblock
 
 1. 第156行：`bootfiles = $(call listf_cc,boot)`，前面已经知道listf_cc函数是过滤出对应目录下的.c和.S文件，因此`bootfiles=boot/\*.c boot/\*.S`
@@ -154,39 +172,52 @@ endef
 	
 9. 第166行使用bin/sign工具将obj/bootblock.out转换生成bin/bootblock目标文件：`@$(call totarget,sign) $(call outfile,bootblock) $(bootblock)`，从tools/sign.c代码中可知sign工具其实只做了一件事情：将输入文件拷贝到输出文件，控制输出文件的大小为512字节，并将最后两个字节设置为0x55AA（也就是ELF文件的magic number）
 
-10. 第168行： （这里没看懂？）
-```
-$(call create_target,bootblock)
-create_target = $(eval $(call do_create_target,$(1),$(2),$(3),$(4),$(5)))
-```
-
-11. do_create_target的定义为
-```
-# add packets and objs to target (target, #packes, #objs[, cc, flags])
-define do_create_target
-__temp_target__ = $(call totarget,$(1))
-__temp_objs__ = $$(foreach p,$(call packetname,$(2)),$$($$(p))) $(3)
-TARGETS += $$(__temp_target__)
-ifneq ($(4),)
-$$(__temp_target__): $$(__temp_objs__) | $$$$(dir $$$$@)
-	$(V)$(4) $(5) $$^ -o $$@
-else
-$$(__temp_target__): $$(__temp_objs__) | $$$$(dir $$$$@)
-endif
-endef
-```
+10. 第168行调用了create_target函数`$(call create_target,bootblock)`，根据上文的分析，由于只有一个输入参数，此处函数调用应该也是直接返回，啥也没干。
 
 #### 生成sign工具
 
-1. 第173行：
-```
-$(call add_files_host,tools/sign.c,sign,sign)
-add_files_host = $(call add_files,$(1),$(HOSTCC),$(HOSTCFLAGS),$(2),$(3))
-HOSTCC		:= gcc
-HOSTCFLAGS	:= -g -Wall -O2
-add_files = $(eval $(call do_add_files_to_packet,$(1),$(2),$(3),$(4),$(5)))
-```
+1. 第173行调用了add_files_host函数：`$(call add_files_host,tools/sign.c,sign,sign)`
 
-$(call create_target_host,sign,sign)
+2. add_files_host的定义为`add_files_host = $(call add_files,$(1),$(HOSTCC),$(HOSTCFLAGS),$(2),$(3))`，可见是调用了add_files函数：`add_files(tools/sign.c, gcc, $(HOSTCFLAGS), sign, sign)`
 
-#### ucore.img的生成过程
+3. add_files的定义为`add_files = $(eval $(call do_add_files_to_packet,$(1),$(2),$(3),$(4),$(5)))`，根据前面的分析，do_add_files_to_packet的作用是生成obj文件，因此这里调用add_files的作用是设置`\_\_objs\_sign = obj/sign/tools/sign.o`
+
+4. 第174行调用了create_target_host函数：`$(call create_target_host,sign,sign)`
+
+5. create_target_host的定义为`create_target_host = $(call create_target,$(1),$(2),$(3),$(HOSTCC),$(HOSTCFLAGS))`，可见是调用了create_target函数：`create_target(sign, sign, gcc, $(HOSTCFLAGS))`
+
+6. create_target的定义为`create_target = $(eval $(call do_create_target,$(1),$(2),$(3),$(4),$(5)))`。根据前面的分析，do_create_target的作用是生成目标文件，因此这里调用create_target的作用是生成`obj/sign/tools/sign.o`
+
+#### 生成ucore.img
+
+1. 第179行设置了ucore.img的目标名：`UCOREIMG	:= $(call totarget,ucore.img)`，前面已经知道totarget的作用是添加bin/前缀，因此`UCOREIMG = bin/ucore.img`
+
+2. 第181行指出bin/ucore.img依赖于bin/kernel和bin/bootblock：` $(UCOREIMG): $(kernel) $(bootblock)`
+
+3. 第182行：`$(V)dd if=/dev/zero of=$@ count=10000`。这里为bin/ucore.img分配10000个block的内存空间，并全部初始化为0。由于没指定block的大小，因此为默认值512字节，则总大小为5000M，约5G。
+> 备注：在类UNIX 操作系统中, /dev/zero 是一个特殊的文件，当你读它的时候，它会提供无限的空字符(NULL, ASCII NUL, 0x00)。其中的一个典型用法是用它提供的字符流来覆盖信息，另一个常见用法是产生一个特定大小的空白文件。BSD就是通过mmap把/dev/zero映射到虚地址空间实现共享内存的。可以使用mmap将/dev/zero映射到一个虚拟的内存空间，这个操作的效果等同于使用一段匿名的内存（没有和任何文件相关）。
+
+4. 第183行：`$(V)dd if=$(bootblock) of=$@ conv=notrunc`。这里将bin/bootblock复制到bin/ucore.img
+
+5. 第184行：`$(V)dd if=$(kernel) of=$@ seek=1 conv=notrunc`。继续将bin/kernel复制到bin/ucore.img，这里使用了选项`seek=1`，意思是：复制时跳过bin/ucore.img的第一个block，从第2个block也就是第512个字节后面开始拷贝bin/kernel的内容。原因是显然的：ucore.img的第1个block已经用来保存bootblock的内容了。
+
+6. 第186行：`$(call create_target,ucore.img)`，由于只有一个输入参数，因此这里会直接返回。
+
+#### 总结ucore.img的生成过程
+
+1. 编译libs和kern目录下所有的.c和.S文件，生成.o文件，并链接得到bin/kernel文件
+
+2. 编译boot目录下所有的.c和.S文件，生成.o文件，并链接得到bin/bootblock.out文件
+
+3. 编译tools/sign.c文件，得到bin/sign文件
+
+4. 利用bin/sign工具将bin/bootblock.out文件转化为512字节的bin/bootblock文件，并将bin/bootblock的最后两个字节设置为0x55AA
+
+5. 为bin/ucore.img分配5000MB的内存空间，并将bin/bootblock复制到bin/ucore.img的第一个block，紧接着将bin/kernel复制到bin/ucore.img第二个block开始的位置
+
+### 题目3的解答
+
+问题： 一个被系统认为是符合规范的硬盘主引导扇区的特征是什么？
+答：
+1. 大小为512字节
+2. 最后两个字节为0x55AA

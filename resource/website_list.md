@@ -47,6 +47,9 @@
 
 3. [GNU make's manual](https://www.gnu.org/software/make/manual/html_node/index.html#SEC_Contents)
 
+#### objdump
+
+1. [objdump manual](https://sourceware.org/binutils/docs-2.23/binutils/objdump.html)
 #### shell
 
 1. [shell编程基础](http://wiki.ubuntu.org.cn/Shell%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80)

@@ -50,6 +50,13 @@
 #### objdump
 
 1. [objdump manual](https://sourceware.org/binutils/docs-2.23/binutils/objdump.html)
+
+#### qemu
+
+1. [QEMU manual](https://wiki.qemu.org/Qemu-doc.html)
+
+2. [Qemu安装使用手册](https://wenku.baidu.com/view/04c0116aa45177232f60a2eb.html)
+
 #### shell
 
 1. [shell编程基础](http://wiki.ubuntu.org.cn/Shell%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80)

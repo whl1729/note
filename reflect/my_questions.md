@@ -32,7 +32,7 @@
 5. 要想对代码进行gdb调试，需要设置哪些编译选项、产生什么文件？
 
 ### 2018年12月30日
-6. ld脚本中的second expansion的用法不太理解，比如ucore lab1的makefile看不太懂？
+6. ld脚本中的second expansion的用法不太理解，比如ucore lab1的makefile看不太懂？`$$$$(dir $$$$@)`是什么鬼？
 7. ld脚本中的eval函数的用法不太理解？
 
 ## 数学

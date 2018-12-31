@@ -88,4 +88,4 @@
 ```
 symbol-file obj/user/<name>
 symbol-file obj/kern/kernel
-```
+``

@@ -14,6 +14,10 @@
 
 详见[《ucore lab1 exercise3》实验报告](lab1_exercise3_real2protect.md)
 
+## 练习4：分析bootloader加载ELF格式的OS的过程
+
+详见[《ucore lab1 exercise4》实验报告](lab1_exercise4_load_os.md)
+
 ## 实验指导书笔记
 
 1. 对于Intel 80386的体系结构而言，PC机中的系统初始化软件由BIOS (Basic Input Output System，即基本输入/输出系统，其本质是一个固化在主板Flash/CMOS上的软件)和位于软盘/硬盘引导扇区中的OS BootLoader（在ucore中的bootasm.S和bootmain.c） 一起组成。BIOS实际上是被固化在计算机ROM（只读存储器） 芯片上的一个特殊的软件，为上层软件提供最底层的、最直接的硬件控制与支持。
@@ -30,3 +34,7 @@
 
 7. [激活A20地址线详解](http://wenku.baidu.com/view/d6efe68fcc22bcd126ff0c00.html)
 
+8. Link Address是指编译器指定代码和数据所需要放置的内存地址，由链接器配置。Load Address是指程序被实际加载到内存的位置（由程序加载器ld配置） 。一般由可执行文件结构信息和加载器可保证这两个地址相同。Link Addr和LoadAddr不同会导致：
+    - 直接跳转位置错误
+    - 直接内存访问(只读数据区或bss等直接地址访问)错误
+    - 堆和栈等的使用不受影响，但是可能会覆盖程序、数据区域 注意：也存在Link地址和Load地址不一样的情况（例如：动态链接库） 。

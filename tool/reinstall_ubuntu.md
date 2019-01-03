@@ -54,6 +54,7 @@ sudo apt-get purge fcitx-ui-qimpanel // solve the problem of two icons
     * 安装插件管理工具Vundle：`git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
     * 拷贝note/tool/conf/vimrc到`~/.vimrc`
     * 打开vim，输入`:PluginInstall`来安装vim插件
+    * 要卸载插件，先在 .vimrc 中注释或者删除对应插件配置信息，然后在 vim 中执行`:PluginClean`
     * 安装CtrlSF事需要依赖ag，参考[vim搜索插件ctrlsf](https://catdoc.iteye.com/blog/2162402)
 
 ### git

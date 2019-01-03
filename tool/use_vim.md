@@ -50,6 +50,12 @@
 
 ## vim插件
 
+### Vundle管理插件
+    
+1. 打开vim，输入`:PluginInstall`来安装vim插件
+2. 要卸载插件，先在 .vimrc 中注释或者删除对应插件配置信息，然后在 vim 中执行`:PluginClean`
+3. 如果按下ESC时，输入法会由英文切换到中文，则在vimrc中注释掉'lilydjwg/fcitx.vim'
+
 ### CtrlSF
 
 1. 基本用法：`:CtrlSF pattern dir`（如果后面不带dir则默认是当前目录搜索）

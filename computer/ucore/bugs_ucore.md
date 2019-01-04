@@ -62,7 +62,35 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
 ```
 
-5. 总结：定位问题的常规方法：收集信息、理解原理、推测原因（将所有可能的原因都列举出来，逐一排查）
+5. 那么为什么初始化.got.plt及data.rel.ro.local这些段会有问题？我从[RELRO(Relocation Read Only)](https://hardenedlinux.github.io/2016/11/25/RelRO.html)这个网页中找到了答案：.data.rel.ro.local这个段顾名思义就知道是只读的，现在想将其memset为0，自然会导致问题。
+
+6. 那么为什么lab2没有问题？对比两个lab的tools/kernel.ld文件，发觉lab2的链接脚本汇总在定义edata前，先用ALIGN命令将位置设置在能被0x1000整除的位置，这样恰好将.got.plt, data.rel.ro.local这些段跳过了，因此(edata, end)这段内存恰好只包含.bss段，这时memset就没问题了！
+```
+    . = ALIGN(0x1000);
+    .data.pgdir : {
+        *(.data.pgdir)
+    }
+
+    PROVIDE(edata = .);
+```
+
+顺便贴上lab2的bin/kernel的这几个段的信息：
+```
+ 5 .got.plt      0000000c  c0118950  c0118950  00019950  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .data.rel.local 000000c6  c0118960  c0118960  00019960  2**5
+                  CONTENTS, ALLOC, LOAD, DATA
+  7 .data.rel.ro.local 00000088  c0118a40  c0118a40  00019a40  2**5
+                  CONTENTS, ALLOC, LOAD, DATA
+  8 .data.rel     00000004  c0118ac8  c0118ac8  00019ac8  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  9 .data.pgdir   00002000  c0119000  c0119000  0001a000  2**12
+                  CONTENTS, ALLOC, LOAD, DATA
+ 10 .bss          00000f28  c011b000  c011b000  0001c000  2**5
+                  ALLOC
+```
+
+7. 总结：定位问题的常规方法：收集信息、理解原理、推测原因（将所有可能的原因都列举出来，逐一排查）。如果不是之前做mit 6.828 lab遇到过同样的Bug，估计定位起来更艰难，因为我差别就放弃怀疑memset语句有问题了。这个问题的棘手之处也在于：memset时没立即出错，等到后面初始化GDT时才出错。总之，经验很重要，以及不能随便放过任何一个可能。
 
 ### 【2019-1-3】Bug 1：bootblock链接失败
 

@@ -14,6 +14,10 @@
 
 6. [Piazza问答平台](https://piazza.com/connect) 暂时无法注册
 
+## 疑问
+
+1. 段式内存管理中，逻辑地址由段选择子和段偏移量两部分组成？段选择子占16位，低3位为TI（指示是GDT还是LDT）和DPL，也就是说逻辑地址中含有TI和DPL信息？
+
 ## 第五讲 物理内存管理：连续内存分配
 
 1. 源代码中的函数或变量的地址的最终确定，需要经历两次重定位：链接时和将程序加载到内存中时。通常在可执行文件的前面部分有个重定位表，记录需要重定位的符号。
@@ -48,4 +52,41 @@
     - 原理：一开始是一整块大小为2^n的内存，进程申请大小为M的内存时，先找到一块比M大的内存，如果该内存小于2M，则将这块内存分配给进程；否则将这块内存均分为两块，再作判断。
     - 用途：Linux和Unix系统中的内核内存分配都应用了伙伴系统
 
+7. 地址检查：操作系统根据进程的逻辑地址访问物理内存前，需要检查逻辑地址对应的偏移量是否不大于段长度。
+
+8. ucore的物理内存管理 
+```
+struct pmm_manager {
+	const char *name;
+	void (*init)(void);
+	void (*init_memmap)(struct Page *base, size_t n);
+	struct Page *(*alloc_pages)(size_t order);
+	void (*free_pages)(struct Page *base, size_t n);
+	size_t (*nr_free_pages)(void);
+	void (*check)(void);
+};
+```
+
+9. ucore的伙伴系统实现
+```
+const struct pmm_manager buddy_pmm_manager = {
+	.name = "buddy_pmm_manager",
+	.init = buddy_init,
+	.init_memmap = buddy_init_memmap,
+	.alloc_pages = buddy_alloc_pages,
+	.free_pages = buddy_free_pages,
+	.nr_free_pages = buddy_nr_free_pages,
+	.check = buddy_check,
+};
+```
+
+## 第六讲 物理内存管理 非连续内存分配
+
+1. 连续内存分配的缺点
+    - 分配给程序的物理内存必须连续
+    - 存在外碎片和内碎片
+    - 内存分配的动态修改困难
+    - 内存利用率低
+
+2. 段式存储管理和页式存储管理的一个区别：前者以段为单位，每个段内存较大；后者以页为单位，每页内存相对较小。
 

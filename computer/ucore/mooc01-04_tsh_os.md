@@ -187,7 +187,7 @@ The pointer to zero is used to get a proper instance, but as typeof is resolved 
     * INT 15h: 检测内存大小
     * INT 16h: 键盘输入
 
-8. 在操作系统中，有三种特殊的中断事件。由CPU外部设备引起的外部事件如I/O中断、时钟中断、控制台中断等是异步产生的（即产生的时刻不确定） ，与CPU的执行无关，我们称之为异步中断(asynchronous interrupt)也称外部中断,简称中断(interrupt)。而把在CPU执行指令期间检测到不正常的或非法的条件(如除零错、地址访问越界)所引起的内部事件称作同步中断(synchronous interrupt)，也称内部中断，简称异常(exception)。把在程序中使用请求系统服务的系统调用而引发的事件，称作陷入中断(trap interrupt)，也称软中断(soft interrupt)，系统调用(system call)简称trap。
+8. 在操作系统中，有三种特殊的中断事件。由CPU外部设备引起的外部事件如I/O中断、时钟中断、控制台中断等是异步产生的（即产生的时刻不确定） ，与CPU的执行无关，我们称之为异步中断(asynchronous interrupt)也称外部中断,简称中断(interrupt)。而把在CPU执行指令期间检测到不正常的或非法的条件(如除零错、地址访问越界)所引起的内部事件称作同步中断(synchronous interrupt)，也称内部中断，简称异常(exception)。把在程序中使用请求系统服务的系统调用而引发的事件（通过INT指令来触发），称作陷入中断(trap interrupt)，也称软中断(soft interrupt)，系统调用(system call)简称trap。
 
 9. 为什么需要中断、异常和系统调用
     - 三者共同用于解决操作系统与外界打交道的问题
@@ -282,6 +282,13 @@ The pointer to zero is used to get a proper instance, but as typeof is resolved 
 ![segment_descriptor](pictures/segment_descriptor.jpg)
 
 11. 数据段选择子的整个内容可由程序直接加载到各个段寄存器（如SS或DS等） 当中。这些内容里包含了请求特权级（Requested Privilege Level，简称RPL） 字段。然而，代码段寄存器（CS） 的内容不能由装载指令（如MOV） 直接设置，而只能被那些会改变程序执行顺序的指令（如JMP、INT、CALL） 间接地设置。而且CS拥有一个由CPU维护的当前特权级字段（Current Privilege Level，简称CPL） 。代码段寄存器中的CPL字段（2位） 的值总是等于CPU的当前特权级，所以只要看一眼CS中的CPL，你就可以知道此刻的特权级了。
+```
+15                                                 3    2        0
++--------------------------------------------------+----+--------+
+|          Index                                   | TI |   RPL  |
++--------------------------------------------------+----+--------+
+TI = Table Indicator: 0 = GDT, 1 = LDT
+```
 
 12. 转换逻辑地址（Logical Address,应用程序员看到的地址）到物理地址（Physical Address, 实际的物理内存地址）分以下两步：
     * 分段地址转换：CPU把逻辑地址（由段选择子selector和段偏移offset组成）中的段选择子的内容作为段描述符表的索引，找到表中对应的段描述符，然后把段描述符中保存的段基址加上段偏移值，形成线性地址（Linear Address）。如果不启动分页存储管理机制，则线性地址等于物理地址。 
@@ -309,3 +316,16 @@ The pointer to zero is used to get a proper instance, but as typeof is resolved 
     * [一个操作系统的实现:关于CPL、RPL、DPL](http://www.cnblogs.com/pang123hui/archive/2010/11/27/2309924.html)
 
 17. RPL的值可自由设置，并不一定要求RPL>=CPL，但是当RPL\<CPL时，实际起作用的就是CPL了，因为访问时的特权级保护检查要判断：max(RPL,CPL)<=DPL是否成立。所以RPL可以看成是每次访问时的附加限制，RPL=0时附加限制最小，RPL=3时附加限制最大。
+
+## 参考资料
+
+1. x86启动顺序
+    - Chap. 2.5 (Control Registers) ), Vol. 3, Intel® and IA-32 Architectures Software Developer’s Manual
+    - Chap. 3 (Protected-Mode Memory Management), Vol. 3, Intel® and IA-32 Architectures Software Developer’s Manual
+    - Chap. 9.l (Initialization Overview), Vol. 3, Intel® and IA-32 Architectures Software Developer’s Manual
+    - An introduction to ELF format: http://wiki.osdev.org/ELF
+
+2. x86中断处理：Chap. 6, Vol. 3, Intel® and IA-32 Architectures Software Developer’s Manual
+
+3. [Understanding the Stack](http://www.cs.umd.edu/class/sum2003/cmsc311/Notes/Mips/stack.html)
+

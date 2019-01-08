@@ -26,3 +26,13 @@
 7. [Git User Manual](https://mirrors.edge.kernel.org/pub/software/scm/git/docs/user-manual.html)
 
 8. 查看某次提交的详细修改信息：`git show COMMIT`
+
+9. `git log`
+    - `git log --name-status ` 每次修改的文件列表, 显示状态
+    - `git log --name-only ` 每次修改的文件列表
+    - `git log --stat ` 每次修改的文件列表, 及文件修改的统计
+    - `git log -p`	按补丁格式显示每个更新之间的差异。
+    - `git log -5 --name-status` 显示最近5次修改的文件列表
+    - `git whatchanged ` 每次修改的文件列表
+    - `git whatchanged --stat ` 每次修改的文件列表, 及文件修改的统计
+    - `git show ` 显示最后一次的文件改变的具体内容

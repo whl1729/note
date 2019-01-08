@@ -1,10 +1,15 @@
 ## 如何写Makefile
+
 参考资料：
 1. [跟我一起写Makefile](http://wiki.ubuntu.com.cn/index.php?title=%E8%B7%9F%E6%88%91%E4%B8%80%E8%B5%B7%E5%86%99Makefile&variant=zh-cn)或者[seisman整理后的版本](https://github.com/seisman/how-to-write-makefile)
 
 2. [阮一峰：Make 命令教程](https://blog.csdn.net/a_ran/article/details/43937041)
 
 3. [GNU make's manual](https://www.gnu.org/software/make/manual/html_node/index.html#SEC_Contents)
+
+### 实用技巧
+1. 如何实现默认情况下不打印Makefile中的命令，而用户给出要求时可以打印？
+答：在Makefile定义`V=@`，在执行编译链接等语句前都加上`$(V)`，这样直接make时不会打印Makefile中的命令，而输入`make "V="`时则会打印。
 
 ### 基本语法
 ```

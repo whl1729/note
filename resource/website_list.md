@@ -85,3 +85,16 @@
 
 5. [Ubuntu wiki](http://wiki.ubuntu.org.cn/%E9%A6%96%E9%A1%B5)
 
+6. [osdev.org](https://wiki.osdev.org/Expanded_Main_Page)
+
+7. [6.828: Operating Systems Engineering - in MIT](https://pdos.csail.mit.edu/6.828/2018/)
+
+8. [CS-537: Introduction to Operating Systems - in WISC](http://pages.cs.wisc.edu/~remzi/Classes/537/Spring2018/)
+
+#### Unix
+
+1. [The Evolution of the Unix Time-sharing System](http://www.read.seas.harvard.edu/~kohler/class/aosref/ritchie84evolution.pdf)
+
+2. [Youtube: AT&T Archives: The UNIX Operating System](https://www.youtube.com/watch?v=tc4ROCJYbm0)
+
+3. [](https://www.bell-labs.com/usr/dmr/www/retro.pdf)

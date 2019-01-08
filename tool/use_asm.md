@@ -5,6 +5,10 @@
 参考资料：
 1. [Linux 中 x86 的内联汇编](https://www.ibm.com/developerworks/cn/linux/sdk/assemble/inline/index.html)
 
+2. [GCC-Inline-Assembly-HOWTO](http://www.ibiblio.org/gferg/ldp/GCC-Inline-Assembly-HOWTO.html)
+
+3. 
+
 简单内联汇编只包括指令，而扩展内联汇编包括操作数。
 
 ### GCC简单内联汇编

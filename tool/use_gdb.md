@@ -31,6 +31,23 @@
 * `update `更新源代码窗口和当前执行点
 * `winheight name +/- line `调整 name窗口的高度
 * `tabset nchar `设置tab为nchar个字符
+* `where` 命令查看程序出错的地方
+* `list` 查看调用 gets 函数附近的代码
+* `backtrace ` 显示所有的调用栈帧。该命令可用来显示函数的调用顺序
+* `where continue ` 继续执行正在调试的程序
+* `display EXPR ` 每次程序停止后显示表达式的值,表达式由程序定义的变量组
+成
+* `file FILENAME ` 装载指定的可执行文件进行调试
+* `help CMDNAME ` 显示指定调试命令的帮助信息
+* `info break ` 显示当前断点列表，包括到达断点处的次数等
+* `info files ` 显示被调试文件的详细信息
+* `info func ` 显示被调试程序的所有函数名称
+* `info prog ` 显示被调试程序的执行状态
+* `info local ` 显示被调试程序当前函数中的局部变量信息
+* `info var ` 显示被调试程序的所有全局和静态变量名称
+* `kill ` 终止正在被调试的程序
+* `list ` 显示被调试程序的源代码
+* `quit ` 退出 gdb
 
 ## 基础知识
 

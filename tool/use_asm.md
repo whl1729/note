@@ -1,5 +1,22 @@
 # 汇编语言使用笔记
 
+## 基础知识
+
+1. `movl $0, 0x8000` 将地址为0x8000的内存中的数值设置为零；
+   `incl 0x8000` 将地址为0x8000的内存中的数值加1
+
+## 伪指令
+
+1. [Assembler Directives](http://web.mit.edu/gnu/doc/html/as_7.html)
+
+2. `.set symbol, expression`
+    - Set the value of symbol to expression. This changes symbol's value and type to conform to expression. If symbol was flagged as external, it remains flagged. (See section Symbol Attributes.)
+    - You may .set a symbol many times in the same assembly.
+    - If you .set a global symbol, the value stored in the object file is the last value stored into it.
+
+3. `.space size , fill` This directive emits size bytes, each of value fill. Both size and fill are absolute expressions. If the comma and fill are omitted, fill is assumed to be zero.
+
+4. `.rept count` Repeat the sequence of lines between the .rept directive and the next .endr directive count times.
 ## 内联汇编
 
 参考资料：
@@ -7,15 +24,13 @@
 
 2. [GCC-Inline-Assembly-HOWTO](http://www.ibiblio.org/gferg/ldp/GCC-Inline-Assembly-HOWTO.html)
 
-3. 
-
-简单内联汇编只包括指令，而扩展内联汇编包括操作数。
-
 ### GCC简单内联汇编
 
 1. GCC处理简单内联汇编：把asm(...)的内容“打印”到汇编文件中，所以格式控制字符是必要的
    
 2. 简单内联汇编的缺陷：由于我们在内联汇编中改变了 edx 和 ebx 的值，但是由于 gcc 的特殊的处理方法，即先形成汇编文件，再交给 GAS 去汇编，所以 GAS 并不知道我们已经改变了edx和ebx 的值，如果程序的上下文需要 edx 或 ebx 作其他内存单元或变量的暂存，就会产生没有预料的多次赋值，引起严重的后果。对于变量\_boo也存在一样的问题。
+
+3. 简单内联汇编只包括指令，而扩展内联汇编包括操作数。
 
 ### GCC扩展内联汇编
 

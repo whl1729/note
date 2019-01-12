@@ -158,6 +158,8 @@ The pointer to zero is used to get a proper instance, but as typeof is resolved 
     * 系统自启动程序
     * 将加载程序BootLoader从磁盘的引导扇区加载到0x7c00
 
+> bios将boot loader加载到地址为0x7c00的物理内存中，这是硬件设计中约定俗成的规定。"If everything is in order, said first sector will be placed at RAM address 0000:7C00, and the BIOS's role is over as it transfers control to 0000:7C00 (that is, it JMPs to that address)."
+
 4. 为什么不直接由BIOS加载操作系统，而是先由BIOS加载BootLoader，而BootLoader再去加载操作系统？答：不同操作系统的文件系统不同，BIOS不可能全部能识别。（伍注：这里有点像分层的思想，为了适配各种不同操作系统的加载，在BIOS与操作系统之间加多一层boot loader，Boot loader来负责识别和加载各种系统，而BIOS的任务得以减轻，并且可以做得相对简单和稳定）
 
 5. BIOS初始化过程
@@ -249,7 +251,7 @@ The pointer to zero is used to get a proper instance, but as typeof is resolved 
         
 ## 第四讲 实验一 BootLoader启动ucore os
 
-1. x86上电时，各个寄存器都有初始值，其中CS初始值为0xf000，ip初始值为0xfff0，其他寄存器大部分初始值为0.注意：实模式下，linear_addr = base * 16 + offset.
+1. x86上电时，各个寄存器都有初始值，其中CS初始值为0xf000，ip初始值为0xfff0，其他寄存器大部分初始值为0.注意：实模式下，linear_addr = base * 16 + offset。而在保护模式下，段式内存管理机制中，linear_addr = base + offset.
 
 2. 从实模式切换到保护模式的步骤
     - 建立GDT
@@ -279,6 +281,23 @@ The pointer to zero is used to get a proper instance, but as typeof is resolved 
 9. 保护模式下，有两个段表：GDT（Global Descriptor Table）和LDT（Local Descriptor Table），每一张段表可以包含8192 (2^13)个描述符，因而最多可以同时存在2 * 2^13 = 2^14个段。虽然保护模式下可以有这么多段，逻辑地址空间看起来很大，但实际上段并不能扩展物理地址空间，很大程度上各个段的地址空间是相互重叠的。目前所谓的64TB（2^(14+32)=2^46）逻辑地址空间是一个理论值，没有实际意义。在32位保护模式下，真正的物理空间仍然只有2^32字节那么大。
 
 10. 段描述符：长度为8个字节，含有3个主要字段：段基地址（base）、段长度（limit）和段属性。详见[数据段描述符和代码段描述符（一）](https://blog.csdn.net/longintchar/article/details/50489889)。
+```
+ 31	  —    24  23  22  21	 20	  19    —   16   15 14 - 13 12  11  10   9   8     7   —	0
++-------------+---+---+---+-----+--------------+---+-------+---+---+---+---+---+-------------+
+| Base[31:24] |	G | D | L | AVL	| Limit[19:16] | P |  DPL  | 1 | 1 | C | R | A | Base[23:16] | 
+|              Base Address[15:0]              |          Segment Limit[15:0]
+            |
+- G=Granularity. If clear, the limit is in units of bytes, with a maximum of 220 bytes. If set, the limit is in units of 4096-byte pages, for a maximum of 232 bytes.
+- D=Default operand size. If clear, this is a 16-bit code segment; if set, this is a 32-bit segment
+- L=Long-mode segment. If set, this is a 64-bit segment (and D must be zero), and code in this segment uses the 64-bit instruction encoding
+- AVL=Available. For software use, not used by hardware
+- P=Present. If clear, a "segment not present" exception is generated on any reference to this segment
+- DPL=Descriptor privilege level. Privilege level required to access this descriptor
+- C=Conforming. Code in this segment may be called from less-privileged levels
+- R=Readable. If clear, the segment may be executed but not read from
+- A=Accessed. This bit is set to 1 by hardware when the segment is accessed, and cleared by software
+```
+
 ![segment_descriptor](pictures/segment_descriptor.jpg)
 
 11. 数据段选择子的整个内容可由程序直接加载到各个段寄存器（如SS或DS等） 当中。这些内容里包含了请求特权级（Requested Privilege Level，简称RPL） 字段。然而，代码段寄存器（CS） 的内容不能由装载指令（如MOV） 直接设置，而只能被那些会改变程序执行顺序的指令（如JMP、INT、CALL） 间接地设置。而且CS拥有一个由CPU维护的当前特权级字段（Current Privilege Level，简称CPL） 。代码段寄存器中的CPL字段（2位） 的值总是等于CPU的当前特权级，所以只要看一眼CS中的CPL，你就可以知道此刻的特权级了。

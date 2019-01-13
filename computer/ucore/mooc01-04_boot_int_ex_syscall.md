@@ -1,4 +1,4 @@
-# 《Tsinghua OS MOOC》第一~四讲笔记
+# 《Tsinghua os mooc》第1~4讲 启动、中断、异常和系统调用
 
 ## 资源
 

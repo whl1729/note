@@ -1,4 +1,4 @@
-# 《Tsinghua OS MOOC》第五~七讲笔记
+# 《Tsinghua oc mooc》第5~7讲 物理内存管理
 
 ## 资源
 
@@ -28,10 +28,18 @@
     - 当boot loader加载完kernel，会跳转到kernel代码中继续执行。lab1中，在kern_init执行到pmm_init时，会重新初始化gdt表和加载各个段寄存器，并且将各个段的段基址设置为0.
 
 3. 段式管理基址中，访问内存时，先用逻辑地址的段选择子索引全局描述符表得到base，再加上逻辑地址中的offset得到线性地址，这样不是很麻烦、效率很低吗？
+    - 答：CPU中的MMU单元保存有各个段的base和limit信息，因此可以直接在CPU内部获取到base，不需访问内存中的GDT表。
 
 4. 中断、异常及系统调用是怎样完成特权级从户态切换到内核态的？
 
 5. 未理解段页式内存管理机制中的内存转换原理？按书中所说，我们要将一个逻辑地址转换成物理地址，需要经过以下步骤：首先，逻辑地址由段选择子和段偏移组成，用逻辑地址的段选择子索引GDT得到段基址，段基址和段偏移组成线性地址，这个线性地址由可以分为页目录表索引、页表索引和页内偏移。我的疑问是：逻辑地址的段偏移是16位，而页内偏移是12位，这个是怎么转换的？难道说段偏移的高4位是属于页表索引的低4位？
+    - 答：逻辑地址由16位的段选择子和32位的段偏移构成，lab2中段基址为0，因此线性地址其实就是逻辑地址的32位段偏移。
+
+6. asm文件中的地址都是逻辑地址的段偏移，而不包括段基址？那么一个代码段的代码能够访问另外一个代码段的内存空间吗？同一个进程只有一个代码段和一个数据段吗？
+
+7. 页表项存的内容是线性地址？
+
+8. 在boot_map_segment函数中，将每个虚拟页的起始虚拟地址与一个物理页的起始物理地址建立映射，为什么不需要将对应的Page结构的ref设置为1呢？不设置ref为1，我们能正常访问0xC0000000~0xF8000000这些虚拟地址吗？
 
 ## 第五讲 物理内存管理：连续内存分配
 
@@ -189,31 +197,42 @@ const struct pmm_manager buddy_pmm_manager = {
     - ring3 to ring0: 同样是构造出一个栈，并将里面的CS的CPL设置为0，然后执行IRET指令，这样就进入内核态了。
     - 特权级转换时，不同特权级的堆栈信息（esp和ss）保存在任务状态段（TSS, Task State Segment）中。TSS段描述符信息保存在GDT中，但为了快速获取TSS段的信息，CPU也专门用一个寄存器来保存其信息。
 
-5. 全局描述符表GDT（也称为段表）占用空间较大，因此存放在内存中，而非CPU中。为了提高内存访问的效率，在CPU的MMU单元中也会存储各个段的基本信息。
+5. 全局描述符表GDT（也称为段表）占用空间较大，因此存放在内存中，而非CPU中。为了提高内存访问的效率，在CPU的MMU单元中也会存储各个段的base和limit等基本信息。
 
-6. 如何理解lab2的地址映射？
-```
-a. Allocate a page as directory table
-b. Clear the page allocated
-c. Map 0xC0000000-0xF8000000(va) to 0x00000000-0x38000000(pa)
-d. Map 0x00000000-0x00100000(va) to 0x00000000-0x00100000(pa) 
-e. Set CR3 & bit 31 of CR0
-f. Update GDT
-g. Unmap 0x00000000-0x100000
-```
+5. 启动页机制：将cr0寄存器的最高位也就是bit 31置位。
 
-7. 在页表项中存放的地址内容是线性地址（啥意思？）
-
-8. 启动页机制：将cr0寄存器的最高位也就是bit 31置位。
-
-9. 段表 vs 页表 vs GDT/LDT
+6. 段表 vs 页表 vs GDT/LDT
 （以下出自[进程中有多少个段表、多少个页表？](https://blog.csdn.net/yangkuiwu/article/details/53166283)）
     - 如果存储器采用基本分页机制，那么操作系统会为每个进程或任务建立一个页表（这个页表可能是一级的也可能是多级的）。整个操作系统中有多个进程在运行，那么系统就会有多个页表。页表在内存中的存储位置由寄存器CR3给出。
     - 如果存储器采用基本分段机制，那么操作系统会为每个进程或任务建立一个段表（一般不用多级），用于记录数据段、代码段等各类段在内存中的具体位置。
     - 如果采用段页式结合的机制，那么一般一个进程或任务，操作系统会给其建立一个段表，而段表中的每个段又会对应一个页表，也就是说，段页式机制的每个进程有一个段表，有多个页表。
     - 对于典型的linux系统而言，操作系统会维护一个全局描述符表（相当于系统的段表），全局描述符表中用于记录系统任务和用户任务的描述符，其中用户任务的描述符又指向用户任务的局部描述符表（相当于用户任务的段表）。
 
-10. 操作系统需要知道了解整个计算机系统中的物理内存如何分布的，哪些可用，哪些不可用。其基本方法是通过BIOS中断调用来帮助完成的。详情参考《ucore_os_docs》 lab2附录A的介绍。
+7. 操作系统需要知道了解整个计算机系统中的物理内存如何分布的，哪些可用，哪些不可用。其基本方法是通过BIOS中断调用来帮助完成的。详情参考《ucore_os_docs》 lab2附录A的介绍。
+
+8. [Virtual, Linear, and Physical Addresses](http://www.on-time.com/rtos-32-docs/rttarget-32/programming-manual/x86-cpu/protected-mode/virtual-linear-and-physical-addresses.htm)
+    - Virtual addresses are used by an application program. They consist of a 16-bit selector and a 32-bit offset. In the flat memory model, the selectors are preloaded into segment registers CS, DS, SS, and ES, which all refer to the same linear address. They need not be considered by the application. Addresses are simply 32-bit near pointers.
+    - Linear addresses are calculated from virtual addresses by segment translation. The base of the segment referred to by the selector is added to the virtual offset, giving a 32-bit linear address. Under RTTarget-32, virtual offsets are equal to linear addresses since the base of all code and data segments is 0.
+    - Physical addresses are calculated from linear addresses through paging. The linear address is used as an index into the Page Table where the CPU locates the corresponding physical address. If paging is not enabled, linear addresses are always equal to physical addresses. 
+
+### lab2的地址映射
+1. 第1阶段：bootloader阶段，即从bootloader的start函数到执行ucore kernel的kern_entry函数之前。此时尚未建立分页机制，只有分段机制，属于对等映射
+    - 虚拟地址、线性地址以及物理地址之间的映射关系：`lab2 stage 1： virt addr = linear addr = phy addr`
+    - 段选择子：CS = 0x8，DS = ES = SS = FS = GS = 0x10
+    - GDT：共有2个段描述符，分别对应数据段和代码段，其base均为0，limit均为0xffffffff
+
+> 备注：我认为这里的virt addr实际上是指virt addr的offset部分，因为virt addr包括段选择子和段偏移两部分，而从bootloader的代码可以看到，代码段和数据段的段选择子分别是0x8和0x16，而由GDT的内容可知它们对应的段基址均为0，因此virt addr = segment_selector << 32 + offset != offset，而linear addr = base + offset = offset
+
+2. 第2阶段：kern_entry阶段，即从kern_entry函数开始，到执行kern_init函数之前。此时同时使能了分段和分页机制，属于段页式机制，但只是对部分虚拟地址建立了映射
+    - 虚拟地址、线性地址以及物理地址之间的映射关系：`lab2 stage 2： virt addr = linear addr = phy addr + 0xC0000000 (0xC0000000 <= virt addr < 0xC0400000)`
+    - kern_entry函数开头就将二级页表boot_pgdir的起始地址加载到cr3寄存器中，然后将cr0寄存器的PG位设置为1，从而使能了分页机制
+    - 此时二级页表只初始化了一个有效的页目录项，即第0x300项，对应的虚拟地址为0xC0000000~0xC03FFFFF. 而对其他的虚拟地址暂没建立到物理地址的映射。但由于此时内核文件的总长度小于4M，对虚拟地址的访问不会超过这个区间，因此暂时也能正常工作
+
+> 备注：《操作系统》MOOC视频是2015年的，而ucore lab的代码近几年有修改，地址映射的最新代码实现跟MOOC课、实验指导书有出入，比如：代码中一进入kern_entry就使能分页机制了，而不是实验指导书说的第三阶段才使能分页机制。
+
+3. 第3阶段：pmm_init阶段，对所有可用的虚拟地址建立映射
+    - 虚拟地址、线性地址以及物理地址之间的映射关系：`lab2 stage 2： virt addr = linear addr = phy addr + 0xC0000000 (0xC0000000 <= virt addr < 0xF8000000)`
+    - 此外，pmm_init函数中还实现了自映射机制，将0xFAC00000~0xFB000000这段虚拟地址中1024个能被0x1000整除的虚拟地址映射到1024个页表的起始物理地址，因此以0x1000为步进，遍历0xFAC00000~0xFB000000这段虚拟地址，即可遍历1024个页表的内容。当然，页表的数目受限于系统中可用的物理地址数目，未必能达到1024个，因此遍历时需要检查页表的存在性。
 
 ## 参考资料
 

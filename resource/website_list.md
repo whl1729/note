@@ -4,6 +4,12 @@
 
 1. [中国哲学书电子化计划](https://ctext.org/zhs) 
 
+2. [驳基督徒手册](https://exchristian.github.io/)
+
+## G791 学习方法
+
+1. [live-and-learn](https://albert-w.github.io/live-and-learn/)
+
 ## TP3 计算机
 
 ### 常用开发工具

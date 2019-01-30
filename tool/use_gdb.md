@@ -35,8 +35,7 @@
 * `list` 查看调用 gets 函数附近的代码
 * `backtrace ` 显示所有的调用栈帧。该命令可用来显示函数的调用顺序
 * `where continue ` 继续执行正在调试的程序
-* `display EXPR ` 每次程序停止后显示表达式的值,表达式由程序定义的变量组
-成
+* `display EXPR ` 每次程序停止后显示表达式的值,表达式由程序定义的变量组成，使用undisplay取消显示。
 * `file FILENAME ` 装载指定的可执行文件进行调试
 * `help CMDNAME ` 显示指定调试命令的帮助信息
 * `info break ` 显示当前断点列表，包括到达断点处的次数等

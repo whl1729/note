@@ -112,7 +112,8 @@ __alltraps:
 
 ## lab2 源码分析
 
-### 探测可用的物理内存空间
+### 探测可用的物理内存空间（boot/bootasm.S的probe_memory函数）
+
 通过BIOS中断调用`INT 15`来探测可用的物理内存空间，中断调用时需要设置eax等寄存器，返回值也保存在这些寄存器中。最终探测到的物理内存空间如下所示：
 ```
 e820map:
@@ -124,6 +125,18 @@ e820map:
   memory: 00040000, [fffc0000, ffffffff], type = 2.
 ```
 
+### 页目录表和页表的建立（kern/init/entry.S）
+
+1. bootloader加载完内核OS后，进入到内核OS的入口kern_entry
+
+2. 创建一个页目录表boot_pgdir。一个页目录表刚好占用一个物理页，其中每个页目录项占用4字节，共有1K个页目录项。在kern/init/entry.S文件中只设置了两个有效页目录项，分别将0 ~ 0x00400000， 0xc0000000 ~ 0xc0400000映射到0 ~ 0x00400000.
+
+3. 创建一个页表boot_pt1。在kern/init/entry.S文件中创建了一个页表boot_pt1，并且初始化其中每一个页表项：将其物理地址设置为0~4M物理内存中对应的物理页的地址，并且标记对应物理页的属性为已存在（PTE_P）并且可写（PTE_W）。
+
+4. kern_entry的开头将页目录表的地址加载到cr3寄存器，并设置cr0寄存器以使能保护模式。
+
+5. 设置好cr0和cr3寄存器后，将页目录表的第一项清零，以取消虚拟地址0~4M到物理地址0~4M的映射。（为什么要取消这个映射？）
+
 ### 物理内存初始化(pmm_init)
 
 1. 通过查看memmap结构体的内容，来确认最大可用物理内存地址maxpa。gdb调试时观察到maxpa = 0x07fe0000.
@@ -133,6 +146,14 @@ e820map:
 3. 将pages数组的每个元素的reserved标志位均设置为1，即将每一页初始化为预留给内核使用，后面会重新设置可用的物理页的reserved标志位为0.
 
 4. 从freemem对应的地址开始寻找所有可用的空闲内存块。由上文可知探测到的可用物理内存共2块，范围分别为0x0~0x0009fc00和0x00100000~0x07fe0000.由于第一个内存块在freemem前面，因此实际上只找到一块空闲物理内存，范围是0x00100000~0x07fe0000。在这块空闲物理内存的第一页对应的Page结构中设置页数等属性，并添加到空闲列表free_list中。
+
+### 页表项的创建与删除
+
+1. pmm_init中调用boot_map_segment函数，为0xc0000000~0xf8000000这段虚拟地址的每个虚拟页创建对应的页目录项和页表项，从而将0～0x38000000这段物理内存映射到0xc0000000～0xf8000000.由于entry.S只创建了一个页表，当一个虚拟页的起始地址找不到对应的页表时，需要分配一个物理页来建立对应的页表。这个是在get_pte函数中实现的。
+
+2. get_pte函数根据虚拟地址返回对应的页表项。首先根据虚拟地址的最高10位索引页目录表，确认对应的页表是否存在。若存在，则根据虚拟地址的中间10位，返回该页表中对应页表项的地址；若不存在，则先分配一个物理页作为页表，再返回该页表项的地址。
+
+3. page_remove_pte根据虚拟地址删除对应的页表项。如果对应的页表项指向的物理页的引用计数减至0，则释放对应物理页。然后将对应页表项清零以表示无效。
 
 ### 采用FFMA算法的物理内存管理器
 
@@ -155,19 +176,86 @@ e820map:
 
 3. 释放内存块后，还需要更新空闲页的数目nr_free（增加n页）
 
-### 页目录表和页表的建立
+## lab3 源码分析
 
-1. 创建一个页目录表boot_pgdir。一个页目录表刚好占用一个物理页，其中每个页目录项占用4字节，共有1K个页目录项。在kern/init/entry.S文件中只设置了两个有效页目录项，分别将0 ~ 0x00400000， 0xc0000000 ~ 0xc0400000映射到0 ~ 0x00400000.
+### alloc_pages
 
-2. 创建一个页表boot_pt1。在kern/init/entry.S文件中创建了一个页表boot_pt1，并且初始化其中每一个页表项：将其物理地址设置为0~4M物理内存中对应的物理页的地址，并且标记对应物理页的属性为已存在（PTE_P）并且可写（PTE_W）。
+疑问：为什么判断到n > 1或swap_init_ok == 0时退出while循环？
+```
+    if (page != NULL || n > 1 || swap_init_ok == 0) break;
+```
 
-3. pmm_init中调用boot_map_segment函数，为0xc0000000~0xf8000000这段虚拟地址的每个虚拟页创建对应的页目录项和页表项，从而将0～0x38000000这段物理内存映射到0xc0000000～0xf8000000.由于entry.S只创建了一个页表，当一个虚拟页的起始地址找不到对应的页表时，需要分配一个物理页来建立对应的页表。这个是在get_pte函数中实现的。
+### check_vma_struct
 
-### 页表项的创建与删除
+1. mm_struct
+```
+// the control struct for a set of vma using the same PDT
+struct mm_struct {
+    list_entry_t mmap_list;        // linear list link which sorted by start addr of vma
+    struct vma_struct *mmap_cache; // current accessed vma, used for speed purpose
+    pde_t *pgdir;                  // the PDT of these vma
+    int map_count;                 // the count of these vma
+    void *sm_priv;                   // the private data for swap manager
+};
+```
 
-1. get_pte函数根据虚拟地址返回对应的页表项。首先根据虚拟地址的最高10位索引页目录表，确认对应的页表是否存在。若存在，则根据虚拟地址的中间10位，返回该页表中对应页表项的地址；若不存在，则先分配一个物理页作为页表，再返回该页表项的地址。
+2. vma_struct
+```
+// the virtual continuous memory area(vma), [vm_start, vm_end), 
+// addr belong to a vma means  vma.vm_start<= addr <vma.vm_end 
+struct vma_struct {
+    struct mm_struct *vm_mm; // the set of vma using the same PDT 
+    uintptr_t vm_start;      // start addr of vma      
+    uintptr_t vm_end;        // end addr of vma, not include the vm_end itself
+    uint32_t vm_flags;       // flags of vma
+    list_entry_t list_link;  // linear list link which sorted by start addr of vma
+};
+```
 
-2. page_remove_pte根据虚拟地址删除对应的页表项。如果对应的页表项指向的物理页的引用计数减至0，则释放对应物理页。然后将对应页表项清零以表示无效。
+3. vma_struct是一个连续的虚拟内存块，mm_struct是一系列连续的内存块的集合，而且这些内存块使用的是同一个页目录表。通过往mm_struct的mmap_list链表添加或删除vma_struct的list_link来实现对vma的管理。
+
+4. insert_vma_struct实现以下功能：在mm->mmap_list链表中找到vm_start不大于vma的vm_start的最后一个节点，把vma插到该节点后面，以保证mmap_list仍然按照地址从小到大排序。此外，在插入时还要检查vma之间地址不重叠。
+
+### check_pgfault
+
+1. 创建一个mm，将其页目录表地址设置为boot_pgdir的地址
+
+2. 创建一个vma，虚拟地址范围为0~4M，然后将其插入到mm的mmap_list中
+
+3. 访问虚拟地址为0x100~0x163的内存空间，这时由于页目录表中不存在虚拟地址为0~4M的页目录项，换言之尚未建立虚拟地址为0~4M到物理地址的映射，因此会导致缺页异常。
+
+### 缺页异常处理流程
+
+1. CPU访问的虚拟地址尚未与物理地址建立映射，从而导致缺页异常。比如check_pgfault中访问虚拟地址0x100.
+
+2. 缺页异常对应的中断向量号为14，CPU根据中断向量表得到中断向量号14对应的中断处理例程。
+
+3. 其实所有中断处理例程都是先将中断号入栈，然后跳转到alltraps函数。alltraps函数只是将通用寄存器和段寄存器等入栈，然后调用trap函数。trap函数直接调用trap_dispatch函数。
+
+4. trap_dispatch函数根据不同中断号trapno进行不同的处理。当判断到中断号为T_PGFLT（14）时，则调用pgfault_handler函数。
+
+5. pgfault_handler先调用print_pgfault打印缺页异常信息，包括
+    - 缺页原因：no page found（找不到物理页面）、protection fault（比如特权级检查失败）
+    - 是在读内存还是写内存时出现缺页异常
+    - 是在内核态还是用户态下访问内存时出现缺页异常
+
+6. pgfault_handler然后调用do_pgfault进行具体的缺页异常处理。注意cr2寄存器保存引起缺页异常的内存地址。
+
+### check_swap
+
+1. 备份内存环境变量，包括空闲内存块数目count、空闲页面数目total。
+
+2. 创建mm和vma，其中vma对应的虚拟地址范围为0x1000~0x6000，共5个虚拟页面。
+
+3. 为虚拟地址0x1000建立页表，其间需要申请一个物理页面。
+
+4. 申请分配5个物理页面，然后又将其释放
+
+5. 
+
+### 页面置换流程
+
+1. alloc_pages函数中当申请物理页失败，而且申请页数为1（不明白为什么设置这个条件？）、swap区域初始化完成时，需要调用swap_out将部分物理页面换出到磁盘。
 
 ## 附录
 
@@ -182,6 +270,7 @@ e820map:
 ## 疑问
 
 1. 为什么`sudo make gdb`进入调试界面后，使用print语句打印变量的值是错误的？
+
 
 ## 参考资料
 

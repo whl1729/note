@@ -247,15 +247,46 @@ struct vma_struct {
 
 2. 创建mm和vma，其中vma对应的虚拟地址范围为0x1000~0x6000，共5个虚拟页面。
 
-3. 为虚拟地址0x1000建立页表，其间需要申请一个物理页面。
+3. 为虚拟地址0x1000建立页表，其间需要申请一个物理页。
+    ```
+    setup Page Table for vaddr 0X1000, so alloc a page
+    setup Page Table vaddr 0~4MB OVER!
+    ```
 
-4. 申请分配5个物理页面，然后又将其释放
+4. 申请分配4个物理页，然后又将其释放。
 
-5. 
+5. check_content_set：分别访问a,b,c,d等4个虚拟页，每个虚拟页访问两个地址。访问每个虚拟页的第一个地址时，由于该虚拟页尚未与物理页建立映射，导致缺页异常。在缺页异常处理函数中，申请分配物理页，填写页表，建立虚拟页到物理页的映射后，重新访问一次虚拟页就能成功了。
+    ```
+    set up init env for check_swap begin!
+    page fault at 0x00001000: K/W [no page found].
+    page fault at 0x00002000: K/W [no page found].
+    page fault at 0x00003000: K/W [no page found].
+    page fault at 0x00004000: K/W [no page found].
+    set up init env for check_swap over!
+    ```
+
+6. 检查页表项是否正确建立
+
+7. fifo_check_swap：检查页面置换是否成功。依次访问页面c,a,d,b，e等5个虚拟页，当访问到虚拟页e时，同样由于该虚拟页尚未与物理页建立映射，导致缺页异常。在缺页异常处理函数，申请分配物理页。但由于物理页只有4个，且已经分别与虚拟页a,b,c,d建立映射，无法为虚拟页e申请物理页，这时需要将一个物理页换出到磁盘中。
+    ```
+    write Virt Page c in fifo_check_swap
+    write Virt Page a in fifo_check_swap
+    write Virt Page d in fifo_check_swap
+    write Virt Page b in fifo_check_swap
+    write Virt Page e in fifo_check_swap
+    page fault at 0x00005000: K/W [no page found].
+    ```
+
+8. swap_out：首先选出要置换的页面，将其内容写回到磁盘（疑问：无论页面是否修改都进行写回，这样是否必要？）。根据FIFO算法，将最早进入物理内存的虚拟页a写到swap区域2.
+    ```
+    swap_out: i 0, store page in vaddr 0x1000 to disk swap entry 2
+    ```
+
+9. swap_in：当再次访问虚拟页a时，发现物理页已用完且找不到a对应的物理页。因此首先根据FIFO算法，将当前最早进入物理内存的虚拟页b写到swap区域3（疑问：怎么确保swap区域3尚未被占用？），再从swap区域2将虚拟页a读入到物理内存。
 
 ### 页面置换流程
 
-1. alloc_pages函数中当申请物理页失败，而且申请页数为1（不明白为什么设置这个条件？）、swap区域初始化完成时，需要调用swap_out将部分物理页面换出到磁盘。
+1. alloc_pages函数中当申请物理页失败，而且申请页数为1（不明白为什么设置这个条件？）、swap区域初始化完成时，需要调用swap_out将部分物理页换出到磁盘。
 
 ## 附录
 

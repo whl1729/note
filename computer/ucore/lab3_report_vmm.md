@@ -36,6 +36,72 @@ do_pgfault函数已经完成了参数检查及错误检查等流程，根据注�
 2. 保护现场。包括：将页访问异常的错误码压入内核栈的栈顶、将导致页访问异常的虚拟地址记录在cr2寄存器中、保存状态寄存器PSW及断点等。
 3. 根据中断源，跳转到缺页服务例程
 
+#### 代码优化
+
+对照答案对代码进行优化。
+
+1. do_pgfault调用get_pte时没有检查返回值。
+我的代码：
+```
+pte_t *ptep = get_pte(mm->pgdir, addr, 1);
+```
+
+答案的代码：
+```
+pte_t *ptep=NULL;
+// try to find a pte, if pte's PT(Page Table) isn't existed, then create a PT.
+// (notice the 3th parameter '1')
+if ((ptep = get_pte(mm->pgdir, addr, 1)) == NULL) {
+    cprintf("get_pte in do_pgfault failed\n");
+    goto failed;
+}
+```
+
+2. do_pgfault调用pgdir_alloc_page和swap_in失败后没打印错误信息以方便定位。
+我的代码：
+```
+    if (*ptep == 0) {
+        if (page = pgdir_alloc_page(mm->pgdir, addr, perm)) {
+            ret = 0;
+        }
+    }
+    else if (swap_init_ok) {
+        swap_in(mm, addr, &page);
+
+        if (0 == page_insert(mm->pgdir, page, addr, perm)) {
+            swap_map_swappable(mm, addr, page, 0);
+            ret = 0;
+        }
+    }
+```
+
+答案的代码：
+```
+    if (*ptep == 0) { // if the phy addr isn't exist, then alloc a page & map the phy addr with logical addr
+        if (pgdir_alloc_page(mm->pgdir, addr, perm) == NULL) {
+            cprintf("pgdir_alloc_page in do_pgfault failed\n");
+            goto failed;
+        }
+    }
+    else { // if this pte is a swap entry, then load data from disk to a page with phy addr
+           // and call page_insert to map the phy addr with logical addr
+        if(swap_init_ok) {
+            struct Page *page=NULL;
+            if ((ret = swap_in(mm, addr, &page)) != 0) {
+                cprintf("swap_in in do_pgfault failed\n");
+                goto failed;
+            }    
+            page_insert(mm->pgdir, page, addr, perm);
+            swap_map_swappable(mm, addr, page, 1);
+            page->pra_vaddr = addr;
+        }
+        else {
+            cprintf("no swap_init_ok but ptep is %x, failed\n",*ptep);
+            goto failed;
+        }
+    }
+```
+
 ## 练习2：补充完成基于FIFO的页面替换算法（需要编程）
 
 ### 题目

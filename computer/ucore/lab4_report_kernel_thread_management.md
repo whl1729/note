@@ -1,4 +1,4 @@
-# 《ucore lab3》实验报告
+# 《ucore lab4》实验报告
 
 [ucore在线实验指导书](https://chyyuu.gitbooks.io/ucore_os_docs/content/)
 

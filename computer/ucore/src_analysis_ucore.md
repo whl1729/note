@@ -300,6 +300,24 @@ struct vma_struct {
 
 代码中尚未涉及。
 
+## lab5 源码分析
+
+1. 为什么用户进程需要加载ELF文件来执行，内核线程则不需要？
+
+2. user_main执行的binary文件是什么？
+    - 执行`sudo make qemu`时，不会定义TEST，因此走的是else分支，KERNEL_EXECVE宏中又包含\_\_KERNEL_EXECVE宏，exit在这个宏中被修饰为\_binary_obj___user_exit_out_start，也就是说用户进程将要执行的程序的地址保存在\_binary_obj___user_exit_out_start中。可是，我找遍整个目录下的所有文件，都找不到这个变量被定义的地方，why？
+    - 经过分析Makefile内容、make生成结果以及ucore_os_docs的以下说明：“且ld命令会在kernel中会把\__user_hello.out的位置和大小记录在全局变量\_binary_obj___user_hello_out_start和\_binary_obj___user_hello_out_size中”，终于明白了：首先Makefile中定义的命令会将user目录下的代码文件编译并链接到kernel中，并且ld链接器还会将这些文件的地址记录在相应的变量中，比如obj/\_\_user\_exit.out文件的地址记录在\_binary_obj___user_exit_out_start中。这个变量名为啥这么奇怪？这应该是链接器ld的名字修饰机制决定的。
+```
+#define KERNEL_EXECVE(x) ({                                             \
+            extern unsigned char _binary_obj___user_##x##_out_start[],  \
+                _binary_obj___user_##x##_out_size[];                    \
+            __KERNEL_EXECVE(#x, _binary_obj___user_##x##_out_start,     \
+                            _binary_obj___user_##x##_out_size);         \
+        })
+```
+
+3. exit.c文件中的main函数为啥子进程反复七次调用yield？
+
 ## 附录
 
 1. I/O端口

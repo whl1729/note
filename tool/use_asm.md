@@ -1,9 +1,11 @@
 # 汇编语言使用笔记
 
-## 基础知识
+## 常用指令
 
 1. `movl $0, 0x8000` 将地址为0x8000的内存中的数值设置为零；
    `incl 0x8000` 将地址为0x8000的内存中的数值加1
+
+2. ret:  pops the last value from the stack, which supposed to be the returning address, and assigned it to IP register.
 
 ## 伪指令
 

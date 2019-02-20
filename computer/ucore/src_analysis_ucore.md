@@ -1,5 +1,13 @@
 # ucore 源码剖析
 
+## ucore 总体处理流程
+
+### 一、BIOS启动
+
+### 二、Bootloader启动
+
+### 三、内核启动
+
 ## lab1 源码剖析
 
 ### 从实模式到保护模式
@@ -55,7 +63,7 @@ Program Headers:
 2. bootloader将内核加载到内存中哪个位置？
     - 根据代码语句`readseg(ph->p_va & 0xFFFFFF, ph->p_memsz, ph->p_offset);`以及内核文件的program headers信息，可知bootloader分别将代码段和数据段加载到物理地址为0x100000和0x116000的位置。
 
-### 中断初始化和处理
+### 中断初始化
 
 1. 调用pic_init函数，初始化8259A可编程中断控制器芯片，包括主片和从片，需要严格按照一定的顺序写入ICW1～ICW4这四个初始化命令字
 
@@ -70,6 +78,52 @@ Program Headers:
 
 3. 然后通过`lidt(&idt_pd);`加载IDT的地址到IDTR寄存器中
 
+### 中断处理流程
+
+1. 无论是外部中断、异常还是系统调用，都统一采用了中断机制进行处理。简言之，就是CPU检查到有中断发生后，根据中断号索引中断向量表，得到中断处理例程的地址，跳到中断处理例程中进行处理。
+
+2. 中断处理例程统一定义在vectors.S文件中，而且所有中断处理例程除了开头压入的中断号不一样，其他的处理流程完全一致：都是先压入中断号，然后跳到\_\_alltraps函数；\_\_alltraps函数创建一个trap frame后，再跳到trap函数，trap函数则直接调用trap_dispatch函数。trap_dispatch函数，顾名思义，就是根据中断号，分发到不同的函数进行处理。
+```
+vectors (kern/trap/vectors.S 中断向量表，存有所有中断向量的地址)  ->
+    vector[k] (第k个中断的入口处理函数) ->
+        __alltraps (kern/trap/trapentry.S)  ->
+            trap (kern/trap/trap.c) ->
+                trap_dispatch
+        __trapret
+```
+
+3. trap frame的构造是由硬件和软件共同完成的。
+    - 当硬件检测到中断时，就会把一些现场信息压入栈中。这里要分两种情况讨论。如果是在内核态发生中断，则不需要切换特权级和栈，这时直接将eflags/cs/eip压入内核栈即可；如果是在用户态发生中断，则需要将特权级由3切换到0，用户栈切换到内核栈，这时需要将ss/esp/eflags/cs/eip压入内核栈。注意：硬件根据TSS段的内容找到内核栈的地址。
+    - 硬件将一些现场信息压入栈后，根据中断号找到对应的中断处理例程入口（定义在vectors.S文件中），入口处将err code（设置为0）和trap no压入栈中，然后跳到\_\_alltraps
+    - \_\_alltraps将段寄存器和通用寄存器压栈，从而构造出一个完整的trap frame.
+    - 整个构造过程，和trap frame的定义是完全吻合的：
+```
+struct trapframe {
+    struct pushregs tf_regs;
+    uint16_t tf_gs;
+    uint16_t tf_padding0;
+    uint16_t tf_fs;
+    uint16_t tf_padding1;
+    uint16_t tf_es;
+    uint16_t tf_padding2;
+    uint16_t tf_ds;
+    uint16_t tf_padding3;
+    uint32_t tf_trapno;
+    /* below here defined by x86 hardware */
+    uint32_t tf_err;
+    uintptr_t tf_eip;
+    uint16_t tf_cs;
+    uint16_t tf_padding4;
+    uint32_t tf_eflags;
+    /* below here only when crossing rings, such as from user to kernel */
+    uintptr_t tf_esp;
+    uint16_t tf_ss;
+    uint16_t tf_padding5;
+} __attribute__((packed));
+```
+
+4. 中断处理完成后，进入\_\_trapret。此函数先把栈中保存的trap frame恢复到各寄存器中，然后跳过trap no和error code，执行iret，返回到中断发生时的下一条指令继续执行。
+
 ### 系统调用
 
 以read函数执行过程为例，分析系统调用流程。
@@ -81,34 +135,53 @@ safe_read(int fd, void *data, size_t len)  ->
         sys_read(fd, data, len)  ->
             syscall(SYS_read, fd, data, len)  ->
                 "int %1;"
+                : "=a" (ret)
+                : "i" (T_SYSCALL),
+                  "a" (num),
+                  "d" (a[0]),
+                  "c" (a[1]),
+                  "b" (a[2]),
+                  "D" (a[3]),
+                  "S" (a[4])
+                : "cc", "memory");
 ```
 
-2. 然后转到内核态下执行：
+2. 执行int指令后，硬件检测到中断，保存ss/esp/eflags/cs/eip后，进入软件处理流程（详见上节）：vectors.S -> \_\_alltraps -> trap -> trap_dispatch，最终进入trap_dispatch函数。
+
+3. 在trap_dispatch函数中，检查到trapno为系统调用对应的中断号0x80，因此调用syscall函数（注意用户态和内核态下各自定义了同名的syscall函数，但两者实现不同）。syscall函数主要设置好输入参数，然后根据系统调用号（保存在tf的reg_eax字段中），索引函数数组syscalls，找到对应的函数来运行。
 ```
-vectors (kern/trap/vectors.S 中断向量表，存有所有中断向量的地址)  ->
-    vector[k] (第k个中断的入口处理函数) ->
-        __alltraps (kern/trap/trapentry.S)  ->
-            trap (kern/trap/trap.c) ->
-                trap_dispatch
-        __trapret
+    int num = tf->tf_regs.reg_eax;
+    if (num >= 0 && num < NUM_SYSCALLS) {
+        if (syscalls[num] != NULL) {
+            arg[0] = tf->tf_regs.reg_edx;
+            arg[1] = tf->tf_regs.reg_ecx;
+            arg[2] = tf->tf_regs.reg_ebx;
+            arg[3] = tf->tf_regs.reg_edi;
+            arg[4] = tf->tf_regs.reg_esi;
+            tf->tf_regs.reg_eax = syscalls[num](arg);
+            return ;
+        }
+    }
 ```
 
-3. 为什么\_\_alltraps在调用trap前先将ds, es, fs, gs压栈？
-    - 首先，这里的ds/es/fs/gs都是段寄存器，里面装的是段选择子，其中ds存的是数据段的段地址，es存的是目的字符串的段地址，fs和gs存的是进程相关的信息。The segment selector can be specified either implicitly or explicitly. The most common method of specifying a segment selector is to load it in a segment register and then allow the processor to select the register implicitly, depending on the type of operation being performed. The processor automatically chooses a segment according to the rules given in Table 3-5.
-    - FS and GS are commonly used by OS kernels to access thread-specific memory. In windows, the GS register is used to manage thread-specific memory. The linux kernel uses GS to access cpu-specific memory.
-    - pusha: Push AX, CX, DX, BX, original SP, BP, SI, and DI
-    - pushal: Push EAX, ECX, EDX, EBX, original ESP, EBP, ESI, and EDI
-    - 伍注：alltrap接下来要调用trap函数，而trap函数可能会修改这些段寄存器的值，所以要先备份好？（事实上下面还有一句pushal，说明把大部分寄存器的值都备份了）
+### 时钟中断
+
+1. 时钟中断初始化：初始化可编程定时器/计数器8253芯片，使其每10ms产生一次时钟中断。
 ```
-__alltraps:
-    # push registers to build a trap frame
-    # therefore make the stack look like a struct trapframe
-    pushl %ds
-    pushl %es
-    pushl %fs
-    pushl %gs
-    pushal
+    outb(TIMER_MODE, TIMER_SEL0 | TIMER_RATEGEN | TIMER_16BIT);
+    outb(IO_TIMER1, TIMER_DIV(100) % 256);
+    outb(IO_TIMER1, TIMER_DIV(100) / 256);
 ```
+
+2. 时钟中断响应：在trap_dispatch函数中，当检查到trap no等于时钟中断对应的中断号32时，说明发生了时钟中断，此时将全局变量ticks计数加1，并判断其是否能被100整除，若能则说明满1秒了，打印提示信息，并将ticks清零。
+
+### 键盘中断
+
+1. 在80386系统中，通常采用Intel 8042（或8742）单片机作为主机的键盘接口安置在主机上。8042内部含有1个8位的CPU、2个8位的并行端口、2KB ROM、128B RAM、1个输入缓冲寄存器、1个输出缓冲寄存器、1个状态缓冲寄存器、1个命令缓冲寄存器。其中，输出并行端口有一位是输出缓冲器满IRQ，用来向主机发中断请求。
+
+2. 键盘中断初始化，主要是使能键盘中断对应的掩码。
+
+3. 键盘中断响应：在trap_dispatch函数中，当检查到trap no等于键盘中断对应的中断号33时，说明发生了键盘中断，此时读取键盘输入的字符并打印。
 
 ### lab 1 知识点
 
@@ -119,6 +192,14 @@ __alltraps:
     - CPU写接口部件的数据端口或状态端口：首先把地址送到地址总线，将确定的控制信息送到控制总线，再把数据送到数据总线。
     - CPU读接口部件的数据端口或状态端口：首先把地址送到地址总线，将确定的控制信息送到控制总线，然后等待接口部件将数据送到数据总线。
     - 一个双向工作的接口芯片通常有4个端口：数据输入端口、数据输出端口、状态端口和控制端口。由于数据输入端口和状态端口是“只读”的，数据输出端口和控制端口是“只写”的，为节省内存空间，通常将数据输入端口和数据输出端口对应同一个端口地址，状态端口和控制端口对应同一个端口地址。
+
+2. 段寄存器：
+    - The segment selector can be specified either implicitly or explicitly. The most common method of specifying a segment selector is to load it in a segment register and then allow the processor to select the register implicitly, depending on the type of operation being performed. The processor automatically chooses a segment according to the rules given in Table 3-5.
+    - FS and GS are commonly used by OS kernels to access thread-specific memory. In windows, the GS register is used to manage thread-specific memory. The linux kernel uses GS to access cpu-specific memory.
+
+3. push many register:
+    - pusha: Push AX, CX, DX, BX, original SP, BP, SI, and DI
+    - pushal: Push EAX, ECX, EDX, EBX, original ESP, EBP, ESI, and EDI
 
 ## lab2 源码分析
 
@@ -185,6 +266,11 @@ e820map:
 2. 遍历空闲列表，若找到与待释放内存块相邻的内存块，则将它们合并。注意一共有4种情况：仅左边有相邻空闲块、仅右边有相邻空闲块、左右均有相邻空闲块、左右均无相邻空闲块。
 
 3. 释放内存块后，还需要更新空闲页的数目nr_free（增加n页）
+
+### 疑问
+
+1. load_esp0的作用是啥？esp0是啥？gdt_init中为啥要load_esp0？
+    - load_esp0的实现是`ts.ts_esp0 = esp0;`，可见是设置trap frame中的esp0字段。esp0是指内核态下（此时特权级为0）的esp寄存器的值。如果在用户态下发生中断，会将特权级由3切换到0，这时CPU需要知道特权级0下的内核栈在哪里，而trap frame提供了这个信息。因此需要提前初始化trap frame，并在gdt中设置好TSS段描述符，方便找到trap frame；为了加速寻找trap frame的过程，CPU还专门提供一个寄存器TR来保存TSS的段地址，因此在初始化时也要提前将TSS的段地址加载到TR寄存器中。
 
 ## lab3 源码分析
 
@@ -300,15 +386,119 @@ struct vma_struct {
 
 ## lab4 源码分析
 
-### 线程切换过程
+### 第一个内核线程idleproc的创建过程
 
-1. load_esp0的作用是啥？esp0是啥？gdt_init中为啥要load_esp0？
+1. idleproc线程其实直接沿用正在运行的内核程序。当然，要让当前的内核程序名正言顺地成为一个线程，需要做些注册之类的事情：分配一个线程控制块，并设置好其中的信息，包括标识信息、控制信息等。比如，
+    - 将pid设置为0，表明这是第一个线程
+    - name设置为“idle”
+    - state设置为RUNNABLE，因为当前正在运行的进程就是idleproc
+    - kstack设置为bootstack
+    - need_resched设置为1，表示需要调度，因为idleproc的任务就是不断检查是否有可以运行的进程，一旦发现有的话立即让CPU运行该进程。
 
-2. tss是什么？干啥的？与内核栈有啥关系？
+2. 为什么idleproc不需要设置进程现场保存信息（context和tf）？
 
-### 线程销毁过程
+3. 为什么idleproc不需要添加到进程链表proc_list和哈希链表hash_list中？
 
-代码中尚未涉及。
+### 第二个内核线程init_main的创建过程
+
+1. 第二个内核线程initproc是由idleproc线程在proc_init函数中调用kernel_thread函数来创建的，调用kernel_thread函数时，传入的前两个参数分别为init_main线程的处理函数地址init_main及其输入参数"Hello world!!"
+
+2. 同理，initproc的创建过程首先也是调用alloc_proc申请分配一个线程控制块，然后可以设置各种信息：
+    - state设置为UNINIT，因为initproc此时正在初始化过程中
+    - cr3设置为内核页目录表boot_pgdir，mm暂时不用设置，因为所有内核线程共用相同的虚拟地址空间，因此直接使用已经建立好的内核虚拟内存空间即可
+    - need_resched设置为0，表示不需要调度，为什么？（猜想：need_resched设置为1实际上意味着主动让出CPU，一般内核线程不会主动让出CPU，而是等到阻塞、分配的时间片用完或执行完毕后才让出CPU）
+    - parent设置为idleproc，表明initproc是由idleproc fork出来的
+    - 申请分配2个物理页作为内核栈空间，并将其地址赋给kstack
+    - 设置context和trap frame变量（有点复杂，下面再展开论述）
+    - 调用get_pid来分配一个pid，其值为1
+    - name设置为“init”
+
+3. 设置context和tf：这两个变量用于线程状态保存与恢复。注意：由于initproc仍然在内核态运行，因此tf的cs设置为内核代码段的段选择子，tf的ds/es/ss均设置为内核数据段的段选择子。
+```
+    // kernel_thread:
+    tf.tf_cs = KERNEL_CS;
+    tf.tf_ds = tf.tf_es = tf.tf_ss = KERNEL_DS;
+    tf.tf_regs.reg_ebx = (uint32_t)fn;
+    tf.tf_regs.reg_edx = (uint32_t)arg;
+    tf.tf_eip = (uint32_t)kernel_thread_entry;
+
+    // copy_thread:
+    proc->tf->tf_regs.reg_eax = 0;
+    proc->tf->tf_esp = esp;
+    proc->tf->tf_eflags |= FL_IF;
+
+    proc->context.eip = (uintptr_t)forkret;
+    proc->context.esp = (uintptr_t)(proc->tf);
+```
+
+4. 加入proc_list和hash_list：后面调度器是通过遍历proc_list来挑选下一个要运行的线程的，因此需要将initproc先插入到proc_list和hash_list中。注：hash_list用于find_proc函数中根据pid快速找到对应的进程控制块，因此这里也要将initproc加入hash_list。
+
+5. 完成初始化后，将proc->state设置为RUNNABLE，从而唤醒该进程。
+
+### 第一次线程切换 idleproc -> initproc
+
+1. 当内核线程idleproc从kern_init的开头运行到最后一个函数cpu_idle时，发生第一次线程切换，由idleproc切换到initproc
+
+2. 首先看cpu_idle的实现，其实就是在死循环里不断查询当前线程是否需要调度，如果需要，则进入schedule函数进行调度，即选择其他线程来运行。
+```
+    while (1) {
+        if (current->need_resched) {
+            schedule();
+        }
+    }
+```
+
+3. 为什么schedule函数开头要设置`current->need_resched = 0;`？答：避免循环调用schedule函数。
+
+4. schedule按照FIFO的顺序来选择下一个将要运行的线程。具体而言，如果当前正在运行的线程是idleproc，则从线程链表的开头开始搜索；否则从当前线程的下一个元素开始搜索，一旦找到一个state为RUNNABLE，立即退出搜索，并运行之。如果找不到，则继续运行idleproc。
+
+5. 来看看找不到RUNNABLE的线程时会发生什么：
+    - 假设ucore内核中只有一个线程idleproc，idleproc一路运行到cpu_idle。
+    - 由于idleproc的need_resched标志设置为1，因此进入schedule函数。
+    - schedule函数开头将idleproc的need_resched标志设置为0，然后搜索proc_list，没搜到目标，因此退出schedule。
+    - 返回到cpu_idle后，由于cpu_idle是个死循环，而且current->need_resched已经设置为0，因此ucore会一直在cpu_idle函数中执行死循环。
+    - 刚测试了一下，把wakeup initproc的语句注释后再执行，确实是死循环，不过每隔100 ticks会触发一次时钟中断，并在控制台上打印“100 ticks”
+
+6. 如果前面成功创建了initproc线程，schedule从proc_list中搜索第一个元素便能找到initproc，然后调用proc_run来运行新进程，具体分为3步：设置新进程的栈指针esp、加载新进程的页目录表地址到cr3、切换进程上下文。
+```
+    load_esp0(next->kstack + KSTACKSIZE);
+    lcr3(next->cr3);
+    switch_to(&(prev->context), &(next->context));
+```
+
+7. 切换上下文时，把eip和esp的值分别设置为initproc->context.eip和initproc->context.esp，然后跳转到context.eip指定的函数地址，也就是forkret
+
+8. forkret把栈指针指向initproc->tf，然后通过pop指令将tf保存的内容依次赋给各寄存器，接着通过iret指令跳转到tf_eip指定的入口kernel_thread_entry
+
+9. kernel_thread_entry先将输入变量压栈，然后通过call指令跳转到ebx指向的函数fn，也就是init_main。init_main函数主要是打印一些字符串信息。执行完init_main后，回到kernel_thread_entry函数，先将返回值压栈，然后调用do_exit函数。
+```
+kernel_thread_entry:        # void kernel_thread(void)
+    pushl %edx              # push arg
+    call *%ebx              # call fn
+
+    pushl %eax              # save the return value of fn(arg)
+    call do_exit            # call do_exit to terminate current thread
+```
+
+10. do_exit函数调用panic函数，panic函数打印调用栈信息，然后循环调用kmonitor函数，进入内核调试界面，不断等待用户输入命令并执行。
+```
+    cprintf("kernel panic at %s:%d:\n    ", file, line);
+    vcprintf(fmt, ap);
+    cprintf("\n");
+    
+    cprintf("stack trackback:\n");
+    print_stackframe();
+    
+    va_end(ap);
+
+panic_dead:
+    intr_disable();
+    while (1) {
+        kmonitor(NULL);
+    }
+```
+
+11. 因此，从idleproc线程切换到initproc线程后，最终会一直停留在到内核调试界面，不会再进行线程切换。
 
 ## lab5 源码分析
 
@@ -329,9 +519,6 @@ struct vma_struct {
 3. exit.c文件中的main函数为啥子进程反复七次调用yield？
 
 4. proc.c文件中load_icode函数在拷贝ELF的section时为啥不一次性拷完，而是逐页拷贝？是因为本来就只设计了分配一页的接口吗？
-
-5. trapframe的作用是什么？创建线程时为什么要设置trapframe？
-    - 答：trapframe的作用是发生中断时保存进程的状态信息。创建线程时，需要设置此线程的各个寄存器的内容，这里先将各寄存器的值写到trapframe中，然后通过pop指令将trapframe的内容依次赋给各寄存器。
 
 ### lab 5 知识点
 

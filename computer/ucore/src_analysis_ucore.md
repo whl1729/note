@@ -110,6 +110,16 @@ __alltraps:
     pushal
 ```
 
+### lab 1 知识点
+
+1. I/O端口： 参考[io端口与io内存详解](https://blog.csdn.net/wangkaiming123456/article/details/79422927)
+    - 定义：CPU与外设之间通过接口部件相连，每个接口部件中都包含一组寄存器，用于CPU与外设之间的数据传输，这些寄存器叫做I/O端口。
+    - 分类：根据存放内容，可将端口分为数据端口、状态端口和控制端口三类。
+    - 统一内存空间 vs 独立内存空间：前者是内存和I/O接口统一编址，后者是内存和I/O接口分别编址
+    - CPU写接口部件的数据端口或状态端口：首先把地址送到地址总线，将确定的控制信息送到控制总线，再把数据送到数据总线。
+    - CPU读接口部件的数据端口或状态端口：首先把地址送到地址总线，将确定的控制信息送到控制总线，然后等待接口部件将数据送到数据总线。
+    - 一个双向工作的接口芯片通常有4个端口：数据输入端口、数据输出端口、状态端口和控制端口。由于数据输入端口和状态端口是“只读”的，数据输出端口和控制端口是“只写”的，为节省内存空间，通常将数据输入端口和数据输出端口对应同一个端口地址，状态端口和控制端口对应同一个端口地址。
+
 ## lab2 源码分析
 
 ### 探测可用的物理内存空间（boot/bootasm.S的probe_memory函数）
@@ -318,15 +328,27 @@ struct vma_struct {
 
 3. exit.c文件中的main函数为啥子进程反复七次调用yield？
 
-## 附录
+4. proc.c文件中load_icode函数在拷贝ELF的section时为啥不一次性拷完，而是逐页拷贝？是因为本来就只设计了分配一页的接口吗？
 
-1. I/O端口
-    - 定义：CPU与外设之间通过接口部件相连，每个接口部件中都包含一组寄存器，用于CPU与外设之间的数据传输，这些寄存器叫做I/O端口。
-    - 分类：根据存放内容，可将端口分为数据端口、状态端口和控制端口三类。
-    - 统一内存空间 vs 独立内存空间：前者是内存和I/O接口统一编址，后者是内存和I/O接口分别编址
-    - CPU写接口部件的数据端口或状态端口：首先把地址送到地址总线，将确定的控制信息送到控制总线，再把数据送到数据总线。
-    - CPU读接口部件的数据端口或状态端口：首先把地址送到地址总线，将确定的控制信息送到控制总线，然后等待接口部件将数据送到数据总线。
-    - 一个双向工作的接口芯片通常有4个端口：数据输入端口、数据输出端口、状态端口和控制端口。由于数据输入端口和状态端口是“只读”的，数据输出端口和控制端口是“只写”的，为节省内存空间，通常将数据输入端口和数据输出端口对应同一个端口地址，状态端口和控制端口对应同一个端口地址。
+5. trapframe的作用是什么？创建线程时为什么要设置trapframe？
+    - 答：trapframe的作用是发生中断时保存进程的状态信息。创建线程时，需要设置此线程的各个寄存器的内容，这里先将各寄存器的值写到trapframe中，然后通过pop指令将trapframe的内容依次赋给各寄存器。
+
+### lab 5 知识点
+
+#### TSS
+1. TSS: The processor switches to a new stack to execute the called procedure. Each privilege level has its own stack. The segment selector and stack pointer for the privilege level 3 stack are stored in the SS and ESP registers, respectively, and are automatically saved when a call to a more privileged level occurs. The segment selectors and stack pointers for the privilege level 2, 1, and 0 stacks are stored in a system segment called the task state segment (TSS).
+
+2. 为什么TSS中只有ESP和SS区分特权级，而其他寄存器不用区分？
+
+3. 为什么特权级切换时需要切换栈？为什么要区分用户栈和内核栈？
+
+4. 从开始创建用户进程，到执行用户进程的第一行指令的过程？
+
+#### 中断帧
+1. 中断帧的指针，总是指向内核栈的某个位置：当进程从用户空间跳到内核空间时，中断帧记录了进程在被中断前的状态。当内核需要跳回用户空间时，需要调整中断帧以恢复让进程继续执行的各寄存器值。除此之外，uCore内核允许嵌套中断。因此为了保证嵌套中断发生时tf 总是能够指向当前的trapframe，uCore 在内核栈上维护了 tf 的链，可以参考trap.c::trap函数做进一步的了解。
+
+2. 什么是中断帧？为什么需要中断帧？
+
 
 ## 疑问
 
@@ -334,7 +356,4 @@ struct vma_struct {
 
 ## 参考资料
 
-1. [io端口与io内存详解](https://blog.csdn.net/wangkaiming123456/article/details/79422927)
-
-2. 《微型计算机技术及应用（戴梅萼）》
-
+1. 《微型计算机技术及应用（戴梅萼）》

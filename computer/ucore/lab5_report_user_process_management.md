@@ -14,11 +14,52 @@ do_execv函数调用load_icode（位于kern/process/proc.c中） 来加载并解
 ### 解答
 
 #### 我的设计实现过程
-根据注释的提示，
+根据注释的提示设置trapframe的内容即可。
 
-### 疑问
+1. tf_cs设置为用户态代码段的段选择子
+2. tf_ds、tf_es、tf_ss均设置为用户态数据段的段选择子
+3. tf_esp设置为用户栈的栈顶
+4. tf_eip设置为ELF文件的入口e_entry
+5. tf_eflags使能中断位
 
-1. 为什么要设置trapframe？trapframe的作用是什么？
+#### 用户态进程从被ucore选择到执行第一条指令的过程
+用户态进程userproc被ucore的调度器即schedule函数选择来运行后的整个过程如下：
+
+1. schedule函数通过调用proc_run来运行新线程，proc_run做了三件事情：
+    - 设置userproc的栈指针esp为userproc->kstack + 2 * 4096，即指向userproc申请到的2页栈空间的栈顶
+    - 加载userproc的页目录表。用户态的页目录表跟内核态的页目录表不同，因此要重新加载页目录表
+    - 切换进程上下文，然后跳转到userproc->context.eip指向的函数，即forkret
+
+2. forkret函数直接调用forkrets函数，forkrets先把栈指针指向userproc->tf的地址，然后跳到\_\_trapret
+
+3. \_\_trapret先将userproc->tf的内容pop给相应寄存器，然后通过iret指令，跳转到userproc->tf.tf_eip指向的函数，即kernel_thread_entry
+
+4. kernel_thread_entry先将edx保存的输入参数（NULL）压栈，然后通过call指令，跳转到ebx指向的函数，即user_main
+
+5. user_main先打印userproc的pid和name信息，然后调用kernel_execve
+
+6. kernel_execve执行exec系统调用，CPU检测到系统调用后，会保存eflags/ss/eip等现场信息，然后根据中断号查找中断向量表，进入中断处理例程。这里要经过一系列的函数跳转，才真正进入到exec的系统处理函数do_execve中：vector128 -> \_\_alltraps -> trap -> trap_dispatch -> syscall -> sys_exec -> do_execve
+
+7. do_execve首先检查用户态虚拟内存空间是否合法，如果合法且目前只有当前进程占用，则释放虚拟内存空间，包括取消虚拟内存到物理内存的映射，释放vma，mm及页目录表占用的物理页等。
+
+8. 调用load_icode函数来加载应用程序
+    - 为用户进程创建新的mm结构
+    - 创建页目录表
+    - 校验ELF文件的魔鬼数字是否正确
+    - 创建虚拟内存空间，即往mm结构体添加vma结构
+    - 分配内存，并拷贝ELF文件的各个program section到新申请的内存上
+    - 为BSS section分配内存，并初始化为全0
+    - 分配用户栈内存空间
+    - 设置当前用户进程的mm结构、页目录表的地址及加载页目录表地址到cr3寄存器
+    - 设置当前用户进程的tf结构
+
+9. load_icode返回到do_exevce，do_execve设置完当前用户进程的名字为“exit”后也返回了。这样一直原路返回到\_\_alltraps函数时，接下来进入\_\_trapret函数
+
+10. \_\_trapret函数先将栈上保存的tf的内容pop给相应的寄存器，然后跳转到userproc->tf.tf_eip指向的函数，也就是应用程序的入口（exit.c文件中的main函数）。注意，此处的设计十分巧妙：\_\_alltraps函数先将各寄存器的值保存到userproc->tf中，接着将userproc->tf的地址压入栈后，然后调用trap函数；trap返回后再将current->tf的地址出栈，最后恢复current->tf的内容到各寄存器。这样看来中断处理前后各寄存器的值应该保存不变。但事实上，load_icode函数清空了原来的current->tf的内容，并重新设置为应用进程的相关状态。这样，当\_\_trapret执行iret指令时，实际上跳转到应用程序的入口去了，而且特权级也由内核态跳转到用户态。接下来就开始执行用户程序（exit.c文件的main函数）啦。
+
+11. 执行完用户程序后，继续原路返回到kernel_thread_entry函数。接下来将保存在eax的返回值压栈，然后调用do_exit
+
+12. do_exit函数首先释放userproc占用的内存空间，包括取消虚拟地址到物理地址的映射，释放mm、vma、pgdir等占用的内存。
 
 ## 练习2: 父进程复制自己的内存空间给子进程（需要编码）
 

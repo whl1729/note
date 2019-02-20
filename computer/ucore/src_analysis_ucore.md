@@ -520,6 +520,10 @@ panic_dead:
 
 4. proc.c文件中load_icode函数在拷贝ELF的section时为啥不一次性拷完，而是逐页拷贝？是因为本来就只设计了分配一页的接口吗？
 
+5. kfree函数看不明白？spin_lock, slob是什么？
+
+6. do_exit尚未看明白？cptr，optr和yptr的设置？
+
 ### lab 5 知识点
 
 #### TSS

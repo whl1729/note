@@ -105,11 +105,6 @@ struct trapframe {
 } __attribute__((packed));
 ```
 
-3. trap_frame与context的区别是什么？
-    - 从内容上看，trap_frame包含了context的信息，除此之外，trap_frame还保存有段寄存器、中断号、错误码err和状态寄存器eflags等信息。
-    - 从作用时机来看，context主要用于进程切换时保存进程上下文，trap_frame主要用于发生中断或异常时保存进程状态。
-    - 当进程进行系统调用时，会发生特权级转换，这时也会切换栈，因此需要保存栈信息（包括ss和esp）到trap_frame，但不需要更新context。
-
 ## 第十四讲 实验五 用户进程管理
 
 1. ELF文件加载到内存：加载各个section、分配BSS段、分配堆栈空间。

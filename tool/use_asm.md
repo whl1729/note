@@ -7,6 +7,10 @@
 
 2. ret:  pops the last value from the stack, which supposed to be the returning address, and assigned it to IP register.
 
+3. pusha vs pushal
+    - pusha: Push AX, CX, DX, BX, original SP, BP, SI, and DI
+    - pushal: Push EAX, ECX, EDX, EBX, original ESP, EBP, ESI, and EDI
+
 ## 伪指令
 
 1. [Assembler Directives](http://web.mit.edu/gnu/doc/html/as_7.html)

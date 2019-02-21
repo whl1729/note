@@ -73,7 +73,7 @@ Program Headers:
         SETGATE(idt[pos], 0, GD_KTEXT, __vectors[pos], DPL_KERNEL);
     }
 
-    SETGATE(idt[128], 1, GD_KTEXT, __vectors[128], DPL_USER);
+    SETGATE(idt[T_SYSCALL], 1, GD_KTEXT, __vectors[T_SYSCALL], DPL_USER);
 ```
 
 3. 然后通过`lidt(&idt_pd);`加载IDT的地址到IDTR寄存器中
@@ -126,9 +126,11 @@ struct trapframe {
 
 ### 系统调用
 
-以read函数执行过程为例，分析系统调用流程。
+1. 系统调用初始化：在idt_init函数实现中，可以看到在执行加载中断描述符表lidt指令前，专门设置了一个特殊的中断描述符idt[T_SYSCALL]，它的特权级设置为DPL_USER，中断向量处理地址在\_\_vectors[T_SYSCALL]处。这样建立好这个中断描述符后，一旦用户进程执行“INTT_SYSCALL”后，由于此中断允许用户态进程产生（注意它的特权级设置为DPL_USER） ，所以CPU就会从用户态切换到内核态，保存相关寄存器，并跳转到\_\_vectors[T_SYSCALL]处开始执行。
 
-1. 首先在用户态下执行：
+2. 系统调用接口封装：在操作系统中初始化好系统调用相关的中断描述符、中断处理起始地址等后，还需在用户态的应用程序中初始化好相关工作，简化应用程序访问系统调用的复杂性。为此在用户态建立了一个中间层，即简化的libc实现，在user/libs/ulib.[ch]和user/libs/syscall.[ch]中完成了对访问系统调用的封装。用户态最终的访问系统调用函数是syscall。
+
+3. 下面以read函数执行过程为例，分析系统调用的处理流程。首先在用户态下执行：
 ```
 safe_read(int fd, void *data, size_t len)  ->
 	read(fd, data, len)  ->
@@ -146,9 +148,9 @@ safe_read(int fd, void *data, size_t len)  ->
                 : "cc", "memory");
 ```
 
-2. 执行int指令后，硬件检测到中断，保存ss/esp/eflags/cs/eip后，进入软件处理流程（详见上节）：vectors.S -> \_\_alltraps -> trap -> trap_dispatch，最终进入trap_dispatch函数。
+4. 执行int指令后，硬件检测到中断，保存ss/esp/eflags/cs/eip后，进入软件处理流程（详见上节）：vectors.S -> \_\_alltraps -> trap -> trap_dispatch，最终进入trap_dispatch函数。
 
-3. 在trap_dispatch函数中，检查到trapno为系统调用对应的中断号0x80，因此调用syscall函数（注意用户态和内核态下各自定义了同名的syscall函数，但两者实现不同）。syscall函数主要设置好输入参数，然后根据系统调用号（保存在tf的reg_eax字段中），索引函数数组syscalls，找到对应的函数来运行。
+5. 在trap_dispatch函数中，检查到trapno为系统调用对应的中断号0x80，因此调用syscall函数（注意用户态和内核态下各自定义了同名的syscall函数，但两者实现不同）。syscall函数主要设置好输入参数，然后根据系统调用号（保存在tf的reg_eax字段中），索引函数数组syscalls，找到对应的函数来运行。
 ```
     int num = tf->tf_regs.reg_eax;
     if (num >= 0 && num < NUM_SYSCALLS) {
@@ -267,7 +269,7 @@ e820map:
 
 3. 释放内存块后，还需要更新空闲页的数目nr_free（增加n页）
 
-### 疑问
+### lab2 疑问
 
 1. load_esp0的作用是啥？esp0是啥？gdt_init中为啥要load_esp0？
     - load_esp0的实现是`ts.ts_esp0 = esp0;`，可见是设置trap frame中的esp0字段。esp0是指内核态下（此时特权级为0）的esp寄存器的值。如果在用户态下发生中断，会将特权级由3切换到0，这时CPU需要知道特权级0下的内核栈在哪里，而trap frame提供了这个信息。因此需要提前初始化trap frame，并在gdt中设置好TSS段描述符，方便找到trap frame；为了加速寻找trap frame的过程，CPU还专门提供一个寄存器TR来保存TSS的段地址，因此在初始化时也要提前将TSS的段地址加载到TR寄存器中。
@@ -502,6 +504,66 @@ panic_dead:
 
 ## lab5 源码分析
 
+### 第二次进程切换 initproc -> userproc
+1. 内核线程initproc在创建完成用户态进程userproc后，调用do_wait函数，do_wait函数在确认存在RUNNABLE的子进程后，调用schedule函数。
+
+2. schedule函数通过调用proc_run来运行新线程，proc_run做了三件事情：
+    - 设置userproc的栈指针esp为userproc->kstack + 2 * 4096，即指向userproc申请到的2页栈空间的栈顶
+    - 加载userproc的页目录表。用户态的页目录表跟内核态的页目录表不同，因此要重新加载页目录表
+    - 切换进程上下文，然后跳转到userproc->context.eip指向的函数，即forkret
+
+3. forkret函数直接调用forkrets函数，forkrets先把栈指针指向userproc->tf的地址，然后跳到\_\_trapret
+
+4. \_\_trapret先将userproc->tf的内容pop给相应寄存器，然后通过iret指令，跳转到userproc->tf.tf_eip指向的函数，即kernel_thread_entry
+
+5. kernel_thread_entry先将edx保存的输入参数（NULL）压栈，然后通过call指令，跳转到ebx指向的函数，即user_main
+
+6. user_main先打印userproc的pid和name信息，然后调用kernel_execve
+
+7. kernel_execve执行exec系统调用，CPU检测到系统调用后，会保存eflags/ss/eip等现场信息，然后根据中断号查找中断向量表，进入中断处理例程。这里要经过一系列的函数跳转，才真正进入到exec的系统处理函数do_execve中：vector128 -> \_\_alltraps -> trap -> trap_dispatch -> syscall -> sys_exec -> do_execve
+
+8. do_execve首先检查用户态虚拟内存空间是否合法，如果合法且目前只有当前进程占用，则释放虚拟内存空间，包括取消虚拟内存到物理内存的映射，释放vma，mm及页目录表占用的物理页等。
+
+9. 调用load_icode函数来加载应用程序
+    - 为用户进程创建新的mm结构
+    - 创建页目录表
+    - 校验ELF文件的魔鬼数字是否正确
+    - 创建虚拟内存空间，即往mm结构体添加vma结构
+    - 分配内存，并拷贝ELF文件的各个program section到新申请的内存上
+    - 为BSS section分配内存，并初始化为全0
+    - 分配用户栈内存空间
+    - 设置当前用户进程的mm结构、页目录表的地址及加载页目录表地址到cr3寄存器
+    - 设置当前用户进程的tf结构
+
+10. load_icode返回到do_exevce，do_execve设置完当前用户进程的名字为“exit”后也返回了。这样一直原路返回到\_\_alltraps函数时，接下来进入\_\_trapret函数
+
+11. \_\_trapret函数先将栈上保存的tf的内容pop给相应的寄存器，然后跳转到userproc->tf.tf_eip指向的函数，也就是应用程序的入口（exit.c文件中的main函数）。注意，此处的设计十分巧妙：\_\_alltraps函数先将各寄存器的值保存到userproc->tf中，接着将userproc->tf的地址压入栈后，然后调用trap函数；trap返回后再将current->tf的地址出栈，最后恢复current->tf的内容到各寄存器。这样看来中断处理前后各寄存器的值应该保存不变。但事实上，load_icode函数清空了原来的current->tf的内容，并重新设置为应用进程的相关状态。这样，当\_\_trapret执行iret指令时，实际上跳转到应用程序的入口去了，而且特权级也由内核态跳转到用户态。接下来就开始执行用户程序（exit.c文件的main函数）啦。
+
+12. 执行完用户程序后，继续原路返回到kernel_thread_entry函数。接下来将保存在eax的返回值压栈，然后调用do_exit。
+
+### 第三次进程切换 userproc -> initproc
+
+1. 上文说到userproc调用do_exit函数，接着往下分析。do_exit函数首先释放userproc占用的内存空间，包括取消虚拟地址到物理地址的映射，释放mm、vma、pgdir等占用的内存。然后唤醒内核线程initproc，接着调用schedule函数，这时由于userproc的state已经设置为ZOMBIE，因此只能选择initproc来运行。
+
+2. 切换进程上下文后，会回到initproc之前执行的do_wait函数。do_wait函数返回到repeat标签，重新找到子进程userproc，检查到其状态为ZOMBIE后，将其从hash_list和proc_list中删除，并释放userproc对应的内核栈空间和进程控制块空间，此时用户进程userproc彻底over了。最后do_wait返回0.
+
+3. 由于do_wait返回0，init_main再次执行schedule，由于proc_list中只有initproc，因此还是继续调用do_wait，这次由于找不到子进程，最终返回-E_BAD_PROC，从而退出init_main中的while循环。
+
+4. init_main打印一些字符串信息，然后返回。
+
+5. 执行完init_main函数后，会返回到kernel_thread_entry，先将保存在eax的返回值压栈，然后调用do_exit。
+
+6. do_exit判断到当前进程为initproc后，调用panic函数打印一些字符串，然后停留在内核调试界面，等待用户输入命令。
+
+### 创建新进程时的内存拷贝过程（copy_mm）
+
+1. 调用mm_create分配一个mm结构体并初始化
+
+2. 调用setup_pgdir分配一个物理页，作为页目录表的内存空间，并拷贝内核页目录表的内容到新页目录表，从而建立内核虚拟地址空间。
+
+3. 调用dup_mmap，首先复制父进程的vma链表到子进程的mm->mmap_list中，然后调用copy_range将父进程使用到的虚拟内存空间的全部内容拷贝到子进程。
+
+### lab5 疑问
 1. 为什么用户进程需要加载ELF文件来执行，内核线程则不需要？
 
 2. user_main执行的binary文件是什么？
@@ -524,26 +586,15 @@ panic_dead:
 
 6. do_exit尚未看明白？cptr，optr和yptr的设置？
 
-### lab 5 知识点
+7. lock_mm和unlock_mm看不明白？
 
-#### TSS
+### lab5 知识点
+
 1. TSS: The processor switches to a new stack to execute the called procedure. Each privilege level has its own stack. The segment selector and stack pointer for the privilege level 3 stack are stored in the SS and ESP registers, respectively, and are automatically saved when a call to a more privileged level occurs. The segment selectors and stack pointers for the privilege level 2, 1, and 0 stacks are stored in a system segment called the task state segment (TSS).
+    - 为什么TSS中只有ESP和SS区分特权级，而其他寄存器不用区分？
+    - 为什么特权级切换时需要切换栈？为什么要区分用户栈和内核栈？
 
-2. 为什么TSS中只有ESP和SS区分特权级，而其他寄存器不用区分？
-
-3. 为什么特权级切换时需要切换栈？为什么要区分用户栈和内核栈？
-
-4. 从开始创建用户进程，到执行用户进程的第一行指令的过程？
-
-#### 中断帧
-1. 中断帧的指针，总是指向内核栈的某个位置：当进程从用户空间跳到内核空间时，中断帧记录了进程在被中断前的状态。当内核需要跳回用户空间时，需要调整中断帧以恢复让进程继续执行的各寄存器值。除此之外，uCore内核允许嵌套中断。因此为了保证嵌套中断发生时tf 总是能够指向当前的trapframe，uCore 在内核栈上维护了 tf 的链，可以参考trap.c::trap函数做进一步的了解。
-
-2. 什么是中断帧？为什么需要中断帧？
-
-
-## 疑问
-
-1. 为什么`sudo make gdb`进入调试界面后，使用print语句打印变量的值是错误的？
+2. 中断帧的指针，总是指向内核栈的某个位置：当进程从用户空间跳到内核空间时，中断帧记录了进程在被中断前的状态。当内核需要跳回用户空间时，需要调整中断帧以恢复让进程继续执行的各寄存器值。除此之外，uCore内核允许嵌套中断。因此为了保证嵌套中断发生时tf 总是能够指向当前的trapframe，uCore 在内核栈上维护了 tf 的链，可以参考trap.c::trap函数做进一步的了解。
 
 ## 参考资料
 

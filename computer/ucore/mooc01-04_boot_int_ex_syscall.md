@@ -249,10 +249,11 @@ The pointer to zero is used to get a proper instance, but as typeof is resolved 
     - 系统调用相比函数调用开销更大：
         - 需要硬件引导
         - 第一次进行相关系统调用时，需要建立内核堆栈
-        - 需要验证参数
+        - 当到达内核态后，操作系统需要严格检查系统调用传递的参数，确保不破坏整个系统的系统调用实现
+        - 执行系统调用可导致进程等待某事件发生，从而可引起进程切换
         - 需要将内核态映射到用户态的地址空间（更新页面映射权限）
         - 内核态独立地址空间（缓存有变化，TLB失效）
-        
+
 ## 第四讲 实验一 BootLoader启动ucore os
 
 1. x86上电时，各个寄存器都有初始值，其中CS初始值为0xf000，ip初始值为0xfff0，其他寄存器大部分初始值为0.注意：实模式下，linear_addr = base * 16 + offset。而在保护模式下，段式内存管理机制中，linear_addr = base + offset.

@@ -5,7 +5,9 @@
 1. `movl $0, 0x8000` 将地址为0x8000的内存中的数值设置为零；
    `incl 0x8000` 将地址为0x8000的内存中的数值加1
 
-2. ret:  pops the last value from the stack, which supposed to be the returning address, and assigned it to IP register.
+2. ret vs iret
+    - ret: pops the last value from the stack, which supposed to be the returning address, and assigned it to IP register.
+    - iret: In Real Address Mode, iret pops CS, the flags register, and the instruction pointer from the stack and resumes the routine that was interrupted. In Protect Address Mode,  the action of the IRET instruction depends on the settings of the NT (nested task) and VM flags in the EFLAGS register and the VM flag in the EFLAGS image stored on the current stack. [Reference](http://faydoc.tripod.com/cpu/iret.htm)
 
 3. pusha vs pushal
     - pusha: Push AX, CX, DX, BX, original SP, BP, SI, and DI

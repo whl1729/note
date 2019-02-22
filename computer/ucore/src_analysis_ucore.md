@@ -596,6 +596,21 @@ panic_dead:
 
 2. 中断帧的指针，总是指向内核栈的某个位置：当进程从用户空间跳到内核空间时，中断帧记录了进程在被中断前的状态。当内核需要跳回用户空间时，需要调整中断帧以恢复让进程继续执行的各寄存器值。除此之外，uCore内核允许嵌套中断。因此为了保证嵌套中断发生时tf 总是能够指向当前的trapframe，uCore 在内核栈上维护了 tf 的链，可以参考trap.c::trap函数做进一步的了解。
 
+## lab6 源码分析
+
+### Round Robin 调度器
+
+1. kern_init在调用vmm_init来初始化虚拟内存后，调用sched_init来初始化调度器。sched_init的主要作用是设置选择哪种调度器，这里选择的是default_sched_class，即Round Robin调度器。选择好调度器后，接着调用调度器的init函数来初始化。
+```
+    sched_class = &default_sched_class;
+
+    rq = &__rq;
+    rq->max_time_slice = MAX_TIME_SLICE;
+    sched_class->init(rq);
+```
+
+2. 每次创建新进程时，会调用到wakeup_proc（调用链：kernel_thread -> do_fork -> wakeup_proc），wakeup_proc会调用sched_class_enqueue将新进程添加到调度队列中，供后面调度使用。
+
 ## 参考资料
 
 1. 《微型计算机技术及应用（戴梅萼）》

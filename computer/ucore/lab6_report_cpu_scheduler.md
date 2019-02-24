@@ -9,11 +9,98 @@
 
 请在实验报告中完成：
 
-请理解并分析sched_calss中各个函数指针的用法，并结合Round Robin 调度算法描ucore的调度执行过程。
+请理解并分析sched_class中各个函数指针的用法，并结合Round Robin 调度算法描述ucore的调度执行过程。
 
 请在实验报告中简要说明如何设计实现”多级反馈队列调度算法“，给出概要设计，鼓励给出详细设计。
 
 ### 解答
+
+#### 分析sched_class中各个函数指针的用法
+
+1. 首先，kern_init在调用vmm_init初始化完虚拟内存后，调用sched_init来初始化调度器。在sched_init函数中将sched赋值为default_sched_class。
+```
+    sched_class = &default_sched_class;
+```
+
+2. default_sched_class的成员如下所示，接下来分析其中各个函数指针。
+```
+struct sched_class default_sched_class = {
+    .name = "RR_scheduler",
+    .init = RR_init,
+    .enqueue = RR_enqueue,
+    .dequeue = RR_dequeue,
+    .pick_next = RR_pick_next,
+    .proc_tick = RR_proc_tick,
+};
+```
+
+3. RR_init初始化RUNNABLE进程链表run_list，并将RUNNABLE进程的数目proc_num设置为0
+```
+    list_init(&(rq->run_list));
+    rq->proc_num = 0;
+```
+
+4. RR_enqueue将一个新进程添加到RUNNABLE进程链表run_list的末尾，并将RUNNABLE进程数目proc_num加1。并且检查该进程的时间片，如果为0，重新为它分配时间片max_time_slice。此外还要保证进程的时间片不超过max_time_slice，如果超过了，将其修正为max_time_slice。
+```
+    list_add_before(&(rq->run_list), &(proc->run_link));
+    if (proc->time_slice == 0 || proc->time_slice > rq->max_time_slice) {
+        proc->time_slice = rq->max_time_slice;
+    }
+    proc->rq = rq;
+    rq->proc_num ++;
+```
+
+5. RR_dequeue从RUNNABLE进程链表run_list中删除指定进程，并将RUNNABLE进程数目proc_num减1.
+```
+    list_del_init(&(proc->run_link));
+    rq->proc_num --;
+```
+
+6. RR_pick_next从RUNNABLE进程链表run_list中取出首元素，然后返回。
+```
+    list_entry_t *le = list_next(&(rq->run_list));
+    if (le != &(rq->run_list)) {
+        return le2proc(le, run_link);
+    }
+    return NULL;
+```
+
+7. RR_proc_tick将指定进程的时间片减1，如果减1后时间片数值为0，说明该进程的时间片用完了，需要被调度出去，因此将其need_resched标志设置为1.
+```
+    if (proc->time_slice > 0) {
+        proc->time_slice --;
+    }
+    if (proc->time_slice == 0) {
+        proc->need_resched = 1;
+    }
+```
+
+#### 结合Round Robin调度算法描述ucore的调度执行过程
+
+下面结合Round Robin调度算法来分析ucore系统的进程调度执行过程。
+
+1. 上文已经提到，ucore内核初始化总入口kern_init调用sched_init来初始化调度器sched_class，接下来调用proc_init来初始化进程。
+
+2. proc_init首先为当前正在运行的ucore程序分配一个进程控制块，并将其命名为idle，因此第一个内核线程idleproc应运而生。
+
+3. idleproc调用kernel_thread来创建一个新的内核线程initproc，kernel_thread进一步调用do_fork来完成具体的进程初始化操作，完成后调用wakeup_proc来唤醒新进程，并将内核线程initproc放在RUNNABLE队列rq的末尾。这时rq队列有了第一个进程在等待调度。
+
+4. proc_init结束后，继续一路运行到cpu_idle，在cpu_idle中，不断判断当前进程是否需要调度，如果需要则调用schedule进行调度。由于当前进程是idleproc，其need_resched设置为1，因此进入schedule进行调度。
+
+5. schedule首先判断当前进程是否RUNNABLE，以及是不是idleproc，如果当前进程不是idleproc而且RUNNABLE，则将其加入到rq队列的末尾。由于当前进程是idleproc，因此不会将其加入rq队列。
+
+6. 接下来从RUNNABLE队列中取出队首的进程（此时是initproc），通过调用proc_run来运行initproc进程。这时rq队列已空。
+
+7. initproc进程运行init_main，init_main调用kernel_thread来创建第三个进程userproc。同理，在完成userproc的初始化后，会调用wakeup_proc将其唤醒，并将其加入到rq队列的末尾。这时rq队列有一个进程userproc在等待调度。
+
+8. initproc进程接下来调用do_wait来等待子进程结束运行，其中搜索到其子进程userproc的state不为ZOMBIE，因此调用schedule来试图调度子进程来运行。由于rq队列只有一个进程initproc在排队，因此会调用idleproc来运行。这时rq队列又空了。另外注意，由于initproc进程在调用schedule之前将自己的state设置为SLEEPING，因此在进入schedule后，不会再次将其加入到rq队列，也就是说initproc需要睡眠了。什么时候睡醒呢？等子进程userproc运行结束后再将其唤醒。
+
+9. userproc进程运行user_main，加载ELF文件并运行之。运行完毕，则调用do_exit，在do_exit中，将自己的state设置为Zombie，然后调用wakeup_proc来唤醒initproc，这时会将initproc加入到rq队列，因此rq队列又有一个进程在等待了。接着调用schedule，选择刚加入的initproc来运行，rq队列再次变空。
+
+10. initproc回收子进程userproc的资源后，打印一些字符串信息，然后退出init_main，接下来进入do_exit，do_exit调用panic，panic停留在kmonitor界面一直等待用户输入。
+
+#### 设计实现“多级反馈队列调度算法”
+暂时不会做。。
 
 ## 练习2: 实现 Stride Scheduling 调度算法（需要编码）
 

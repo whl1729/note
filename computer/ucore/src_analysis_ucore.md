@@ -598,18 +598,31 @@ panic_dead:
 
 ## lab6 源码分析
 
-### Round Robin 调度器
+### Stride Scheduling
 
-1. kern_init在调用vmm_init来初始化虚拟内存后，调用sched_init来初始化调度器。sched_init的主要作用是设置选择哪种调度器，这里选择的是default_sched_class，即Round Robin调度器。选择好调度器后，接着调用调度器的init函数来初始化。
+1. sched_init中将sched_clasee设置为stride_sched_class，表明使用Stride scheduling。stride_sched_class的结构体定义如下：
 ```
-    sched_class = &default_sched_class;
-
-    rq = &__rq;
-    rq->max_time_slice = MAX_TIME_SLICE;
-    sched_class->init(rq);
+struct sched_class stride_sched_class = {
+     .name = "stride_scheduler",
+     .init = stride_init,
+     .enqueue = stride_enqueue,
+     .dequeue = stride_dequeue,
+     .pick_next = stride_pick_next,
+     .proc_tick = stride_proc_tick,
+};
 ```
 
-2. 每次创建新进程时，会调用到wakeup_proc（调用链：kernel_thread -> do_fork -> wakeup_proc），wakeup_proc会调用sched_class_enqueue将新进程添加到调度队列中，供后面调度使用。
+2. 何时设置进程的优先级？
+
+3. 如何设置BIG_STRIDE？
+
+### lab6 疑问
+
+1. 为什么ucore进入kmonitor后就不进行时钟中断处理了？
+    - 答：initproc -> do_exit -> panic -> irq_disable，这里把IRQ中断屏蔽掉了。
+
+2. 没理解stride溢出问题的解决方案？使用无符号整数表示，但比较时又看作是有符号？
+
 
 ## 参考资料
 

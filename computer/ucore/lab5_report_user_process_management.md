@@ -80,6 +80,96 @@ Copy-on-write（简称COW） 的基本概念是指如果有多个使用者对一
 - 将父进程的内存空间对应的所有Page结构的ref均加1，表示子进程也在使用这些内存
 - 将父子进程的页目录表的写权限取消，这样一旦父子进程执行写操作时，就会发生页面访问异常，进入页面访问异常处理函数中，再进行内存拷贝操作，并恢复页目录表的写权限。
 
+### Bug 1：forktest和forktree执行失败
+
+#### 问题描述
+
+1. 在lab5目录下执行`sudo make grade`，跑到最后两个用户程序forktest和forktree时失败，打印信息如下：
+```
+forktest:                (1.3s)
+  -check result:                             WRONG
+   -e !! error: missing 'init check memory pass.'
+
+  -check output:                             OK
+forktree:                (1.3s)
+  -check result:                             WRONG
+   -e !! error: missing 'init check memory pass.'
+
+  -check output:                             OK
+Total Score: 136/150
+Makefile:314: recipe for target 'grade' failed
+```
+
+#### 调试过程（尚未解决）
+1. 单独执行`sudo make run-forktest`或`sudo make run-forktree`，程序跑到后面时均有以下报错信息：
+```
+kernel panic at kern/process/proc.c:851:
+    assertion failed: nr_free_pages_store == nr_free_pages()
+```
+
+2. 调试forktest或forktree，发现在initmain开头时空闲页数目nr_free_pages_store = 31827，但在initmain结尾处调用nr_free_pages求到的空闲页数目为31825，少了2页。从现象来看发生了内存泄漏。
+
+3. 初步推测：forktest函数只是多次调用了fork和wait函数，因此内存泄漏应该是执行这两个函数过程中发生的。接下来分析下整个过程的内存使用。
+
+4. fork的内存使用情况：
+    - 调用alloc_proc -> kmalloc，为proc_struct申请分配内存
+    - 调用copy_mm -> mm_create -> kmalloc，为mm_struct申请分配内存
+    - 调用setup_pgdir -> alloc_pages，为页目录表申请分配物理页
+    - 调用dup_mmap -> vma_create -> kmalloc，为每个vma_struct申请分配内存
+    - 调用dup_mmap -> copy_range -> alloc_page，复制父进程的内存到子进程
+
+5. wait的内存使用情况：
+    - 调用schedule，切换到forktest进程上下文，执行完main函数后，调用do_exit。do_exit分别调用exit_mmap释放各vma结构的内存及对应的物理页、put_pgdir释放页目录表占用的内存，mm_destroy释放mm_struct占用的内存。
+    - 调用do_wait -> kfree，释放proc_struct
+
+6. 从fork和wait函数看不出问题。后来尝试修改进程数目，发现内存泄漏大小与进程数目成正比：12个进程，则泄漏1页；26个进程，则泄漏2页；64个进程，则泄漏4页。
+
+7. 在alloc_pages和free_pages入口打印分配或释放的内存地址，写个小程序寻找只分配而不释放的地址，发现是0xc01afba0；在原代码中增加调试打印，如使用print_stackframe打印调用栈，发现是在fork第11个子进程时出的问题，调用链如下所示。
+```
+alloc_pages: n = 1, nmalloc = 207, nfree = 0, nr_free = 31619 page = 0xc01afba0
+ebp:0xc038fd38 eip:0xc0100d1c args:0x00000000 0x00000000 0x00000001 0xc01afba0
+    kern/debug/kdebug.c:342: print_stackframe+48
+ebp:0xc038fd58 eip:0xc0103e48 args:0x00000001 0x00000078 0xc038fdc8 0xc0107c2b
+    kern/mm/pmm.c:179: alloc_pages+154
+ebp:0xc038fd88 eip:0xc0107c49 args:0x00000000 0x00000000 0xc038fdc8 0xc0107d0d
+    kern/mm/kmalloc.c:83: __slob_get_free_pages+41
+ebp:0xc038fdc8 eip:0xc0107e4b args:0x00000020 0x00000000 0x00000000 0xc0108086
+    kern/mm/kmalloc.c:142: slob_alloc+407
+ebp:0xc038fdf8 eip:0xc01080a9 args:0x00000018 0x00000000 0xc01afb8c 0xc0108184
+    kern/mm/kmalloc.c:225: __kmalloc+46
+ebp:0xc038fe18 eip:0xc0108196 args:0x00000018 0xc0109ce7 0xc038fe34 0xc0105c08
+    kern/mm/kmalloc.c:251: kmalloc+28
+ebp:0xc038fe48 eip:0xc0105c19 args:0xaff00000 0xb0000000 0x0000000b 0xc01060be
+    kern/mm/vmm.c:65: vma_create+28
+ebp:0xc038fe88 eip:0xc0106126 args:0xc0386fe0 0xc03861a0 0xc038feb8 0xc010a81a
+    kern/mm/vmm.c:197: dup_mmap+116
+ebp:0xc038feb8 eip:0xc010a859 args:0x00000000 0xc0386f58 0xc038fee8 0xc010a9f0
+    kern/process/proc.c:335: copy_mm+140
+ebp:0xc038fee8 eip:0xc010aa59 args:0x00000000 0xafffff40 0xc038ffb4 0xc010bd71
+    kern/process/proc.c:395: do_fork+158
+ebp:0xc038ff18 eip:0xc010bd9f args:0xc038ff34 0xc038ff54 0xc0102e88 0xc010bf00
+    kern/syscall/syscall.c:19: sys_fork+57
+ebp:0xc038ff58 eip:0xc010bf78 args:0x00000000 0x00000000 0x00000000 0x00000000
+    kern/syscall/syscall.c:93: syscall+131
+ebp:0xc038ff78 eip:0xc0102ce0 args:0xc038ffb4 0x00000000 0x00000023 0xc0102e2b
+    kern/trap/trap.c:220: trap_dispatch+300
+ebp:0xc038ffa8 eip:0xc0102e88 args:0xc038ffb4 0x00802008 0xafffffa8 0xafffff6c
+    kern/trap/trap.c:291: trap+104
+ebp:0xafffff6c eip:0xc0103960 args:0x00000002 0xafffff88 0x00800263 0x008014d8
+    kern/trap/trapentry.S:24: <unknown>+0
+ebp:0xafffff78 eip:0x0080016c args:0x008014d8 0x00802008 0xafffffa8 0x00801190
+    user/libs/syscall.c:40: sys_fork+19
+ebp:0xafffff88 eip:0x00800263 args:0x00000000 0x00000000 0x0000000d 0x0000000b
+    user/libs/ulib.c:15: fork+23
+ebp:0xafffffa8 eip:0x00801190 args:0x00000000 0x00000000 0x00000000 0x00800458
+    user/forktest.c:11: main+63
+ebp:0xafffffd8 eip:0x00800458 args:0x00000000 0x00000000 0x00000000 0x00000000
+    user/libs/umain.c:7: umain+22
+alloc_pages: n = 1, nmalloc = 208, nfree = 0, nr_free = 31618 page = 0xc01afbc0
+```
+
+8. 后来在答案代码目录下执行`sudo make run-forktest`，发现有同样的问题。这说明原代码确实有bug。由于目前时间紧缺，而这个bug看上去不容易定位（折腾一个早上没结果），还是留到日后有时间再研究吧。
+
 ## 练习3: 阅读分析源代码，理解进程执行 fork/exec/wait/exit 的实现，以及系统调用的实现（不需要编码）
 
 ### 题目

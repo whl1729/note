@@ -105,7 +105,7 @@ struct sched_class default_sched_class = {
 ## 练习2: 实现 Stride Scheduling 调度算法（需要编码）
 
 ### 题目
-首先需要换掉RR调度器的实现，即用default_sched_stride_c覆盖default_sched.c。然后根据此文件和后续文档对Stride度器的相关描述，完成Stride调度算法的实现。后面的实验文档部分给出了Stride调度算法的大体描述。这里给出Stride调度算法的一些相关的资料（目前网上中文的资料比较欠缺）。你也可GOOGLE “Stride Scheduling” 来查找相关资料。
+首先需要换掉RR调度器的实现，即用default_sched_stride_c覆盖default_sched.c。然后根据此文件和后续文档对Stride调度器的相关描述，完成Stride调度算法的实现。后面的实验文档部分给出了Stride调度算法的大体描述。这里给出Stride调度算法的一些相关的资料（目前网上中文的资料比较欠缺）。你也可GOOGLE “Stride Scheduling” 来查找相关资料。
 [strid-shed paper location1](http://wwwagss.informatik.uni-kl.de/Projekte/Squirrel/stride/node3.html)
 [strid-shed paper location2](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.138.3502&rank=1)
 
@@ -114,6 +114,20 @@ struct sched_class default_sched_class = {
 请在实验报告中简要说明你的设计实现过程。
 
 ### 解答
+
+#### 我的设计实现过程
+
+1. 为了保留Round Robin和Stride两种调度算法，我并没有用default_sched_stride_c覆盖default_sched.c，而是保留两个文件，只是修改sched_init中绑定调度器的地方，将调度器绑定为stride_sched_class。
+
+2. stride_init：初始化RUNNABLE链表run_list（其实Stride Scheduling如果使用优先级队列时，不需要用到run_list，但这里还是一并初始化），初始化运行队列的运行池lab6_run_pool为空，初始化RUNNABLE进程数目为0.
+
+3. stride_enqueue：该函数将一个进程添加到运行队列。调用skew_heap_insert，将运行队列rq的运行进程池与新进程proc合并；将新进程的时间片初始化为最大值，关联proc->rq到rq，最后将rq的进程数目加1.
+
+4. stride_dequeue：该函数从运行队列中删除一个进程。只需调用skew_heap_remove，将进程proc从运行队列rq中删除，并取消proc->rq到rq的关联。
+
+5. stride_pick_next：选择下一个要调度的进程，其实就保存在运行队列的头部。因此只需要调用le2proc根据rq->lab6_run_pool找到对应进程的地址，然后要更新对应进程的stride。
+
+6. stride_proc_tick：如果进程的时间片大于0，则将其减1。减1后如果等于0，则设置need_resched为1，表示该进程需要被调度出去。
 
 ## 扩展练习 Challenge 1 ：实现 Linux 的 CFS 调度算法（待完成）
 在ucore的调度器框架下实现下Linux的CFS调度算法。可阅读相关Linux内核书籍或查询网上资料，可了解CFS的细节，然后大致实现在ucore中。

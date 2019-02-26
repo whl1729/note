@@ -123,11 +123,15 @@ struct sched_class default_sched_class = {
 
 3. stride_enqueue：该函数将一个进程添加到运行队列。调用skew_heap_insert，将运行队列rq的运行进程池与新进程proc合并；将新进程的时间片初始化为最大值，关联proc->rq到rq，最后将rq的进程数目加1.
 
-4. stride_dequeue：该函数从运行队列中删除一个进程。只需调用skew_heap_remove，将进程proc从运行队列rq中删除，并取消proc->rq到rq的关联。
+4. stride_dequeue：该函数从运行队列中删除一个进程。只需调用skew_heap_remove，将进程proc从运行队列rq中删除，并取消proc->rq到rq的关联，最后将rq的进程数目减1.
 
 5. stride_pick_next：选择下一个要调度的进程，其实就保存在运行队列的头部。因此只需要调用le2proc根据rq->lab6_run_pool找到对应进程的地址，然后要更新对应进程的stride。
 
 6. stride_proc_tick：如果进程的时间片大于0，则将其减1。减1后如果等于0，则设置need_resched为1，表示该进程需要被调度出去。
+
+#### 代码优化
+
+答案的代码中用调试宏开关来同时提供优先级队列和链表两种实现方式，可以参考。
 
 ## 扩展练习 Challenge 1 ：实现 Linux 的 CFS 调度算法（待完成）
 在ucore的调度器框架下实现下Linux的CFS调度算法。可阅读相关Linux内核书籍或查询网上资料，可了解CFS的细节，然后大致实现在ucore中。

@@ -184,8 +184,14 @@ alloc_pages: n = 1, nmalloc = 208, nfree = 0, nr_free = 31618 page = 0xc01afbc0
 ### 解答
 
 #### fork的实现
-fork的功能是创建一个新进程，具体地说是创建一个新进程所需的控制信息。在ucore中fork对应的函数是do_fork。
+fork的功能是创建一个新进程，具体地说是创建一个新进程所需的控制信息。我们以用户程序forktest为例，来分析fork的调用过程。
 
+##### 从用户态的fork到内核态的do_fork
+user/forktest.c的main调用fork来创建新进程，从fork到do_fork的调用过程如下：
+
+fork -> sys_fork(位于user/lib/syscall.c) -> syscall(SYS_fork) -> sys_fork(kern/syscall/syscall.c) -> do_fork
+
+##### do_fork的实现
 1. 分配一个进程控制块，设置其state为UNINIT
 
 2. 为内核栈分配2页的内存空间，并将其地址记录在进程控制块的kstack字段中

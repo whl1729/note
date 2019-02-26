@@ -582,11 +582,13 @@ panic_dead:
 
 4. proc.c文件中load_icode函数在拷贝ELF的section时为啥不一次性拷完，而是逐页拷贝？是因为本来就只设计了分配一页的接口吗？
 
-5. kfree函数看不明白？spin_lock, slob是什么？
+5. kmalloc/kfree函数看不明白？spin_lock, slob是什么？
 
 6. do_exit尚未看明白？cptr，optr和yptr的设置？
 
 7. lock_mm和unlock_mm看不明白？
+
+8. user目录下各个文件的功能是什么？
 
 ### lab5 知识点
 
@@ -623,6 +625,9 @@ struct sched_class stride_sched_class = {
 
 2. 没理解stride溢出问题的解决方案？使用无符号整数表示，但比较时又看作是有符号？
 
+3. 我的PC是如何运行多进程的？我的PC含有一个四核CPU，跑多进程时，会把进程分到四个核上面跑吗？
+
+4. `sudo make debug`为什么能加载并执行priority.c文件？是在哪里设置TEST=priority的？
 
 ## 参考资料
 

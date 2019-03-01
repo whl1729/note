@@ -629,6 +629,12 @@ struct sched_class stride_sched_class = {
 
 4. `sudo make debug`为什么能加载并执行priority.c文件？是在哪里设置TEST=priority的？
 
+## lab7 源码分析
+
+### 定时器
+
+1. 设计很巧妙：N个timer依次插入链表，插入时需要调整expires。这个调整很巧妙。但是，如果两个定时器的expires相同怎么办？
+
 ## 参考资料
 
 1. 《微型计算机技术及应用（戴梅萼）》

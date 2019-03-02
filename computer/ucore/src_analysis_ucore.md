@@ -635,6 +635,106 @@ struct sched_class stride_sched_class = {
 
 1. 设计很巧妙：N个timer依次插入链表，插入时需要调整expires。这个调整很巧妙。但是，如果两个定时器的expires相同怎么办？
 
+## lab8 源码分析
+
+### 用户执行write的详细流程（自上而下，谁访问谁）
+
+1. 通用文件系统访问接口
+```
+write (user/libs/file.c) ->
+    sys_write (user/libs/syscall.c) ->
+        syscall(SYS_write) (user/libs/syscall.c) ->
+            sys_write (kern/syscall/syscall.c) ->
+                sysfile_write (kern/fs/sysfile.c)
+```
+
+2. 文件系统抽象层 - VFS
+```
+sysfile_write (kern/fs/sysfile.c) ->
+    file_write (kern/fs/file.c) ->
+        vop_write (kern/fs/vfs/inode.h) <=> __vop_op(node, write) ->
+            sys_write (kern/fs/sfs/sfs_inode.c)
+```
+
+3. Simple FS文件系统
+```
+sfs_write (kern/fs/sfs/sfs_inode.c) ->
+    sfs_io (kern/fs/sfs/sfs_inode.c) -> sfs_io_nolock  ->
+        sfs_wbuf (kern/fs/sfs/sfs_io.c) ->
+            sfd_rwblock_nolock (kern/fs/sfs/sfs_io.c) ->
+                dop_io (kern/fs/devs/dev.h)
+```
+
+4. 文件系统I/O设备
+```
+dop_io (kern/fs/devs/dev.h) -> dev->d_io ->
+    disk0_io (kern/fs/devs/dev_disk0.c) ->
+        disk0_write_blks_nolock (kern/fs/devs/dev_disk0.c) ->
+            ide_write_secs (kern/driver/ide.c) ->
+                outsl (kern/driver/ide.c)
+```
+
+### 文件系统相关数据结构（自上而下，谁包含谁）
+
+1. 进程控制块的结构体proc_struct包含文件控制信息结构体files_struct
+
+2. files_struct结构体定义如下
+```
+struct files_struct {
+    struct inode *pwd;      // inode of present working directory
+    struct file *fd_array;  // opened files array
+    int files_count;        // the number of opened files
+    semaphore_t files_sem;  // lock protect sem
+};
+```
+
+3. inode结构体定义如下
+```
+struct inode {
+    union {
+        struct device __device_info;
+        struct sfs_inode __sfs_inode_info;
+    } in_info;
+    enum {
+        inode_type_device_info = 0x1234,
+        inode_type_sfs_inode_info,
+    } in_type;
+    int ref_count;
+    int open_count;
+    struct fs *in_fs;
+    const struct inode_ops *in_ops;
+};
+```
+
+4. file结构体定义如下
+```
+struct file {
+    enum {
+        FD_NONE, FD_INIT, FD_OPENED, FD_CLOSED,
+    } status;
+    bool readable;
+    bool writable;
+    int fd;
+    off_t pos;
+    struct inode *node;
+```
+
+5. sys_inode结构体定义如下，其中sys_disk_inode的内容跟硬盘中保存的inode信息是基本一致。
+```
+struct sfs_inode {
+    struct sfs_disk_inode *din;                     /* on-disk inode */
+    uint32_t ino;                                   /* inode number */
+    bool dirty;                                     /* true if inode modified */
+    int reclaim_count;                              /* kill inode if it hits zero */
+    semaphore_t sem;                                /* semaphore for din */
+    list_entry_t inode_link;                        /* entry for linked-list in sfs_fs */
+    list_entry_t hash_link;                         /* entry for hash linked-list in sfs_fs */
+};
+```
+
+### Simple FS分析（自下而上，从硬盘到内存，谁包含谁）
+
+1. 
 ## 参考资料
 
 1. 《微型计算机技术及应用（戴梅萼）》

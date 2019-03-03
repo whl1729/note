@@ -637,6 +637,133 @@ struct sched_class stride_sched_class = {
 
 ## lab8 源码分析
 
+### 文件系统初始化流程
+
+1. 文件系统的初始化分为三部分，分别是vfs、dev和sfs的初始化。
+```
+kern_init ->
+    fs_init ->
+        vfs_init 
+        dev_init
+        sfs_init
+```
+
+2. vfs的初始化
+    - 初始化信号量bootfs_sem，将其value设置为1
+    - 初始化vdev_list为空链表，初始化信号量vdev_list_sem，将其value设置为1
+```
+void vfs_init(void) {
+    sem_init(&bootfs_sem, 1);
+    vfs_devlist_init();
+}
+```
+
+4. dev的初始化：包括stdin、stdout和disk0等三部分的初始化
+```
+void dev_init(void) {
+    init_device(stdin);
+    init_device(stdout);
+    init_device(disk0);
+}
+```
+
+5. stdin的初始化
+    - 分配一个inode并初始化，将其函数表设置为dev_node_ops
+    - 初始化inode里面的devive，将其函数表分别设置为stdin相关的函数，包括stdin_open, stdin_close, stdin_io和stdin_ioctl等
+    - 分配一个vfs_dev_t，设置好其中的devname,devnode和fs等成员，然后添加到vdev_list
+```
+void dev_init_stdin(void) {
+    struct inode *node;
+    if ((node = dev_create_inode()) == NULL) {
+        panic("stdin: dev_create_node.\n");
+    }
+    stdin_device_init(vop_info(node, device));
+
+    int ret;
+    if ((ret = vfs_add_dev("stdin", node, 0)) != 0) {
+        panic("stdin: vfs_add_dev: %e.\n", ret);
+    }
+}
+```
+
+6. stdout，disk0的初始化与stdin类似，只是在初始化inode里面的device时挂的函数表不同。
+
+7. sfs的初始化：调用sfs_mount将sfs挂载到disk0。（疑问：disk0是什么玩意？）
+```
+sfs_init ->
+    sfs_mount ->
+        vfs_mount ->
+            sfs_do_mount
+```
+
+8. sfs函数表的初始化
+```
+sfs_lookup ->
+sfs_namefile ->
+    sfs_lookup_once ->
+sfs_do_mount ->
+        sfs_get_root ->
+            sfs_load_inode ->
+                sfs_create_inode ->
+                    vop_init(sfs_get_ops) ->
+                        sfs_node_dirops
+```
+
+### 用户执行open的详细流程
+
+关键问题在于：如何根据路径名找到文件在磁盘上的位置。
+
+1. 从用户调用open接口到触发系统调用
+```
+open (user/libs/file.c) -> // 用户接口
+    sys_open (user/libs/syscall.c) ->  // 封装系统调用接口给用户
+        syscall(SYS_open, path, open_flags) ->  // 系统调用统一实现接口，根据不同系统调用号从函数表中找到相应处理函数
+            sys_open (kern/syscall/syscall.c) -> // 发生open系统调用的实际处理接口
+                sysfile_open (kern/fs/sysfile.c) // VFS提供给系统调用的接口
+```
+
+2. 找到文件所在目录对应的inode节点
+```
+sysfile_open (kern/fs/sysfile.c) ->
+    file_open (kern/fs/file.c) ->
+        vfs_open (kern/fs/vfs/vfsfile.c) ->  // 根据文件名获取或生成一个inode
+            vfs_lookup (kern/fs/vfs/vfsloopup.c) ->
+                get_device -> // 根据文件名获取对应的inode 
+                vop_lookup (kern/fs/vfs/inode.h) -> 
+                    sfs_lookup (kern/fs/sfs/sfs_inode.c)
+            vop_open (kern/fs/vfs/inode.h) ->
+                sfs_opendir (kern/fs/sfs/sfs_inode.c)
+```
+
+3. 当前目录是何时与对应的inode绑定的？答：在dev_init时已经为disk0分配inode，并将该信息记录在vfs_dev_t结构体，再添加到vfs_list。然后在内核线程initproc执行init_main时，
+```
+init_main ->
+    vfs_set_bootfs("disk0:") ->  // 设置当前目录对应的inode为disk0
+        vfs_chdir("disk0:") ->
+            vfs_lookup("disk0:") ->
+                get_device("disk0:") ->
+                    vfs_get_root // 由于初始化时已将disk0的vfs_dev_t结构添加到vdev_list中，这里遍历链表即可找到对应的inode
+            vfs_set_curdir ->
+                set_cwd_nolock
+```
+
+4. 根据目录的inode及文件名找到文件的inode
+```
+sfs_lookup (kern/fs/sfs/sfs_inode.c) ->
+    sfs_lookup_once ->
+        sfs_dirent_search_nolock ->  // 读取当前目录下的每一个file entry，搜索与文件名name匹配的entry
+            sfs_dirent_read_nolock ->
+                sfs_bmap_load_nolock ->
+                    sfs_bmap_get_nolock
+        sfs_load_inode
+```
+
+> 疑问：
+> 1. 如何根据路径找到文件所在的磁盘位置？
+> 2. disk0对应的inode的fs为空指针？
+
+4. 文件系统I/O设备
+
 ### 用户执行write的详细流程（自上而下，谁访问谁）
 
 1. 通用文件系统访问接口
@@ -688,7 +815,14 @@ struct files_struct {
 };
 ```
 
-3. inode结构体定义如下
+3. inode是文件的抽象表示。其结构体定义如下。
+    - device包含
+        - 两个变量d_blocks、d_blocksize，标记文件块数目和大小
+        - 四个函数指针，分别对应open，close和io操作
+    - sfs_inode含有inode序号、文件大小、文件块的数目及位置等信息
+    - inode_ops包含一堆vop层的函数指针
+    - fs指向一个抽象文件系统
+    - inode如何与文件绑定？代码中定义了sfs_disk_entry结构体，将inode号ino与文件名name绑定在一起。
 ```
 struct inode {
     union {
@@ -704,22 +838,14 @@ struct inode {
     struct fs *in_fs;
     const struct inode_ops *in_ops;
 };
+
+struct sfs_disk_entry {
+    uint32_t ino;                                   /* inode number */
+    char name[SFS_MAX_FNAME_LEN + 1];               /* file name */
+};
 ```
 
-4. file结构体定义如下
-```
-struct file {
-    enum {
-        FD_NONE, FD_INIT, FD_OPENED, FD_CLOSED,
-    } status;
-    bool readable;
-    bool writable;
-    int fd;
-    off_t pos;
-    struct inode *node;
-```
-
-5. sys_inode结构体定义如下，其中sys_disk_inode的内容跟硬盘中保存的inode信息是基本一致。
+4. sfs_inode结构体定义如下，其中sfs_disk_inode的内容跟硬盘中保存的inode信息基本一致。
 ```
 struct sfs_inode {
     struct sfs_disk_inode *din;                     /* on-disk inode */
@@ -732,9 +858,65 @@ struct sfs_inode {
 };
 ```
 
+5. sfs_disk_inode的定义如下。标记文件块的数目及位置。注意这里使用了二级索引。
+```
+struct sfs_disk_inode {
+    uint32_t size;                                  /* size of the file (in bytes) */
+    uint16_t type;                                  /* one of SYS_TYPE_* above */
+    uint16_t nlinks;                                /* # of hard links to this file */
+    uint32_t blocks;                                /* # of blocks */
+    uint32_t direct[SFS_NDIRECT];                   /* direct blocks */
+    uint32_t indirect;                              /* indirect blocks */
+};
+```
+
+6. fs结构体定义如下
+```
+struct fs {
+    union {
+        struct sfs_fs __sfs_info;                   
+    } fs_info;                                     // filesystem-specific data 
+    enum {
+        fs_type_sfs_info,
+    } fs_type;                                     // filesystem type 
+    int (*fs_sync)(struct fs *fs);                 // Flush all dirty buffers to disk 
+    struct inode *(*fs_get_root)(struct fs *fs);   // Return root inode of filesystem.
+    int (*fs_unmount)(struct fs *fs);              // Attempt unmount of filesystem.
+    void (*fs_cleanup)(struct fs *fs);             // Cleanup of filesystem.???
+};
+```
+
+7. sfs_fs结构体定义如下
+```
+struct sfs_fs {
+    struct sfs_super super;                         /* on-disk superblock */
+    struct device *dev;                             /* device mounted on */
+    struct bitmap *freemap;                         /* blocks in use are mared 0 */
+    bool super_dirty;                               /* true if super/freemap modified */
+    void *sfs_buffer;                               /* buffer for non-block aligned io */
+    semaphore_t fs_sem;                             /* semaphore for fs */
+    semaphore_t io_sem;                             /* semaphore for io */
+    semaphore_t mutex_sem;                          /* semaphore for link/unlink and rename */
+    list_entry_t inode_list;                        /* inode linked-list */
+    list_entry_t *hash_list;                        /* inode hash linked-list */
+};
+```
+
+7. file结构体定义如下
+```
+struct file {
+    enum {
+        FD_NONE, FD_INIT, FD_OPENED, FD_CLOSED,
+    } status;
+    bool readable;
+    bool writable;
+    int fd;
+    off_t pos;
+    struct inode *node;
+```
+
 ### Simple FS分析（自下而上，从硬盘到内存，谁包含谁）
 
-1. 
 ## 参考资料
 
 1. 《微型计算机技术及应用（戴梅萼）》

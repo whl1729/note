@@ -748,21 +748,65 @@ init_main ->
 ```
 
 4. 根据目录的inode及文件名找到文件的inode
+    - inode->fs->sfs_fs：sfs_buffer提供数据缓冲区、dev提供block数目信息、hash_list提供inode链表信息
+    - inode->sfs_inode->sfs_disk_inode：含有block数目、block内容等信息
+    - 查找文件inode流程简析：首先根据inode->sfs_inode->sfs_disk_inode->blocks得知目录inode的block数目，然后遍历每个block，读取每个block的sfs_disk_entry信息，将sfs_disk_entry->name与文件名对比，若相同，则对应的sfs_disk_entry->ino即为文件的inode号。
+    - 根据ino读取inode内容流程：inode->fs->sfs_fs->hash_list记录有disk0所有inode的信息，首先用ino索引哈希表得到一个链表，再遍历该链表，找到inode号等于ino的节点。
 ```
 sfs_lookup (kern/fs/sfs/sfs_inode.c) ->
     sfs_lookup_once ->
         sfs_dirent_search_nolock ->  // 读取当前目录下的每一个file entry，搜索与文件名name匹配的entry
-            sfs_dirent_read_nolock ->
+            sfs_dirent_read_nolock -> // 根据当前目录的inode及slot找到相应entry并读取其内容
                 sfs_bmap_load_nolock ->
                     sfs_bmap_get_nolock
-        sfs_load_inode
+                sfs_rbuf ->
+                    sfs_rwblock_nolock ->
+                        dop_io -> disk0_io ->
+                            disk0_read_blks_nolock ->
+                                ide_read_secs
+        sfs_load_inode ->
+            lookup_sfs_nolock
 ```
 
 > 疑问：
 > 1. 如何根据路径找到文件所在的磁盘位置？
 > 2. disk0对应的inode的fs为空指针？
+> 3. 一个文件可能由多个block组成，如何读取每个block的内容？如何读取sfs_disk_entry？
+> 4. sfs_dirent_search_nolock中判断到entry->ino为0则continue，为什么？ino不能为0吗？
 
-4. 文件系统I/O设备
+5. 根据inode内容设置file的读写权限、当前读写位置、设置文件的status为OPENED，然后返回file->fd.
+
+### 用户执行read的详细流程
+
+1. 从用户调用read到进入系统调用
+```
+read ->
+    sys_read ->
+        syscall(SYS_read) ->
+            sys_read ->
+                sysfile_read
+```
+
+2. 根据fd索引fd_array找到对应的file，从file->inode得到对应的inode.
+```
+sysfile_read ->
+    file_read ->
+        fd2file
+        iobuf_init
+            vop_read -> sfs_read
+        iobuf_used
+    copy_to_user
+```
+
+3. 根据文件的inode读取文件内容
+```
+sys_read ->
+    sfs_io ->
+        sfs_io_nolock
+```
+
+> 疑问：
+> 1. 如何根据inode读取数据？
 
 ### 用户执行write的详细流程（自上而下，谁访问谁）
 

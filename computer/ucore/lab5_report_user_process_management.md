@@ -1,6 +1,9 @@
 # 《ucore lab5》实验报告
 
-[ucore在线实验指导书](https://chyyuu.gitbooks.io/ucore_os_docs/content/)
+## 资源
+
+1. [ucore在线实验指导书](https://chyyuu.gitbooks.io/ucore_os_docs/content/)
+2. [我的ucore实验代码](https://github.com/whl1729/ucore_os_lab)
 
 ## 练习1: 加载应用程序并执行（需要编码）
 
@@ -240,7 +243,7 @@ ucore_os_docs在lab5中已经详细介绍了系统调用的实现，另外在我
 3. 在kernel/syscall/syscall.c中用函数数组来存储各系统调用对应的处理函数的地址，并封装了syscall接口，用于根据系统调用号索引函数数组，找到对应的处理函数来运行。
 
 #### 画出userproc的执行状态生命周期图
-
+```
       (alloc_proc)          (wakeup_proc)
     ---------------> NEW ----------------> READY
                                              |
@@ -249,6 +252,7 @@ ucore_os_docs在lab5中已经详细介绍了系统调用的实现，另外在我
                                              |
          (do_wait)            (do_exit)      V
    EXIT <---------- ZOMBIE <-------------- RUNNING
+```
 
 ## 扩展练习 Challenge ：实现 Copy on Write （COW） 机制（待完成）
 

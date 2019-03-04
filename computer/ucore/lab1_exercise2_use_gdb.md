@@ -1,6 +1,9 @@
 # 《ucore lab1 exercise2》实验报告
 
-[ucore在线实验指导书](https://chyyuu.gitbooks.io/ucore_os_docs/content/)
+## 资源
+
+1. [ucore在线实验指导书](https://chyyuu.gitbooks.io/ucore_os_docs/content/)
+2. [我的ucore实验代码](https://github.com/whl1729/ucore_os_lab)
 
 ## 题目：使用qemu执行并调试lab1中的软件
 为了熟悉使用qemu和gdb进行的调试工作，我们进行如下的小练习：
@@ -65,7 +68,3 @@ Breakpoint 1 at 0x7c00: file boot/bootasm.S, line 16.
 ### 问题4：自己找一个bootloader或内核中的代码位置，设置断点并进行测试
 
 这个比较简单，不作记录。
-
-
-## 解答
-

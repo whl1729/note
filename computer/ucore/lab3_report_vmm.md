@@ -1,6 +1,9 @@
 # 《ucore lab3》实验报告
 
-[ucore在线实验指导书](https://chyyuu.gitbooks.io/ucore_os_docs/content/)
+## 资源
+
+1. [ucore在线实验指导书](https://chyyuu.gitbooks.io/ucore_os_docs/content/)
+2. [我的ucore实验代码](https://github.com/whl1729/ucore_os_lab)
 
 ## 练习1：给未被映射的地址映射上物理页
 

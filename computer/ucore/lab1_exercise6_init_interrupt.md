@@ -1,6 +1,9 @@
 # 《ucore lab1 exercise6》实验报告
 
-[ucore在线实验指导书](https://chyyuu.gitbooks.io/ucore_os_docs/content/)
+## 资源
+
+1. [ucore在线实验指导书](https://chyyuu.gitbooks.io/ucore_os_docs/content/)
+2. [我的ucore实验代码](https://github.com/whl1729/ucore_os_lab)
 
 ## 题目：完善中断初始化和处理
 请完成编码工作和回答如下问题：

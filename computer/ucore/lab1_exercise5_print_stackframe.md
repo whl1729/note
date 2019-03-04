@@ -1,6 +1,9 @@
 # 《ucore lab1 exercise5》实验报告
 
-[ucore在线实验指导书](https://chyyuu.gitbooks.io/ucore_os_docs/content/)
+## 资源
+
+1. [ucore在线实验指导书](https://chyyuu.gitbooks.io/ucore_os_docs/content/)
+2. [我的ucore实验代码](https://github.com/whl1729/ucore_os_lab)
 
 ## 题目：实现函数调用堆栈跟踪函数
 我们需要在lab1中完成kdebug.c中函数print_stackframe的实现，可以通过函数print_stackframe来跟踪函数调用堆栈中记录的返回地址。如果能够正确实现此函数，可在lab1中执行 “make qemu”后，在qemu模拟器中得到类似如下的输出：

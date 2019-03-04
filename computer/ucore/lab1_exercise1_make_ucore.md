@@ -1,6 +1,9 @@
 # 《ucore lab1 exercise1》实验报告
 
-[ucore在线实验指导书](https://chyyuu.gitbooks.io/ucore_os_docs/content/)
+## 资源
+
+1. [ucore在线实验指导书](https://chyyuu.gitbooks.io/ucore_os_docs/content/)
+2. [我的ucore实验代码](https://github.com/whl1729/ucore_os_lab)
 
 ## 题目：理解通过make生成执行文件的过程
 
@@ -80,10 +83,10 @@ packetname = $(if $(1),$(addprefix $(OBJPREFIX),$(1)),$(OBJPREFIX))
 OBJPREFIX	:= __objs_
 ```
 
-4. 第146行`打印kernel目标文件名
+4. 第146行打印kernel目标文件名
 ```
 @echo + ld $@
-// output: `+ ld bin/kernel`
+// output: + ld bin/kernel
 ```
 
 5. 第147行是链接所有生成的obj文件得到kernel文件

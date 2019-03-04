@@ -1,6 +1,9 @@
 # 《ucore lab7》实验报告
 
-[ucore在线实验指导书](https://chyyuu.gitbooks.io/ucore_os_docs/content/)
+## 资源
+
+1. [ucore在线实验指导书](https://chyyuu.gitbooks.io/ucore_os_docs/content/)
+2. [我的ucore实验代码](https://github.com/whl1729/ucore_os_lab)
 
 ## 练习1: 理解内核级信号量的实现和基于内核级信号量的哲学家就餐问题（不需要编码）
 

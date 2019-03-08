@@ -197,5 +197,31 @@ int main()
 
 31. auto
     - auto tells the compiler to deduce the type from the initializer. By implication, a variable that uses auto as its type specifier must have an initializer.
-    - auto ordinarily ignores top-level consts. As usual in initializations, low-level consts, such as when an initializer is a pointer to const, are kept.
-    - 
+    - auto ordinarily ignores top-level consts. As usual in initializations, low-level consts, such as when an initializer is a pointer to const, are kept. f we want the deduced type to have a top-level const, we must say so explicitly.
+    - When we ask for a reference to an auto-deduced type, top-level consts in the initializer are not ignored. As usual, consts are not top-level when we bind a reference to an initializer.
+```
+auto &h = 42; // error: we can't bind a plain reference to a literal
+// error: type deduced from i is int; type deduced from &ci is const int
+auto &n = i, *p2 = &ci;
+
+auto &g = ci; // g is a const int& that is bound to ci
+auto &h = 42; // error: we can't bind a plain reference to a literal
+const auto &j = 42; // ok: we can bind a const reference to a literal
+```
+32. decltype
+    - Sometimes we want to define a variable with a type that the compiler deduces from an expression but do not want to use that expression to initialize the variable. For such cases, the new standard introduced a second type specifier, decltype, which returns the type of its operand. The compiler analyzes the expression to determine its type but does not evaluate the expression.
+    - When the expression to which we apply decltype is a variable, decltype returns the type of that variable, including top-level const and references.
+    - It is worth noting that decltype is the only context in which a variable defined as a reference is not treated as a synonym for the object to which it refers.
+    - The dereference operator is an example of an expression for which decltype returns a reference. As we’ve seen, when we dereference a pointer, we get the object to which the pointer points. Moreover, we can assign to that object. Thus, the type deduced by decltype(\*p) is int&, not plain int.
+    - Assignment is another example of an expression that yields a reference type. The type is a reference to the type of the left-hand operand. That is, if i is an int, then the type of the expression i = x is int&.
+    - decltype((variable)) (note, double parentheses) is always a reference type, but decltype(variable) is a reference type only if variable is a reference.
+```
+// decltype of a parenthesized variable is always a reference
+decltype((i)) d;  // error: d is int& and must be initialized
+decltype(i) e;    // ok: e is an (uninitialized) int
+```
+
+32. header
+    - Whenever a header is updated, the source files that use that header must be recompiled to get the new or changed declarations.
+    - Preprocessor variable names do not respect C++ scoping rules. Preprocessor variables, including names of header guards, must be unique throughout the program. 
+    - Headers should have guards, even if they aren’t (yet) included by another header. Header guards are trivial to write, and by habitually defining them you don’t need to decide whether they are needed.

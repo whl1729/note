@@ -93,3 +93,7 @@
     * `:g/pattern/p`: 寻找并显示文件中所有包含模式pattern的行
     * `:g!/pattern/nu`: 寻找并显示文件汇总所有不包含模式pattern的行，并显示其行号
     * `20,40g/pattern/p`: 寻找并显示第20到40行之间所有包含模式pattern的行
+
+## 参考资料
+
+1. [如何在 Linux 下利用 Vim 搭建 C/C++ 开发环境? - 韦易笑的回答 - 知乎](https://www.zhihu.com/question/47691414/answer/373700711)

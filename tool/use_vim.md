@@ -48,6 +48,19 @@
 
 10. 删除文档中的^M符号：使用ex命令替换^M为空即可，注意通过Ctrl-v, Ctrl-m来输入^M。详见[Vim 中如何去掉 ^M 字符？](https://www.zhihu.com/question/22130727).
 
+11. [折叠设置](https://www.cnblogs.com/welkinwalker/archive/2011/05/30/2063587.html)
+    - set foldmethod=indent "set default foldmethod
+    - "zi 打开关闭折叠
+    - "zv 查看此行
+    - zm 关闭折叠
+    - zM 关闭所有
+    - zr 打开
+    - zR 打开所有
+    - zc 折叠当前行
+    - zo 打开当前折叠
+    - zd 删除折叠
+    - zD 删除所有折叠
+
 ## vim插件
 
 ### Vundle管理插件

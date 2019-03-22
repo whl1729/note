@@ -74,11 +74,25 @@ for (declaration : expression)
     - The new header defines the bad_alloc exception type.
     - The type_info header defines the bad_cast exception type.
 
-28. Initialize objects of exception types:
+28. ***Standard Exception Classes Defined in <stdexcept>***
+    ```
+    exception         The most general kind of problem
+    runtime_error     Problem that can be detected only at run time
+    range_error       Run-time error: result generated outside the range of values that are meaningful
+    overflow_error
+    underflow_error
+    logic_error
+    domain_error      Logic error: argument doesn't match the domain of a mathematical function
+    invalid_argument  Logic error: inappropriate argument.
+    length_error      Logic error: attempt to create an object larger than the maximum size for that type
+    out_of_range      Logic error: used a value outside the valid range
+    ```
+
+29. Initialize objects of exception types:
     - We can only default initialize exception, bad_alloc, and bad_cast objects; it is not possible to provide an initializer for objects of these exception types.
     - The other exception types have the opposite behavior: We can initialize those objects from either a string or a C-style string, but we cannot default initialize them.
 
-29. The exception types define only a single operation named what. The purpose of this C-style character string is to provide some sort of textual description of the exception thrown.
+30. The exception types define only a single operation named what. The purpose of this C-style character string is to provide some sort of textual description of the exception thrown.
 
 ## 疑问
 

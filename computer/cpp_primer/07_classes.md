@@ -22,13 +22,16 @@
 
 5. A const following the parameter list indicates that this is a pointer to const. Member functions that use const in this way are const member functions.
 
-6. Note: Objects that are const, and references or pointers to const objects, may call only const member functions.
+6. ***const Member Functions***
+    - By default, the type of this is a const pointer to the nonconst version of the class type. 
+    - A const following the parameter list indicates that this is a pointer to const. Member functions that use const in this way are const member functions. We can think of the body of isbn as if it were written as `std::string Sales_data::isbn(const Sales_data *const this) { return this->isbn; }`
+    - Objects that are const, and references or pointers to const objects, may call only const member functions.
 
 7. The compiler processes classes in two steps— the member declarations are compiled first, after which the member function bodies, if any, are processed. Thus, member function bodies may use other members of their class regardless of where in the class those members appear.
 
 8. when we define a member function outside the class body, 
     - the member’s definition must match its declaration. That is, the return type, parameter list, and name must match the declaration in the class body. 
-    - If the member was declared as a const member function, then the definition must also specify const after the parameter list. 
+    - ***If the member was declared as a const member function, then the definition must also specify const after the parameter list.***
     - The name of a member defined outside the class must include the name of the class of which it is a member.
 
 9. Note: Dereference a pointer returns a reference. For example, `return *this` returns a reference to the object on which the function is executing.
@@ -218,30 +221,36 @@ myScreen.move(4,0).set('#');
 11. Making A Member Function a Friend
     - Making a member function a friend requires careful structuring of our programs to accommodate interdependencies among the declarations and definitions.
     - Although overloaded functions share a common name, they are still different functions. Therefore, a class must declare as a friend each function in a set of overloaded functions that it wishes to make a friend.
+    - Steps for Making Window_mgr's Member Function (clear) a Friend of Screen
+        - First, define the Window_mgr class, which declares, but cannot define, clear. Screen must be declared before clear can use the members of Screen.
+        -  Next, define class Screen, including a friend declaration for clear.
+        - Finally, define clear, which can now refer to the members in Screen.
 
 12. A friend declaration affects access but is not a declaration in an ordinary sense.
 
 ### Class scope
 
 1. Scope and Members Defined outside the Class
-    - The fact that a class is a scope explains why we must provide the class name as well as the function name when we define a member function outside its class. Outside of the class, the names of the members are hidden.
+    - The fact that a class is a scope explains why we must provide the class name as well as the function name when we define a member function outside its class. ***Outside of the class, the names of the members are hidden.***
     - Once the class name is seen, the remainder of the definition—including the parameter list and the function body—is in the scope of the class. As a result, we can refer to other class members without qualification.
     - The return type of a function normally appears before the function’s name. When a member function is defined outside the class body, any name used in the return type is outside the class scope. As a result, the return type must specify the class of which it is a member.
 
-2. Note: Member function definitions are processed after the compiler processes all of the declarations in the class.
+2. ***Class definitions are processed in two phases:***
+    - First, the member declarations are compiled.
+    - Function bodies are compiled only after the entire class has been seen.
 
 3. Names used in declarations, including names used for the return type and types in the parameter list, must be seen before they are used.
 
-4. In a class, if a member uses a name from an outer scope and that name is a type, then the class may not subsequently redefine that name.
+4. Define Type Names
+    - In a class, if a member uses a name from an outer scope and that name is a type, then the class may not subsequently redefine that name.
+    - Definitions of type names usually should appear at the beginning of a class. That way any member that uses that type will be seen after the type name has already been defined.
 
-5. Tip: Definitions of type names usually should appear at the beginning of a class. That way any member that uses that type will be seen after the type name has already been defined.
-
-6. A name used in the body of a member function is resolved as follows:
+5. ***A name used in the body of a member function is resolved as follows:***
     - First, look for a declaration of the name inside the member function. As usual, only declarations in the function body that precede the use of the name are considered. 
     - If the declaration is not found inside the member function, look for a declaration inside the class. All the members of the class are considered. 
-    - If a declaration for the name is not found in the class, look for a declaration that is in scope before the member function definition.
+    - If a declaration for the name is not found in the class, look for a declaration that is in scope before the member function definition. （即本文件中出现在name前面的声明）
 
-7. Note: 
+6. Note: 
     - Even though the class member is hidden, it is still possible to use that member by qualifying the member’s name with the name of its class or by using the this pointer explicitly.
     - Even though the outer object is hidden, it is still possible to access that object by using the scope operator(::).
 

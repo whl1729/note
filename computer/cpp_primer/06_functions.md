@@ -53,9 +53,20 @@ void print(const int (&arr)[10]); // arr is a reference to an array of ten ints
     - C++ also has a special parameter type, ellipsis, that can be used to pass a varying number of arguments. It is worth noting that this facility ordinarily should be used only in programs that need to interface to C functions.
 
 16. initializer_list:
+    - Defined in the ***initializer_list*** header.
     - Unlike vector, the elements in an initializer_list are always const values; there is no way to change the value of an element in an initializer_list.
     - When we pass a sequence of values to an initializer_list parameter, we must enclose the sequence in curly braces.
     - A function with an initializer_list parameter can have other parameters as well. 
+    ```
+    // Operations on initializer_lists
+    initializer_list<T> lst;
+    initializer_list<T> lst{a,b,c...};
+    lst2(lst);  // Copying or assigning an initializer_list does not copy the elements in the list. After the copy, the original and the copy share the elements.
+    lst2 = lst;
+    lst.size()
+    lst.begin()
+    lst.end()
+    ```
 
 17. Warning: Ellipsis parameters should be used only for types that are common to both C and C++. In particular, objects of most class types are not copied properly when passed to an ellipsis parameter.
 

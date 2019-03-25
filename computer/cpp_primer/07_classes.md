@@ -54,7 +54,7 @@
     - Otherwise, default-initialize the member.
 
 4. Some Classes Cannot Rely on the Synthesized Default Constructor
-    - The compiler generates the default for us only if we do not define any other constructors for the class. If we define any constructors, the class will not have a default constructor unless we define that constructor ourselves. The basis for this rule is that if a class requires control to initialize an object in one case, then the class is likely to require control in all cases.
+    - ***The compiler generates the default for us only if we do not define any other constructors for the class. If we define any constructors, the class will not have a default constructor unless we define that constructor ourselves. The basis for this rule is that if a class requires control to initialize an object in one case, then the class is likely to require control in all cases.***
     - Classes that have members of built-in or compound type should ordinarily either initialize those members inside the class or define their own version of the default constructor. Otherwise, users could create objects with members that have undefined value.
     - Sometimes the compiler is unable to synthesize one. For example, if a class has a member that has a class type, and that class doesn’t have a default constructor, then the compiler can’t initialize that member. 
 
@@ -159,7 +159,7 @@ Sales_data obj2; // ok: obj2 is an object, not a function
     - Tip: Ordinarily it is a good idea to group friend declarations together at the beginning or end of the class definition.
 
 6. Declarations for Friends
-    - If we want users of the class to be able to call a friend function, then we must also declare the function separately from the friend declaration.
+    - ***If we want users of the class to be able to call a friend function, then we must also declare the function separately from the friend declaration.***
     - Some compilers allow calls to a friend function when there is no ordinary declaration for that function. Even if your compiler allows such calls, it is a good idea to provide separate declarations for friends. That way you won’t have to change your code if you use a compiler that enforces this rule.
 
 7. The pros and cons of using friends

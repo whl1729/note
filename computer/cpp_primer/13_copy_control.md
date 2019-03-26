@@ -116,7 +116,19 @@ Point *heap = new Point(global); // here we call copy constructor
 
 3. swap Functions Should Call swap, Not std::swap.
 
-4. Assignment operators that use copy and swap are automatically exception safe and correctly handle self-assignment.
+4. Classes that define swap often use swap to define their assignment operator. These operators use a technique known as copy and swap. This technique swaps the lefthand operand with a copy of the right-hand operand.
+```
+// note rhs is passed by value, which means the HasPtr copy constructor
+// copies the string in the right-hand operand into rhs
+HasPtr& HasPtr::operator=(HasPtr rhs)
+{
+// swap the contents of the left-hand operand with the local variable rhs
+swap(*this, rhs); // rhs now points to the memory this object had used
+return *this; // rhs is destroyed, which deletes the pointer in rhs
+}
+```
+
+5. Assignment operators that use copy and swap are automatically exception safe and correctly handle self-assignment.
 
 ### A Copy-Control Example
 
@@ -127,6 +139,65 @@ Point *heap = new Point(global); // here we call copy constructor
 ### Classes That Manage Dynamic Memory
 
 1. Some classes need to allocate a varying amount of storage at run time. Such classes often can (and if they can, generally should) use a library container to hold their data. However, some classes need to do their own allocation. Such classes generally must define their own copy-control members to manage the memory they allocate.
+
+2. Moving, Not Copying, Elements during Reallocation
+    - move function is defined in the utility header
+    - When reallocate constructs the strings in the new memory it must call move to signal that it wants to use the string move constructor. If it omits the call to move the string the copy constructor will be used. 
+    - We usually do not provide a using declaration for move. When we use move, we call std::move, not move.
+    - `alloc.construct(dest++, std::move(*src++));`
+
+### Moving Objects
+
+1. Why we need move
+    - During reallocation, there is no need to copy—rather than move—the elements from the old memory to the new. 
+    - A second reason to move rather than copy occurs in classes such as the IO or unique_ptr classes. These classes have a resource (such as a pointer or an IO buffer) that may not be shared. Hence, objects of these types can’t be copied but can be moved.
+
+2. The library containers, string, and shared_ptr classes support move as well as copy. The IO and unique_ptr classes can be moved but not copied.
+
+3. Lvalue vd Rvalues
+    - Functions that return lvalue references, along with the assignment, subscript, dereference, and prefix increment/decrement operators, are all examples of expressions that return lvalues. We can bind an lvalue reference to the result of any of these expressions. 
+    - Functions that return a nonreference type, along with the arithmetic, relational, bitwise, and postfix increment/decrement operators, all yield rvalues. We cannot bind an lvalue reference to these expressions, but we can bind either an lvalue reference to const or an rvalue reference to such expressions.
+    - Lvalues Persist; Rvalues Are Ephemeral.
+
+4. Lvalue reference vs Rvalues reference
+    - An rvalue reference is a reference that must be bound to an rvalue. An rvalue reference is obtained by using && rather than &. 
+    - Rvalue references refer to objects that are about to be destroyed. Hence, we can “steal” state from an object bound to an rvalue reference.
+    - A variable is an lvalue; we cannot directly bind an rvalue reference to a variable even if that variable was defined as an rvalue reference type.
+    - We invoke std::move to bind an rvalue reference, eg: `std::move(obj)`
+
+5. In addition to moving resources, the move constructor must ensure that the movedfrom object is left in a state such that destroying that object will be harmless. In particular, once its resources are moved, the original object must no longer point to those moved resources.
+
+6. noexcept for move
+    - We specify noexcept on a function after its parameter list. 
+    - In a constructor, noexcept appears between the parameter list and the : that begins the constructor initializer list.
+    - We must specify noexcept on both the declaration in the class header and on the definition if that definition appears outside the class.
+    - Vector must use a copy constructor instead of a move constructor during reallocation unless it knows that the element type’s move constructor cannot throw an exception. If we want objects of our type to be moved rather than copied in circumstances such as vector reallocation, we must explicity tell the library that our move constructor is safe to use. 
+
+7. Warning: After a move operation, the “moved-from” object must remain a valid, destructible object but users may make no assumptions about its value.
+
+8. The compiler synthesizes the move constructor and move assignment only if a class does not define any of its own copy-control members and only if all the data members can be moved constructed and move assigned, respectively.
+
+9. The rules for when a synthesized move operation is defined as deleted
+    - Unlike the copy constructor, the move constructor is defined as deleted if the class has a member that defines its own copy constructor but does not also define a move constructor, or if the class has a member that doesn’t define its own copy operations and for which the compiler is unable to synthesize a move constructor. Similarly for move-assignment.
+    - The move constructor or move-assignment operator is defined as deleted if the class has a member whose own move constructor or move-assignment operator is deleted or inaccessible.
+    - Like the copy constructor, the move constructor is defined as deleted if the destructor is deleted or inaccessible.
+    - Like the copy-assignment operator, the move-assignment operator is defined as deleted if the class has a const or reference member.
+
+10. Classes that define a move constructor or move-assignment operator must also define their own copy operations. Otherwise, those members are deleted by default. 
+
+11. If a class has no move constructor, function matching ensures that objects of that type are copied, even if we attempt to move them by calling move.
+
+12. Advice: Don’t Be Too Quick to Move. Outside of class implementation code such as move constructors or move-assignment operators, use std::move only when you are certain that you need to do a move and that the move is guaranteed to be safe.
+
+13. Overloaded functions that distinguish between moving and copying a parameter typically have one version that takes a const T& and one that takes a T&&.
+
+14. Reference qualifier
+    - The reference qualifier can be either & or &&, indicating that this may point to an rvalue or lvalue, respectively. 
+    - Like the const qualifier, a reference qualifier may appear only on a (nonstatic) member function and must appear in both the declaration and definition of the function. 
+    - We may run a function qualified by & only on an lvalue and may run a function qualified by && only on an rvalue.
+    - A function can be both const and reference qualified. In such cases, the reference qualifier must follow the const qualifier
+
+15. If a member function has a reference qualifier, all the versions of that member with the same parameter list must have reference qualifiers.
 
 ## 疑问
 
@@ -155,3 +226,4 @@ HasPtr& HasPtr::operator=(const HasPtr &rhs)
 
 3. 第519页Exercise 13.31，为什么sort并没调用我的swap函数？
 
+4. 实现StrVec的move构造函数时，需不需要move alloc？

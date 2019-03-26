@@ -9,9 +9,10 @@
 cin.getline() or getline(cin) ?
 
 ```
-## 头文件
 
-1. 常用函数/变量与对应的头文件
+## 算法
+
+1. foreach + lambda：在类的成员函数中使用for_each及lambda时，如果lambda内部需要使用类的成员，则应该将this放入capture list中，否则会报错：“error: ‘this’ was not captured for this lambda function”。此外，for_each是对input range中的每一个object调用lambda表达式，因此参数列表中的参数类型是object而非object指针。举例：`for_each(elements, first_free, [this](string &s) { alloc.destroy(&s); }); `
 
 ## 类
 
@@ -31,6 +32,11 @@ HasPtr& operator=(const HasPtr &rhp): ps(new string(*rhp.ps)), i(rhp.i) {}
 4. Initialize static member of a class: The class declaration should be in the header file (Or in the source file if not shared). But the initialization should be in source file.
 
 5. If we want users of the class to be able to call a friend function, then we must also declare the function separately from the friend declaration.
+
+## 头文件
+```
+move: utility
+```
 
 ## 疑问
 

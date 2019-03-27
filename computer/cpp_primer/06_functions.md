@@ -172,7 +172,7 @@ defines four other names that can be useful in debugging:
 
 47. Advice: Casts should not be needed to call an overloaded function. The need for a cast suggests that the parameter sets are designed poorly.
 
-48. In order to determine the best match, the compiler ranks the conversions that could be used to convert each argument to the type of its corresponding parameter. Conversions are ranked as follows:
+48. In order to determine the best match, the compiler ranks the conversions that could be used to convert each argument to the type of its corresponding parameter. ***Conversions are ranked as follows:***
     - An exact match. An exact match happens when:
         - The argument and parameter types are identical.
         - The argument is converted from an array or function type to the corresponding pointer type.

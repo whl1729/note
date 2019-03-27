@@ -180,6 +180,8 @@ w.expired()    // Return true if w.use_count() is zero, false otherwise
 w.lock()       // If expired is true, returns a null shared_ptr; otherwise returns a shared_ptr to the object to which w points.
 ```
 
+38. Because the object might no longer exist, we cannot use a weak_ptr to access its object directly. To access that object, we must call lock. The lock function checks whether the object to which the weak_ptr points still exists. If so, lock returns a shared_ptr to the shared object. 
+
 ### Dynamic Arrays
 
 1. The language and library provide two ways to allocate an array of objects at once: new expression or allocator. Using an allocator generally provides better performance and more flexible memory management.

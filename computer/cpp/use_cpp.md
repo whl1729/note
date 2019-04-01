@@ -1,5 +1,11 @@
 # C++ 使用笔记
 
+## 编译问题
+
+1. 如果编译链接多个文件时出现“multiple definition...”的错误，检查是否把报错的函数定义在头文件了，这样如果多个文件都包含了该头文件，则对应的函数定义会被复制多份。
+
+2. 如果只更改了头文件，执行make会提示“make: xxx is up to date”，拒绝重新构建。这时可以clean一把再重新执行make。
+
 ## IO
 
 1. The operator>> eats whitespace (space, tab, newline). Use yourstream.get() to read each character. or use `cin >> std::noskipws >> ch`.
@@ -49,6 +55,8 @@ HasPtr& operator=(const HasPtr &rhp): ps(new string(*rhp.ps)), i(rhp.i) {}
 ## Headers
 ```
 move: utility
+pair: utility
+shared_ptr: memory
 ```
 
 ## Questions

@@ -169,7 +169,7 @@ u.reset(nullptr);
 
 36. A weak_ptr points to an object that is managed by a shared_ptr. Binding a weak_ptr to a shared_ptr does not change the reference count of that shared_ptr. Once the last shared_ptr pointing to the object goes away, the object itself will be deleted. That object will be deleted even if there are weak_ptrs pointing to it.
 
-37. weak_ptr operations
+37. ***weak_ptr operations***
 ```
 weak_ptr<T> w
 weak_ptr<T> w(sp)

@@ -18,9 +18,22 @@ cin.getline(str)  // error
 
 3. 由于iostream不能复制，我们定义iostream变量时必须定义成Reference类型。
 
+4. 使用cout打印字符指针，输出的是对应的字符串
+```
+char word[] = "hello world";
+cout << word << endl;  // print "hello world"
+```
 ## Sequential Containers
 
 1. 整数转字符串：使用to_string而非tostring.
+
+2. string
+```
+s.substr(p, n)  // Return a string containing n characters from s starting at pos
+string(int num, char ch) // 不要记错，不是(char, int)
+```
+
+3. [Why can't I make a vector of references?](https://stackoverflow.com/questions/922360/why-cant-i-make-a-vector-of-references): The component type of containers like vectors must be assignable. References are not assignable (you can only initialize them once when they are declared, and you cannot make them reference something else later). Other non-assignable types are also not allowed as components of containers, e.g. vector<const int> is not allowed.
 
 ## Generic Algorithms
 
@@ -31,6 +44,19 @@ cin.getline(str)  // error
 using std::placeholder::_1;
 // or
 using namespace std::placeholders;
+```
+
+3. equal_range要求序列是有序的。注意API的约束条件。
+
+## Dynamic Memory
+
+1. weak_ptrs
+```
+weak_ptr<T> w;
+w.reset()      // Makes w null.
+w.use_count()  // The number of shared_ptrs that share ownership with w
+w.expired()    // Return true if w.use_count() is zero, false otherwise
+w.lock()       // If expired is true, returns a null shared_ptr; otherwise returns a shared_ptr to the object to which w points.
 ```
 
 ## Classes
@@ -52,10 +78,46 @@ HasPtr& operator=(const HasPtr &rhp): ps(new string(*rhp.ps)), i(rhp.i) {}
 
 5. If we want users of the class to be able to call a friend function, then we must also declare the function separately from the friend declaration.
 
-## Headers
+## Templates
+
+1. ***In order to refer to a specific instantiation of a template (class or function) we must first declare the template itself.***
 ```
+// forward declarations needed for friend declarations in Blob
+template <typename> class BlobPtr;
+template <typename> class Blob; // needed for parameters in operator==
+template <typename T>
+    bool operator==(const Blob<T>&, const Blob<T>&);
+template <typename T> class Blob {
+    // each instantiation of Blob grants access to the version of
+    // BlobPtr and the equality operator instantiated with the same type
+    friend class BlobPtr<T>;
+    friend bool operator==<T>(const Blob<T>&, const Blob<T>&);
+    // other members as in § 12.1.1 (p. 456)
+};
+```
+
+2. Make the function a frined of a class template that uses nontype parameters. Note: Don't forget the <> after the operator.
+```
+template <unsigned H, unsigned W> class Screen;
+template <unsigned H, unsigned W>
+    ostream& operator<<(ostream &os, const Screen<H,W> &sc);
+
+template <unsigned H, unsigned W>
+class Screen
+{
+    friend ostream& operator<< <>(ostream &os, const Screen<H,W> &sc); 
+    // member functions
+}
+```
+
+## Headers
+
+```
+accumulate: numeric
+initializer_list: initializer_list
 move: utility
 pair: utility
+runtime_error: stdexcept
 shared_ptr: memory
 ```
 

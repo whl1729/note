@@ -78,6 +78,8 @@ HasPtr& operator=(const HasPtr &rhp): ps(new string(*rhp.ps)), i(rhp.i) {}
 
 5. If we want users of the class to be able to call a friend function, then we must also declare the function separately from the friend declaration.
 
+6. 定义class时别忘了大括号后面要加个分号。
+
 ## Templates
 
 1. ***In order to refer to a specific instantiation of a template (class or function) we must first declare the template itself.***

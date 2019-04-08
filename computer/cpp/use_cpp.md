@@ -39,9 +39,9 @@ string(int num, char ch) // 不要记错，不是(char, int)
 
 1. foreach + lambda：在类的成员函数中使用for_each及lambda时，如果lambda内部需要使用类的成员，则应该将this放入capture list中，否则会报错：“error: ‘this’ was not captured for this lambda function”。此外，for_each是对input range中的每一个object调用lambda表达式，因此参数列表中的参数类型是object而非object指针。举例：`for_each(elements, first_free, [this](string &s) { alloc.destroy(&s); }); `
 
-2. using placeholders names: 
+2. using placeholders names( Defined in functional header):
 ```
-using std::placeholder::_1;
+using std::placeholders::_1;
 // or
 using namespace std::placeholders;
 ```
@@ -117,6 +117,7 @@ class Screen
 ```
 accumulate: numeric
 initializer_list: initializer_list
+mem_fn: functional
 move: utility
 pair: utility
 runtime_error: stdexcept

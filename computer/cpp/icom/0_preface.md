@@ -30,6 +30,10 @@
 1. 本书技术名词及其意义
     - access level：访问级。就是C++的public、private、protected三种等级
     - access section：访问区段。就是class中的public、private、protected三种段落
+    - bitwise：对每一个bit施以...
+    - memberwise：对每一个member施以...
+    - explicit: 显式的（通常意指在程序源代码中所出现的）
+    - implicit：隐式的（通常意指并非在程序源代码中出现的）
     - implementation：实现品。本书有时候指C++编译器。大部分时候是指class member function的内容
     - layout：布局。意指object在内存中的数据分布情况
     - mangle：名称切割重组（C++对于函数名称的一种处理方式）
@@ -38,5 +42,8 @@
     - override：改写（对virtual function的重新设计）
     - paradigm：范式（一种环境设计和方法论的模型或范例，系统和软件以此模型来开发和运行）
     - resolve：决议。函数调用时链接器所进行的一种操作，将符号与函数实例产生关联。如果你调用func()而链接时找不到func()实例，就会出现"unresolved externals"链接错误
+    - semantics：语意
     - slot：表格中的一格（一个元素），条目
+    - trivial：没有用的
+    - nontrivial：有用的
     - virtual table：虚拟表格（为实现虚拟机制而设计的一种表格，内放virtual functions的地址）

@@ -6,6 +6,8 @@
 
 2. 如果只更改了头文件，执行make会提示“make: xxx is up to date”，拒绝重新构建。这时可以clean一把再重新执行make。
 
+3. 如果编译报错说某变量不是你定义的变量类型，检查是否命名空间冲突了。例如，明明定义了hash类模板，却报错“error: ‘hash’ is not a class template”，原因是在文件开头“using namespace std”，导致std命名空间下的hash与自己定义在全局命名空间下的hash冲突。
+
 ## IO
 
 1. The operator>> eats whitespace (space, tab, newline). Use yourstream.get() to read each character. or use `cin >> std::noskipws >> ch`.
@@ -94,7 +96,6 @@ template <typename T> class Blob {
     // BlobPtr and the equality operator instantiated with the same type
     friend class BlobPtr<T>;
     friend bool operator==<T>(const Blob<T>&, const Blob<T>&);
-    // other members as in § 12.1.1 (p. 456)
 };
 ```
 
@@ -112,9 +113,30 @@ class Screen
 }
 ```
 
+4. Defining static members in templates: The following code will cause the error: " error: specializing member ‘testClass<int>::\_data’ requires ‘template<>’ syntax", refer to [C++: specializing member requires «template\<\> syntax](https://stackoverflow.com/questions/12525012/c-specializing-member-requires-template-syntax/12525107) for a solution.
+
+5. class template explicit specialization must be preceded by 'template <>'
+```
+template <class Key> struct hash
+{
+    // ...
+};
+
+// Note: Here 'template <>' must be provided
+template <> struct hash<char>
+{
+    // ...
+};
+```
+
+## namespace
+
+1. Caution: Avoid using Directives. A using declaration puts the name in the same scope as that of the using declaration itself. It is as if the using declaration declares a local alias for the namespace member.
+
 ## Headers
 
 ```
+assert: cassert
 accumulate: numeric
 initializer_list: initializer_list
 mem_fn: functional
@@ -131,3 +153,24 @@ shared_ptr: memory
 2. C/C++使用scanf或cin时，有时不等待用户输入，具体原因是什么？怎么解决？
 
 3. 异常处理try-catch机制的实现原理？
+
+4. C++ class的内存布局是怎样的？class的成员函数是怎样存储的？如果成员函数存储在类外面，调用时怎么找到该成员函数？比如一个Derived类继承自Base类，通过Derived对象调用继承自Base的成员函数的过程是怎样的？
+
+5. 类成员指针不支持大小比较操作吗？
+```
+error: invalid operands of types ‘float Point3d::*’ and ‘float Point3d::*’ to binary ‘operator<’
+     return ((mem1 < mem2) ? "member 1 occurs first" : "member 2 occurs first");
+             ~~~~~~^~~~~~~
+```
+
+6. 假设一个类继承多个虚基类，编译器会为这个类生成多个指针，分别指向每一个虚基类吗？
+
+7. 派生类中含有每一个基类的vptr吗？
+
+8. 即使没创建类对象，类中的静态数据成员也已经在内存中创建，是吗？
+
+9. 没看懂《深度探索C++对象模型》第5.2节“vptr初始化语意学”中关于“constructor执行算法”的介绍：为什么vptr的初始化要在base class constructors调用操作之后？
+
+10. C++的全局对象何时创建与释放？一个C++程序在执行main的第一条指令前要做哪些事情？
+
+11. STL如何做到thread-safe？

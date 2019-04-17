@@ -1,5 +1,11 @@
 # vim使用笔记
 
+## 最近使用
+
+1. 查找单词时要求完全匹配：`/\<word\>`
+
+## 常用
+
 1. [vim-tabe多标签切换](https://blog.csdn.net/xs1326962515/article/details/77837017)
 
 2. vim支持clipboard
@@ -106,6 +112,8 @@
     * `:g/pattern/p`: 寻找并显示文件中所有包含模式pattern的行
     * `:g!/pattern/nu`: 寻找并显示文件汇总所有不包含模式pattern的行，并显示其行号
     * `20,40g/pattern/p`: 寻找并显示第20到40行之间所有包含模式pattern的行
+
+3. `set ic`: 忽略大小写。 `set noic`：区分大小写。
 
 ## 参考资料
 

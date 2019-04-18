@@ -75,7 +75,7 @@ if (vec1 == vec2)
     - adjacent_find：寻找第一组满足条件的相邻元素，默认条件是“两元素相等”
     - count, count_if
     - find, find_if, find_end, find_first_of
-    - for_each：将仿函数f施行于[first, last)区间内的每一个元素身上
+    - for_each：将仿函数f施行于[first, last)区间内的每一个元素身上，f不可以改变元素内容，因为first和last都是InputIterators，不保证接受赋值行为。如果想要一一修改元素内容，应该使用算法transform
     - generate, generate_n：将仿函数gen的运算结果填写在[first, last)区间内的所有元素身上
     - includes：应用于有序区间。判断序列二S2是否“涵盖于”序列一S1，所谓“涵盖”是指“S2的每一个元素都出现于S1中”。注意S1或S2内的元素都可以重复，所以判断是否“涵盖”时还要保证S1的对应元素的出现次数不小于S2的元素出现次数
     - max_element：返回一个迭代器，指向序列中数值最大的元素

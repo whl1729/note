@@ -174,3 +174,7 @@ error: invalid operands of types ‘float Point3d::*’ and ‘float Point3d::*�
 10. C++的全局对象何时创建与释放？一个C++程序在执行main的第一条指令前要做哪些事情？
 
 11. STL如何做到thread-safe？
+
+12. C++的空间配置器需要管理内存，操作系统也会管理内存，C++与操作系统之间是怎么交互的？
+
+13. 为什么需要迭代器，直接使用指针不行吗？

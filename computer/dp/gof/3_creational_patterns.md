@@ -107,3 +107,9 @@ dynamic loading; or
     - Permits refinement of operations and representation. 
     - Permits a variable number of instances.
     - More flexible than class operations. 
+
+### Discussion of Creational Patterns
+
+1. Factory Method makes a design more customizable and only a little more complicated. Other design patterns require new classes, whereas Factory Method only requires a new operation. People often use Factory Method as the standard way to create objects, but it isn't necessary when the class that's instantiated never changes or when instantiation takes place in an operation that subclasses can easily override, such as an initialization operation.
+
+2. Often, designs start out using Factory Method and evolve toward the other creational patterns as the designer discovers where more flexibility is needed.

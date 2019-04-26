@@ -22,6 +22,10 @@
     - It promotes consistency among products.
     - Supporting new kinds of products is difficult.
 
+5. Related Patterns
+    - Abstract Factory classes are often implemented with Factory Methods, but they can also be implemented using Prototype.
+    - A concrete factory is often a singleton.
+
 ### 3.2 Builder（建造者）
 
 1. Intent: Separate the construction of a complex object from its representation so that the same construction process can create different representations.
@@ -39,10 +43,10 @@
     - It isolates code for construction and representation.
     - It gives you finer control over the construction process.
 
-5. Builder vs Abstract Factory
+5. Related Patterns
     - Abstract Factory is similar to Builder in that it too may construct complex objects. 
-    - The primary difference is that the Builder pattern focuses on constructing a complex object step by step. Abstract Factory's emphasis is on families of product objects (either simple or complex). 
-    - Builder returns the product as a final step, but as far as the Abstract Factory pattern is concerned, the product gets returned immediately.
+    - The primary difference is that the Builder pattern focuses on constructing a complex object step by step. Abstract Factory's emphasis is on families of product objects (either simple or complex). Builder returns the product as a final step, but as far as the Abstract Factory pattern is concerned, the product gets returned immediately.
+    - A Composite is what the builder often builds.
 
 ### 3.3 Factory Method（工厂方法）
 
@@ -62,6 +66,11 @@
     - A potential disadvantage of factory methods is that clients might have to subclass the Creator class just to create a particular ConcreteProduct object.
     - Provides hooks for subclasses.
     - Connects parallel class hierarchies. 
+
+5. Related Patterns
+    - Abstract Factory is often implemented with factory methods.
+    - Factory methods are usually called within Template Methods.
+    - Prototypes don't require subclassing Creator. However, they often require an Initialize operation on the Product class. Creator uses Initialize to initialize the object. Factory Method doesn't require such an operation.
 
 ### 3.4 Prototype（原型）
 
@@ -88,6 +97,10 @@ dynamic loading; or
     - Adding Clone is difficult when the classes under consideration already exist. 
     - Implementing Clone can be difficult when their internals include objects that don't support copying or have circular references.
 
+6. Related Patterns
+    - Prototype and Abstract Factory are competing patterns in some ways. They can also be used together, however. An Abstract Factory might store a set of prototypes from which to clone and return product objects.
+    - Designs that make heavy use of the Composite and Decorator patterns often can benefit from Prototype as well.
+
 ### 3.5 Singleton（单例）
 
 1. Intent: Ensure a class only has one instance, and provide a global point of access to it.
@@ -107,6 +120,9 @@ dynamic loading; or
     - Permits refinement of operations and representation. 
     - Permits a variable number of instances.
     - More flexible than class operations. 
+
+5. Related Patterns
+    - Many patterns can be implemented using the Singleton pattern, such as Abstract Factory, Builder, and Prototype.
 
 ### Discussion of Creational Patterns
 

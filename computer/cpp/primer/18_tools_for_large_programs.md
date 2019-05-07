@@ -2,9 +2,9 @@
 
 ## 18 Tools for Large Programs
 
-### Exception Handing
+### 18.1 Exception Handing
 
-1. The type of the thrown expression, together with the current call chain, determines which handler will deal with the exception. The selected handler is the one nearest in the call chain that matches the type of the thrown object. The type and contents of that object allow the throwing part of the program to inform the handling part about what went wrong.
+1. The type of the thrown expression, together with the current call chain, determines which handler will deal with the exception. ***The selected handler is the one nearest in the call chain that matches the type of the thrown object.*** The type and contents of that object allow the throwing part of the program to inform the handling part about what went wrong.
 
 2. The fact that control passes from one location to another has two important implications:
     - Functions along the call chain may be prematurely exited.
@@ -12,7 +12,7 @@
 
 3. Because the statements following a throw are not executed, a throw is like a return: It is usually part of a conditional statement or is the last (or only) statement in a function.
 
-4. Stack Unwinding
+4. ***Stack Unwinding***
     - 根据调用栈和try block的嵌套顺序，由里而外地搜索各函数的各个try block，当找到第一个合适的try block后停止。
     - When the catch completes, execution continues at the point immediately after the last catch clause associated with that try block.
     - If no matching catch is found, the program is exited by calling the library terminate function.
@@ -21,9 +21,9 @@
     - When a block is exited during stack unwinding, the compiler guarantees that objects created in that block are properly destroyed. 
     - If a local object is of class type, the destructor for that object is called automatically. 
     - The objects will be properly destroyed even if an exception occurs in a constructor or during initialization of the elements of an array or a library container type.
-    - Warning: The memory dynamically allocated using new will not be freed automatically!
+    - Warning: ***The memory dynamically allocated using new will not be freed automatically!***
 
-6. Warning: During stack unwinding, destructors are run on local objects of class type. Because destructors are run automatically, they should not throw. If, during stack unwinding, a destructor throws an exception that it does not also catch, the program will be terminated.
+6. Warning: During stack unwinding, destructors are run on local objects of class type. ***Because destructors are run automatically, they should not throw.*** If, during stack unwinding, a destructor throws an exception that it does not also catch, the program will be terminated.
 
 7. It is almost certainly an error to throw a pointer to a local object. It is an error for the same reasons that it is an error to return a pointer to a local object from a function. If the pointer points to an object in a block that is exited before the catch, then that local object will have been destroyed before the catch.
 
@@ -31,11 +31,11 @@
 
 9. 异常声明中的参数遵循普通的参数传递规则：值传递、引用传递、derived-to-base.
 
-10. Ordinarily, a catch that takes an exception of a type related by inheritance ought to define its parameter as a reference.
+10. Ordinarily, ***a catch that takes an exception of a type related by inheritance ought to define its parameter as a reference.***
 
 11. Finding a Matching Handler
     - The selected catch is the first one that matches the exception at all. 
-    - As a consequence, in a list of catch clauses, the most specialized catch must appear first. 
+    - As a consequence, ***in a list of catch clauses, the most specialized catch must appear first.***
     - Programs that use exceptions from an inheritance hierarchy must order their catch clauses so that handlers for a derived type occur before a catch for its base type. 
 
 12. The types of the exception and the catch declaration must match exactly with only a few possible differences:
@@ -43,16 +43,16 @@
     - Conversions from derived type to base type are allowed.
     - An array is converted to a pointer to the type of the array; a function is converted to the appropriate pointer to function type.
 
-13. Rethrow
+13. ***Rethrow***
     - A catch passes its exception out to another catch by rethrowing the exception. A rethrow is a throw that is not followed by an expression.
     - An empty throw can appear only in a catch or in a function called (directly or indirectly) from a catch. If an empty throw is encountered when a handler is not active, terminate is called.
 
-14. The Catch-All Handler
+14. The ***Catch-All*** Handler
     - To catch all exceptions, we use catch-all handlers, which have the form catch(...). A catch-all clause matches any type of exception. 
     - A catch(...) is often used in combination with a rethrow expression. The catch does whatever local work can be done and then rethrows the exception. 
     - If a catch(...) is used in combination with other catch clauses, it must be last. Any catch that follows a catch-all can never be matched.
 
-15. The only way for a constructor to handle an exception from a constructor initializer is to write the constructor as a function try block.
+15. The only way for a constructor to handle an exception from a constructor initializer is to ***write the constructor as a function try block***.
 ```
 template <typename T>
 Blob<T>::Blob(std::initializer_list<T> il) try :
@@ -61,7 +61,7 @@ Blob<T>::Blob(std::initializer_list<T> il) try :
 } catch(const std::bad_alloc &e) { handle_out_of_memory(e); }
 ```
 
-16. Providing a noexcept specification
+16. Providing a ***noexcept*** specification
     - The noexcept specifier must appear on all of the declarations and the corresponding definition of a function or on none of them. 
     - The specifier precedes a trailing return. 
     - It may not appear in a typedef or type alias. 
@@ -69,7 +69,7 @@ Blob<T>::Blob(std::initializer_list<T> il) try :
     - The compiler in general cannot, and does not, verify exception specifications at compile time.
     - noexcept should be used in two cases: if we are confident that the function won’t throw, and/or if we don’t know what we’d do to handle the error anyway.
 
-17. A function that is designated by throw() promises not to throw any exceptions:
+17. A function that is designated by ***throw()*** promises not to throw any exceptions:
 ```
 void recoup(int) noexcept; // recoup doesn't throw
 void recoup(int) throw(); // equivalent declaration
@@ -82,14 +82,14 @@ void alloc(int) noexcept(false); // alloc can throw
 ```
 19. noexcept has two meanings: It is an exception specifier when it follows a function’s parameter list, and it is an operator that is often used as the bool argument to a noexcept exception specifier.
 
-20. More generally, `noexcept(e)` is true if all the functions called by e have nonthrowing specifications and e itself does not contain a throw. Otherwise, noexcept(e) returns false.
+20. More generally, ***`noexcept(e)` is true if all the functions called by e have nonthrowing specifications and e itself does not contain a throw. Otherwise, noexcept(e) returns false.***
 
 21. Exception Specifications and Pointers, Virtuals, and Copy Control
     - If we declare a pointer that has a nonthrowing exception specification, we can use that pointer only to point to similarly qualified functions. A pointer that specifies (explicitly or implicitly) that it might throw can point to any function, even if that function includes a promise not to throw. 
     - If a virtual function includes a promise not to throw, the inherited virtuals must also promise not to throw. On the other hand, if the base allows exceptions, it is okay for the derived functions to be more restrictive and promise not to throw.
     - When the compiler synthesizes the copy-control members, it generates an exception specification for the synthesized member. If all the corresponding operation for all the members and base classes promise not to throw, then the synthesized member is noexcept. If any function invoked by the synthesized member can throw, then the synthesized member is noexcept(false).
 
-22. exception
+22. **exception**
     |__ bad_alloc
     |__ bad_cast
     |__ logic_error
@@ -105,7 +105,7 @@ void alloc(int) noexcept(false); // alloc can throw
 
 23. The exception, bad_cast, and bad_alloc classes also define a default constructor. The runtime_error and logic_error classes do not have a default constructor but do have constructors that take a C-style character string or a library string argument. Those arguments are intended to give additional information about the error.
 
-### Namespaces
+### 18.2 Namespaces
 
 1. Libraries that put names into the global namespace are said to cause namespace pollution.
 
@@ -142,11 +142,11 @@ void alloc(int) noexcept(false); // alloc can throw
 
 10. Namespace Aliases: `namespace primer = cplusplus_primer;`
 
-11. using Declarations
+11. **using Declarations**
     - A using declaration introduces only one namespace member at a time.
     - A using declaration can appear in global, local, namespace, or class scope. In class scope, such declarations may only refer to a base class member.
 
-12. using Directives
+12. **using Directives**
     - A using directive begins with the keyword using, followed by the keyword namespace, followed by a namespace name. 
     - A using directive injectes all the names from a namespace
     - Warning: Providing a using directive for namespaces, such as std, that our application does not control reintroduces all the name collision problems inherent in using multiple libraries.
@@ -176,9 +176,9 @@ void alloc(int) noexcept(false); // alloc can throw
 
 20. Overloading and using Directives: Differently from how using declarations work, it is not an error if a using directive introduces a function that has the same parameters as an existing function. As with other conflicts generated by using directives, there is no problem unless we try to call the function without specifying whether we want the one from the namespace or from the current scope.
 
-### Multiple and Virtual Inheritance
+### 18.3 Multiple and Virtual Inheritance
 
-1. The order in which base classes are constructed depends on the order in which they appear in the class derivation list. The order in which they appear in the constructor initializer list is irrelevant. 
+1. ***The order in which base classes are constructed depends on the order in which they appear in the class derivation list.*** The order in which they appear in the constructor initializer list is irrelevant. （伍注：与类成员的初始化顺序类似）
 
 2. A derived class can inherit its constructors from one or more of its base classes. It is an error to inherit the same constructor (i.e., one with the same parameter list) from more than one base class.
 
@@ -186,7 +186,7 @@ void alloc(int) noexcept(false); // alloc can throw
 
 4. Classes with multiple bases that define their own copy/move constructors and assignment operators must copy, move, or assign the whole object. The base parts of a multiply derived class are automatically copied, moved, or assigned only if the derived class uses the synthesized versions of these members. 
 
-5. Conversions and Multiple Base Classes
+5. ***Conversions and Multiple Base Classes***
     - A pointer or reference to any of an object’s (accessible) base classes can be used to point or refer to a derived object. 
     - A Base class generally define a virtual destructor. The destructor is run when we delete a pointer to a dynamically allocated object. If that pointer points to a type in an inheritance hierarchy, it is possible that the static type of the pointer might differ from the dynamic type of the object being destroyed.
     - The compiler makes no attempt to distinguish between base classes in terms of a derived-class conversion. Converting to each base class is equally good.
@@ -204,15 +204,15 @@ void alloc(int) noexcept(false); // alloc can throw
 
 9. Virtual derivation affects the classes that subsequently derive from a class with a virtual base; it doesn’t affect the derived class itself.
 
-10. We specify that a base class is virtual by including the keyword virtual in the derivation list. The order of the keywords public and virtual is not significant.
+10. We specify that a base class is virtual by ***including the keyword virtual in the derivation list***. The order of the keywords public and virtual is not significant.
 
 11. If a member from the virtual base is overridden along only one derivation path, then that overridden member can still be accessed directly. If the member is overridden by more than one base, then the derived class generally must define its own version as well.
 
 12. In a virtual derivation, the virtual base is initialized by the most derived constructor.
 
-13. Virtual base classes are always constructed prior to nonvirtual base classes regardless of where they appear in the inheritance hierarchy.  Once the virtual base subparts of the object are constructed, the direct base subparts are constructed in the order in which they appear in the derivation list.
+13. ***Virtual base classes are always constructed prior to nonvirtual base classes regardless of where they appear in the inheritance hierarchy.*** Once the virtual base subparts of the object are constructed, the direct base subparts are constructed in the order in which they appear in the derivation list.
 
-14. Constructor and Destructor Order for Virtual Inheritance
+14. ***Constructor and Destructor Order for Virtual Inheritance***
     - A class can have more than one virtual base class. In that case, the virtual subobjects are constructed in left-to-right order as they appear in the derivation list. 
     - The same order is used in the synthesized copy and move constructors, and members are assigned in this order in the synthesized assignment operators.
     - As usual, an object is destroyed in reverse order from which it was constructed.

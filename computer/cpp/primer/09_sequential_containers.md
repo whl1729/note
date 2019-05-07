@@ -2,11 +2,11 @@
 
 ## 9 Sequential Containers
 
-### Overview of the Sequential Containers
+### 9.1 Overview of the Sequential Containers
 
 1. Deciding Which Sequential Container to Use
     - Unless you have a reason to use another container, use a vector. 
-    - If your program has lots of small elements and space overhead matters, don’t use list or forward_list. 
+    - If your program has lots of small elements and space overhead matters, don’t use list or forward_list. （伍注：对小元素而言链表的开销就显得大了）
     - If the program requires random access to elements, use a vector or a deque
     - If the program needs to insert or delete elements in the middle of the container, use a list or forward_list. 
     - If the program needs to insert or delete elements at the front and the back, but not in the middle, use a deque. 
@@ -14,11 +14,11 @@
         - First, decide whether you actually need to add elements in the middle of a container. It is often easier to append to a vector and then call the library sort function to reorder the container when you’re done with input. 
         - If you must insert into the middle, consider using a list for the input phase. Once the input is complete, copy the list into a vector.
 
-2. Best Practices: If you’re not sure which container to use, write your code so that it uses only operations common to both vectors and lists: Use iterators, not subscripts, and avoid random access to elements. That way it will be easy to use either a vector or a list as necessary.
+2. Best Practices: ***If you’re not sure which container to use, write your code so that it uses only operations common to both vectors and lists: Use iterators, not subscripts, and avoid random access to elements.*** That way it will be easy to use either a vector or a list as necessary.
 
-### Container Library Overview
+### 9.2 Container Library Overview
 
-1. Although we can store almost any type in a container, some container operations impose requirements of their own on the element type. We can define a container for a type that does not support an operation-specific requirement, but we can use an operation only if the element type meets that operation’s requirements.
+1. Although we can store almost any type in a container, some container operations impose requirements of their own on the element type. We can define a container for a type that does not support an operation-specific requirement, but we can use an operation only if the element type meets that operation’s requirements.（伍注：class template只在用到某成员函数时才instantiate对应函数，因此我们可以为不支持某个容器操作的对象定义对应的容器。）
 
 2. Iterator Ranges
     - This element range is called a left-inclusive interval. The standard mathematical notation for such a range is `[ begin, end)` indicating that the range begins with begin and ends with, but does not include, end. 
@@ -34,16 +34,16 @@ iter1 == iter2
 iter1 != iter2
 ```
 
-4. Container type alias
+4. Container type members
     - iterator, const_iterator
     - reverse_iterator, const_reverse_iterator
     - size_type
     - value_type
     - reference, const_reference
 
-5. there are actually two members named begin. One is a const member that returns the container’s const_iterator type. The other is nonconst and returns the container’s iterator type. 
+5. There are actually two members named begin. One is a const member that returns the container’s const_iterator type. The other is nonconst and returns the container’s iterator type. 
 
-6. Best Practices: When write access is not needed, use cbegin and cend.
+6. Advice: ***When write access is not needed, use cbegin and cend.***
 
 7. Initializing a Container
     - When we initialize a container as a copy of another container, the container type and element type of both containers must be identical.
@@ -69,7 +69,7 @@ array<int, 42> arr;
 array<int, 10>::size_type i; 
 ```
 
-10. It is worth noting that although we cannot copy or assign objects of built-in array types, there is no such restriction on array:
+10. ***It is worth noting that although we cannot copy or assign objects of built-in array types, there is no such restriction on array.***
 ```
 int digs[10] = {0,1,2,3,4,5,6,7,8,9};
 int cpy[10] = digs; // error: no copy or assignment for built-in arrays
@@ -77,7 +77,7 @@ array<int, 10> digits = {0,1,2,3,4,5,6,7,8,9};
 array<int, 10> copy = digits; // ok: so long as array types match
 ```
 
-11. assignment and swap
+11. ***assignment and swap***
 ```
 c1 = c2;  // c1 and c2 must be the same type
 c = {a, b, c..};  // Not valid for array
@@ -89,25 +89,26 @@ seq.assign(il);  // Replace the elements in seq with those in the initializer li
 seq.assign(n, t);
 ```
 
-12. Because the size of the right-hand operand might differ from the size of the left-hand operand, the array type does not support assign and it does not allow assignment from a braced list of values.
+12. assign
+    - lets us assign from a different but compatible type, or assign from a subsequence of a container. 
+    - Because the size of the right-hand operand might differ from the size of the left-hand operand, the array type does not support assign and it does not allow assignment from a braced list of values.
+    - Assignment related operations invalidate iterators, references, and pointers into the left-hand container. Aside from string they remain valid after a swap, and (excepting arrays) the containers to which they refer are swapped.
+    - Warning: Because the existing elements are replaced, the iterators passed to assign must not refer to the container on which assign is called.
 
-13. The sequential containers (except array) also define a member named assign that lets us assign from a different but compatible type, or assign from a subsequence of a container. 
+13. swap
+    - Excepting array, swap does not copy, delete, or insert any elements and is guaranteed to run in constant time. In fact, the elements themselves are not swapped; internal data structures are swapped.
+    - Unlike how swap behaves for the other containers, swapping two arrays does exchange the elements. As a result, swapping two arrays requires time proportional to the number of elements in the array.
+    - In the new library, the containers offer both a member and nonmember version of swap. The nonmember swap is of most importance in generic programs. As a matter of habit, it is best to use the nonmember version of swap.（伍注：为什么？两者有何区别？）
 
-14. Warning: Because the existing elements are replaced, the iterators passed to assign must not refer to the container on which assign is called.
+14. Relational operator
+    - Every container type supports the equality operators (== and !=); all the containers except the unordered associative containers also support the relational operators (>, >=, <, <=).
+    - We can use a relational operator to compare two containers only if the appropriate comparison operator is defined for the element type.
+    - The right- and left-hand operands must be the same kind of container and must hold elements of the same type.
+    - Comparing two containers performs a pairwise comparison of the elements. These operators work similarly to the string relationals 
 
-15. Note: Excepting array, swap does not copy, delete, or insert any elements and is guaranteed to run in constant time. In fact, the elements themselves are not swapped; internal data structures are swapped.
+### 9.3 Sequential Container Operations
 
-16. Unlike how swap behaves for the other containers, swapping two arrays does exchange the elements. As a result, swapping two arrays requires time proportional to the number of elements in the array.
-
-17. In the new library, the containers offer both a member and nonmember version of swap. The nonmember swap is of most importance in generic programs. As a matter of habit, it is best to use the nonmember version of swap.
-
-18. Every container type supports the equality operators (== and !=); all the containers except the unordered associative containers also support the relational operators (>, >=, <, <=). The right- and left-hand operands must be the same kind of container and must hold elements of the same type.  Comparing two containers performs a pairwise comparison of the elements. These operators work similarly to the string relationals 
-
-19. Note: We can use a relational operator to compare two containers only if the appropriate comparison operator is defined for the element type.
-
-### Sequential Container Operations
-
-1. Operations that Add elements to a Sequential Container
+1. ***Operations that Add elements to a Sequential Container***
     - These operations change the size of the container, they are not supported by array.
     - forward_list has special versions of insert and emplace.
     - push_back and emplace_back not valid for forward_list.
@@ -124,17 +125,19 @@ c.insert(p, b, e);
 c.insert(p, il);
 ```
 
-2. When we use these operations, we must remember that the containers use different strategies for allocating elements and that these strategies affect performance. Adding elements anywhere but at the end of a vector or string, or anywhere but the beginning or end of a deque, requires elements to be moved. Moreover, adding elements to a vector or a string may cause the entire object to be reallocated. Reallocating an object requires allocating new memory and moving elements from the old space to the new.
+2. When we use these operations, we must remember that the containers use different strategies for allocating elements and that these strategies affect performance. 
+    - Adding elements anywhere but at the end of a vector or string, or anywhere but the beginning or end of a deque, requires elements to be moved. 
+    - Moreover, adding elements to a vector or a string may cause the entire object to be reallocated. Reallocating an object requires allocating new memory and moving elements from the old space to the new.
 
-3. When we use an object to initialize a container, or insert an object into a container, a copy of that object’s value is placed in the container, not the object itself. 
+3. ***When we use an object to initialize a container, or insert an object into a container, a copy of that object’s value is placed in the container, not the object itself.***
 
-4. Because the iterator might refer to a nonexistent element off the end of the container, and because it is useful to have a way to insert elements at the beginning of a container, element(s) are inserted before the position denoted by the iterator.
+4. Because the iterator might refer to a nonexistent element off the end of the container, and because it is useful to have a way to insert elements at the beginning of a container, ***element(s) are inserted before the position denoted by the iterator.***
 
 5. Warning: It is legal to insert anywhere in a vector, deque, or string. However, doing so can be an expensive operation.
 
 6. When we call an emplace member, we pass arguments to a constructor for the element type. The emplace members use those arguments to construct an element directly in space managed by the container.
 
-7. Accessing Elements
+7. ***Accessing Elements***
     - at and subscript operator valid only for string, vector, deque, and array.
     - back not valid for forward_list.
 ```
@@ -150,7 +153,7 @@ c.at[n]    // If the index is out of range, throws an out_of_range exception
     - It is up to the program to ensure that the index is valid; the subscript operator does not check whether the index is in range.
     - If we want to ensure that our index is valid, we can use the at member instead. The at member acts like the subscript operator, but if the index is invalid, at throws an out_of_range exception.
 
-10. erase Operations on Sequential Containers
+10. ***erase Operations on Sequential Containers***
     - Warning: The members that remove elements do not check their argument(s). The programmer must ensure that element(s) exist before removing them.
     - These operations return void. If you need the value you are about to pop, you must store that value before doing the pop.
     - pop_back not valid for forward_list.
@@ -166,8 +169,7 @@ c.clear();
 
 11. 判断整数的奇偶性直接使用位运算：`num & 0x1`
 
-12. Specialized forward_list Operations
-    - In a singly linked list there is no easy way to get to an element’s predecessor. For this reason, the operations to add or remove elements in a forward_list operate by changing the element after the given element.
+12. Specialized forward_list Operations: In a singly linked list there is no easy way to get to an element’s predecessor, so the operations to add or remove elements in a forward_list operate by changing the element ***after*** the given element.
 ```
 lst.before_begin();
 lst.cbefore_begin();
@@ -189,13 +191,13 @@ c.resize(n, t);
 
 15. Advice: Because code that adds or removes elements to a container can invalidate iterators, you need to ensure that the iterator is repositioned, as appropriate, after each operation that changes the container.
 
-16. Tip: Don’t cache the iterator returned from end() in loops that insert or delete elements in a deque, string, or vector.
+16. Tip: ***Don’t cache the iterator returned from end() in loops that insert or delete elements in a deque, string, or vector.***
     - When we add or remove elements in a vector or string, or add elements or
 remove any but the first element in a deque, the iterator returned by end is always invalidated. 
-    - Thus, loops that add or remove elements should always call end rather than use a stored copy. 
+    - Thus, loops that add or remove elements should always call end() rather than use a stored copy. 
     - Partly for this reason, C++ standard libraries are usually implemented so that calling end() is a very fast operation.
 
-### How a vector Grows
+### 9.4 How a vector Grows
 
 1. Container Size Management
 ```
@@ -204,13 +206,13 @@ c.capacity();
 c.reserve(n);  // Allocate space for at least n elements
 ```
 
-2.  shrink_to_fit indicates that we no longer need any excess capacity. However, the implementation is free to ignore this request. There is no guarantee that a call to shrink_to_fit will return memory.
+2. ***shrink_to_fit indicates that we no longer need any excess capacity. However, the implementation is free to ignore this request. There is no guarantee that a call to shrink_to_fit will return memory.***
 
 3. A vector may be reallocated only when the user performs an insert operation when the size equals capacity or by a call to resize or reserve with a value that exceeds the current capacity. How much memory is allocated beyond the specified amount is up to the implementation.
 
-### Additional string Operations
+### 9.5 Additional string Operations
 
-1. Other ways to construct strings
+1. ***Other ways to construct strings***
 ```
 string s(cp, n);  // s is c copy of the first n characters in the array to which cp points
 string s(s2, pos2);  // s is a copy of the characters in the string s2 starting at the index pos2
@@ -219,8 +221,8 @@ string s(s2, pos2, len2);
 
 2. substr
     - `s.substr(pos, n)` return a string containing n charactres from s starting at pos.
-    - throws an out_of_range if the position exceeds the size of the string.
-    - if the position plus the count is greater than the size, the count is adjusted to copy only up to the end of the string.
+    - Throws an out_of_range if the position exceeds the size of the string.
+    - If the position plus the count is greater than the size, the count is adjusted to copy only up to the end of the string.
 
 3. Operations to Modify strings
 ```
@@ -253,9 +255,10 @@ pos1, n1, cp
 pos1, n1, cp, n2
 ```
 
-7. Conversions between strings and Numbers
+7. ***Conversions between strings and Numbers***
     - b indicates the numeric base to use for the conversion, b defaults to 10.
     - p is a pointer to a size_t in which to put the index of the first nonnumeric character in s; p defaults to 0.
+    - If the string can’t be converted to a number, These functions throw an invalid_argument exception. If the conversion generates a value that can’t be represented, they throw out_of_range.
 ```
 to_string(val);
 stoi(s, p, b);
@@ -268,9 +271,7 @@ stod(s, p);
 stold(s, p);
 ```
 
-8. If the string can’t be converted to a number, These functions throw an invalid_argument exception. If the conversion generates a value that can’t be represented, they throw out_of_range.
-
-### Container Adaptors
+### 9.6 Container Adaptors
 
 1. The library defines three sequential container adaptors: stack, queue, and priority_queue.  There are container, iterator, and function adaptors. Essentially, an adaptor is a mechanism for making one thing act like another. A container adaptor takes an existing container type and makes it act like a different type. 
 
@@ -281,7 +282,7 @@ value_type
 container_type
 A a;
 A a(c);
-relational operators
+// relational operators
 a.empty();
 a.size();
 swap(a, b);
@@ -296,7 +297,7 @@ stack<string, vector<string>> str_stk;
 stack<string, vector<string>> str_stk2(svec);
 ```
 
-4. Other Stack Operations
+4. ***Other Stack Operations***
 ```
 s.pop();  // Removes, but does not return, the top element from the stack
 s.push(item);
@@ -304,12 +305,12 @@ s.emplace(args);
 s.top();  // Returns, but does not remove, the top element on the stack
 ```
 
-5. Other queue, priority_queue Operations
+5. ***Other queue, priority_queue Operations***
 ```
 q.pop();
-q.front();
+q.front(); // Returns, but does not remove, the front or back element. Valid only for queue
 q.back();  // Valid only for queue
-q.top();   // Valid only for priority_queue
+q.top();   // Returns, but does not remove, the highest-priority element. Valid only for priority_queue
 q.push(item);
 q.emplace(args);
 ```

@@ -2,11 +2,11 @@
 
 ## 17 Specialized Library Facilities
 
-### The tuple Type
+### 17.1 The tuple Type
 
 1. A tuple is most useful when we want to combine some data into a single object but do not want to bother to define a data structure to represent those data. A tuple can be thought of as a “quick and dirty” data structure.
 
-2. Operations on tuples
+2. ***Operations on tuples***
 ```
 tuple<T1, T2, ..., Tn> t;
 tuple<T1, T2, ..., Tn> t(v1, v2, ..., vn);
@@ -23,11 +23,11 @@ tuple_element<i, tupleType>::type
 
 4. A common use of tuple is to return multiple values from a function. 
 
-### The bitset Type
+### 17.2 The bitset Type
 
 1. The standard library defines the bitset class to make it easier to use bit operations and possible to deal with collections of bits that are larger than the longest integral type. The bitset class is a class template that has a fixed size.
 
-2. Ways to Initialize a bitset
+2. ***Ways to Initialize a bitset***
 ```
 bitset<n> b;  // b has n bits; each bit is 0.
 bitset<n> b(u);  // b is a copy of the n low-order bits of unsigned long long value u. If n is greater than the size of an unsigned long long, the high-order bits beyond those in the unsigned long long are set to zero.
@@ -37,7 +37,7 @@ bitset<n> b(cp, pos, m, zero, one);
 
 3. The indexing conventions of strings and bitsets are inversely related: The character in the string with the highest subscript (the rightmost character) is used to initialize the low-order bit in the bitset (the bit with subscript 0). When you initialize a bitset from a string, it is essential to remember this difference.
 
-4. bitset Operations
+4. ***bitset Operations***
 ```
 b.any()  // Is any bit in b on?
 b.all()  // Are all the bits in b on?
@@ -61,18 +61,18 @@ os >> b
 
 5. The to_ulong and to_ullong operations throw an overflow_error exception if the value in the bitset does not fit in the specified type.
 
-### Regular Expressions
+### 17.3 Regular Expressions
 
-1. Regular Expression Library Components
-    - regex
+1. ***Regular Expression Library Components***
+    - regex: class that represents a regular expression
     - regex_match: returns true if the entire input sequence matches the expression.
     - regex_search: returns true if there is a substring in the input sequence that matches.
-    - regex_replace
-    - sregex_iterator
-    - smatch
-    - ssub_match
+    - regex_replace: Replaces matched sequence.
+    - sregex_iterator: Iterator adaptor that calls regex_search to iterate through the matches in a string.
+    - smatch: Container class that holds the results of searching a string
+    - ssub_match: Results for a matched subexpression in a string
 
-2. regex (and wregex) Operations
+2. ***regex (and wregex) Operations***
 ```
 regex r(re)
 regex r(re, f)  // f means Flags, which defaults to ECMAScript
@@ -125,12 +125,12 @@ error_complexity
 error_stack
 ```
 
-7. Advice: Avoid Creating Unnecessary Regular Expressions
+7. Advice: ***Avoid Creating Unnecessary Regular Expressions***
     - Compiling a regular expression can be a surprisingly slow operation, especially if you’re using the extended regular-expression grammar or are using complicated expressions. 
     - To minimize this overhead, you should try to avoid creating more regex objects than needed. 
     - In particular, if you use a regular expression in a loop, you should create it outside the loop rather than recompiling it on each iteration.
 
-8. The RE library types we use must match the type of the input sequence
+8. ***The RE library types we use must match the type of the input sequence***
 If Input Sequence Has Type | Use Regular Expression Classes
 -------------------------- | ----------------------------------------
 string           | regex, smatch, ssub_match, and sregex_iterator
@@ -138,7 +138,7 @@ const char\*     | regex, cmatch, csub_match, and cregex_iterator
 wstring          | wregex, wsmatch, wssub_match, and wsregex_iterator
 const wchar_t\*  | wregex, wcmatch, wcsub_match, and wcregex_iterator
 
-9. sregex_iterator Operations
+9. ***sregex_iterator Operations***
     - When we bind an sregex_iterator to a string and a regex object, the iterator is automatically positioned on the first match in the given string. That is, the sregex_iterator constructor calls regex_search on the given string and regex. 
     - When we dereference the iterator, we get an smatch object corresponding to the results from the most recent search. 
     - When we increment the iterator, it calls regex_search to find the next match in the input string.
@@ -146,7 +146,7 @@ const wchar_t\*  | wregex, wcmatch, wcsub_match, and wcregex_iterator
 // These operations also apply to cregex_iterator, wsregex_iterator, and wcregex_iterator
 sregex_iterator it(b, e, r);
 sregex_iterator end;
-*it
+\*it
 it->
 ++it
 it++
@@ -154,7 +154,7 @@ it1 == it2
 it1 != it2
 ```
 
-10. smatch Operations
+10. ***smatch Operations***
 ```
 // These operations also apply to the cmatch, wsmatch, wcmatch and
 // the corresponding csub_match, wssub_match, and wcsub_match types.
@@ -176,13 +176,13 @@ m.cbegin(), m.cend()
 
 12. One common use for subexpressions is to validate data that must match a specific format.
 
-13. ECMAScript regular-expression language:
+13. ***ECMAScript regular-expression language***
     - \{d} represents a single digit and \{d}{n} represents a sequence of n digits. (E.g., \{d}{3} matches a sequence of three digits.) 
     - A collection of characters inside square brackets allows a match to any of those characters. 
     - A component followed by ’?’ is optional. 
     - Like C++, ECMAScript uses a backslash to indicate that a character should represent itself, rather than its special meaning. 
 
-14. Submatch Operations
+14. ***Submatch Operations***
 ```
 matched
 first   // iterator to the start of the matching sequence
@@ -192,12 +192,12 @@ str()   // Returns the empty string() if matched is false
 s = ssub  // Equivalent to s = ssub.str()
 ```
 
-15. We refer to a particular subexpression by using a $ symbol followed by the index number for a subexpression. 注意：使用子表达式前，一定要确保正则表达式的相应部分已经用括号括起来了，如果某部分没用括号括起来，则不会被视为子表达式，可能会导致$n对应的子表达式与预期不符。
+15. We refer to a particular subexpression by using a $ symbol followed by the index number for a subexpression. 注意：***使用子表达式前，一定要确保正则表达式的相应部分已经用括号括起来了，如果某部分没用括号括起来，则不会被视为子表达式，可能会导致$n对应的子表达式与预期不符。***
 ```
 string fmt = "$2.$5.$7"; // reformat numbers to ddd.ddd.dddd
 ```
 
-16. Regular Expression Replace Operations
+16. ***Regular Expression Replace Operations***
 ```
 m.format(dest, fmt, mft)
 m.format(fmt, mft)
@@ -223,14 +223,14 @@ format_no_copy  // Don't output the unmatched parts of the input
 format_first_only
 ```
 
-18. Like placeholders, which we used with bind, regex_constants is a namespace defined inside the std namespace. To use a name from regex_constants, we must qualify that name with the names of both namespaces:
+18. Like placeholders, which we used with bind, **regex_constants** is a namespace defined inside the std namespace. To use a name from regex_constants, we must qualify that name with the names of both namespaces:
 ```
 using std::regex_constants::format_no_copy;
 // or
 using namespace std::regex_constants;
 ```
 
-### Random Numbers
+### 17.4 Random Numbers
 
 1. Random Number Library Components
     - Engine: Types that generate a sequence of random unsigned integers
@@ -240,7 +240,7 @@ using namespace std::regex_constants;
 
 3. The library defines several random-number engines that differ in terms of their performance and quality of randomness. Each compiler designates one of these engines as the default_random_engine type. 
 
-4. Random Number Engine Operations
+4. ***Random Number Engine Operations***
 ```
 Engine e;
 Engine e(s);
@@ -276,14 +276,14 @@ d.reset()
 
 11. Warning: Because engines return the same sequence of numbers, it is essential that we declare engines outside of loops. Otherwise, we’d create a new engine on each iteration and generate the same values on each iteration. Similarly, distributions may retain state and should also be defined outside loops.
 
-### The IO Library Revisited
+### 17.5 The IO Library Revisited
 
 1. manipulators
     - A manipulator is a function or object that affects the state of a stream and can be used as an operand to an input or output operator.
     - A manipulator returns the stream object to which it is applied, so we can combine manipulators and data in a single statement.
     - Manipulators are used for two broad categories of output control: controlling the presentation of numeric values and controlling the amount and placement of padding.
 
-2. Manipulators Defined in iostream
+2. ***Manipulators Defined in iostream***
 ```
 boolalpha  // Display true and false as strings. Default : noboolalpha
 showbase   // Generate prefix indicating the numeric base of integral values. Default: noshowbase
@@ -304,7 +304,7 @@ ends   // Insert null, then flush the ostream buffer
 endl   // Insert newline, then flush the ostream buffer
 ```
 
-3. Manipulators Defined in iomanip
+3. ***Manipulators Defined in iomanip***
 ```
 setfill(ch)      // Fill whitespace with ch
 setprecision(n)  // Set floating-point precision to n
@@ -321,7 +321,7 @@ setbase(b)       // Output integers in base b
     - the decimal point is omitted if the value has no fractional part;
     - and they are printed in either fixed decimal or scientific notation depending on the value of the number. The library chooses a format that enhances readability of the number. Very large and very small values are printed using scientific notation. Other values are printed in fixed decimal.
 
-7. setprecision
+7. **setprecision**
     - When printed, floating-point values are rounded, not truncated, to the current precision.
     - We can change the precision by calling the precision member of an IO object or by using the setprecision manipulator. 
     - The precision member is overloaded. One version takes an int value and sets the precision to that new value. It returns the previous precision value. The other version takes no arguments and returns the current precision value. 
@@ -329,11 +329,11 @@ setbase(b)       // Output integers in base b
 
 8. After executing scientific, fixed, or hexfloat, the precision value controls the number of digits after the decimal point. By default, precision specifies the total number of digits—both before and after the decimal point.
 
-9. setw, like endl, does not change the internal state of the output stream. It determines the size of only the next output.
+9. ***setw, like endl, does not change the internal state of the output stream. It determines the size of only the next output.***
 
-10. By default, the input operators ignore whitespace (blank, tab, newline, formfeed, and carriage return). The noskipws manipulator causes the input operator to read, rather than skip, whitespace. To return to the default behavior, we apply the skipws manipulator.
+10. By default, the input operators ignore whitespace (blank, tab, newline, formfeed, and carriage return). The **noskipws** manipulator causes the input operator to read, rather than skip, whitespace. To return to the default behavior, we apply the skipws manipulator.
 
-11. Single-Byte Low-Level IO Operations
+11. ***Single-Byte Low-Level IO Operations***
 ```
 is.get(ch)  // Return is
 os.put(ch)  // Return os
@@ -345,9 +345,9 @@ is.peek()   // Return the next byte as an int but doesn't remove it.
 
 12. In general, we are guaranteed to be able to put back at most one value before the next read. That is, we are not guaranteed to be able to call putback or unget successively without an intervening read operation.
 
-13. the iostream header defines a const named EOF that we can use to test if the value returned from get is end-of-file. It is essential that we use an int to hold the return from these functions.
+13. The iostream header defines a const named EOF that we can use to test if the value returned from get is end-of-file. It is essential that we use an int to hold the return from these functions.
 
-14. Multi-Byte Low-Level IO Operations
+14. ***Multi-Byte Low-Level IO Operations***
 ```
 is.get(sink, size, delim)  // leaves the delim as the next char of the istream
 is.getline(sink, size, delim)  // reads and discard the delim
@@ -359,7 +359,7 @@ is.ignore(size, delim)  // Reads and ignores at most size characters up to and i
 
 15. The get and getline functions read until one of the following conditions occurs:
     - size - 1 characters are read
-    - End-of-file is encounteredC++ Primer, Fifth Edition
+    - End-of-file is encountered
     - The delimiter character is encountered
 
 16. Warning: It is a common error to intend to remove the delimiter from the stream but to forget to do so.
@@ -370,7 +370,7 @@ is.ignore(size, delim)  // Reads and ignores at most size characters up to and i
 
 19. On most systems, the streams bound to cin, cout, cerr, and clog do not support random access.
 
-20. Seek and Tell Functions
+20. ***Seek and Tell Functions***
 ```
 tellg()  // g means "getting"
 tellp()  // p means "putting"

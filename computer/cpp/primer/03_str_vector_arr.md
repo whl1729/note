@@ -2,22 +2,44 @@
 
 ## 3 Strings, Vectors, and Arrays
 
-### Strings
-1. namespace using
-    - A using declaration lets us use a name from a namespace without qualifying the name with a namespace_name:: prefix. A using declaration has the form: `using namespace::name;`
-    - There must be a using declaration for each name we use, and each declaration must end in a semicolon
-    - Headers Should Not Include using Declarations. The reason is that the contents of a header are copied into the including program’s text. If a header has a using declaration, then every program that includes that header gets that same using declaration. As a result, a program that didn’t intend to use the specified library name might encounter unexpected name conflicts.
+1. List Initialization  
+    - Use curly braces for initialization
+    - Braced lists of initializers can now be used whenever we initialize an object and in some cases when we assign a new value to an object.
+    - ***List initialization does not allow narrowing. The compiler will not let us list initialize variables of built-in type if the initializer might lead to the loss of information.***
+    - The only situation where = is preferred over {} is when using auto keyword to get the type determined by the initializer.
+    ```
+    auto z1 {99}; // z1 is an initializer_list<int>
+    auto z2 = 99; // z2 is an int
+    ```
 
 2. copy initialization vs direct initialization
     - When we initialize a variable using =, we are asking the compiler to copy initialize the object by copying the initializer on the right-hand side into the object being created. Otherwise, when we omit the =, we use direct initialization.
-    - When we have a single initializer, we can use either the direct or copy form of initialization. When we initialize a variable from more than one value, such as in the initialization of s4 above, we must use the direct form of initialization.
+    - When we have a single initializer, we can use either the direct or copy form of initialization. When we initialize a variable from more than one value, such as in the initialization of s7 in the following code, we must use the direct form of initialization.
 ```
 string s5 = "hiya";  // copy initialization
 string s6("hiya");   // direct initialization
 string s7(10, 'c');  // direct initialization; s7 is cccccccccc
 ```
 
-3. Ways to Initialize a string
+3. Default Initialization
+    - When we define a variable without an initializer, the variable is default initialized. Such variables are given the “default” value. ***What that default value is depends on the type of the variable and may also depend on where the variable is defined.***
+    - The value of an object of built-in type that is not explicitly initialized depends on where it is defined. Variables defined outside any function body are initialized to zero. With one exception, variables of built-in type defined inside a function are uninitialized. The value of an uninitialized variable of built-in type is undefined.
+    - Each class controls how we initialize objects of that class type. In particular, it is up to the class whether we can define objects of that type without an initializer. If we can, the class determines what value the resulting object will have.
+
+4. ***Value Initialization*** 
+    - We can usually omit the value and supply only a size. In this case the library creates a value-initialized element initializer for us. This library-generated value is used to initialize each element in the container. The value of the element initializer depends on the type of the elements stored in the vector. 
+    - If the vector holds elements of a built-in type, such as int, then the element initializer has a value of 0. If the elements are of a class type, such as string, then the element initializer is itself default initialized.
+
+### 3.1 Namespace using Declarations
+
+1. namespace using
+    - A using declaration lets us use a name from a namespace without qualifying the name with a namespace_name:: prefix. A using declaration has the form: `using namespace::name;`
+    - There must be a using declaration for each name we use, and each declaration must end in a semicolon
+    - ***Headers Should Not Include using Declarations.*** The reason is that the contents of a header are copied into the including program’s text. If a header has a using declaration, then every program that includes that header gets that same using declaration. As a result, a program that didn’t intend to use the specified library name might encounter unexpected name conflicts.
+
+### 3.2 Library string Type
+
+1. Ways to Initialize a string
 ```
 string s1;  // Default initialization; s1 is the empty string
 string s2(s1);  // s2 is a copy of s1.
@@ -27,20 +49,19 @@ string s3 = "value";  // Equivalent to s3("value"), s3 is a copy of the string l
 string s4(n, 'c');  // Initialize s4 with n copies of the character 'c'
 ```
 
-4. string operations
+2. ***string operations***
     - The string input operator `is >> s` reads and discards any leading whitespace (e.g., spaces, newlines, tabs). It then reads characters until the next whitespace character is encountered.
     - `getline(is, s)` reads the given stream up to and including the first newline and stores what it read—not including the newline—in its string argument. After getline sees a newline, even if it is the first character in the input, it stops reading and returns. If the first character in the input is a newline, then the resulting string is the empty string.
     - `s.empty()` returns true if s is empty, otherwise returns false.
     - `s.size()` returns the number of characters in s.
 
-5. string::size_type
-    - one of companion types, makes it possible to use the library types in a machineindependent manner. 
-    - is an unsigned type big enough to hold the size of any string. Any variable used to store the result from the string size operation should be of type string::size_type.
+3. string::size_type
+    - one of companion types, makes it possible to use the library types in a machine-independent manner. 
+    - `string::size_type` is an unsigned type big enough to hold the size of any string. Any variable used to store the result from the string size operation should be of type string::size_type.
     - you can use auto instead of typing `string::size_type`
-    - Because size returns an unsigned type, it is essential to remember that expressions that mix signed and unsigned data can have surprising results. You can avoid problems due to conversion between unsigned and int by not using ints in expressions that use size().
-    - When we mix strings and string or character literals, at least one operand to each + operator must be of string type
+    - Because size() returns an unsigned type, it is essential to remember that expressions that mix signed and unsigned data can have surprising results. You can avoid problems due to conversion between unsigned and int by not using ints in expressions that use size().
 
-6. Adding Literals and strings
+4. Adding Literals and strings
     - When we mix strings and string or character literals, at least one operand to each + operator must be of string type
     ```
     string s4 = s1 + ", "; // ok: adding a string and a literal
@@ -50,28 +71,29 @@ string s4(n, 'c');  // Initialize s4 with n copies of the character 'c'
     ```
     - For historical reasons, and for compatibility with C, string literals are not standard library strings. It is important to remember that these types differ when you use string literals and library strings.
 
-7. Advice: Ordinarily, C++ programs should use the cname versions of headers and not the name .h versions. That way names from the standard library are consistently found in the std namespace. Note that the names defined in the cname headers are defined inside the std namespace, whereas those defined in the .h versions are not. 
+5. Advice: Ordinarily, C++ programs should use the cname versions of headers and not the name .h versions. That way names from the standard library are consistently found in the std namespace. Note that the names defined in the cname headers are defined inside the std namespace, whereas those defined in the .h versions are not. 
 
-8. dealing with the characters in a string
+6. dealing with the characters in a string
     - use the range for statement: `for (auto c : str)`
     - If we want to change the value of the characters in a string, we must define the loop variable as a reference type : `for (auto &c: str)`
     - There are two ways to access individual characters in a string: We can use a subscript or an iterator.
     - The values we use to subscript a string must be >= 0 and < size(). The result of using an index outside this range is undefined. By implication, subscripting an empty string is undefined.
     - One way to simplify code that uses subscripts is always to use a variable of type string::size_type as the subscript. Because that type is unsigned, we need to check only that our subscript is less than value returned by size()
 
-### Vectors
+### 3.3 Library vector Type
 
-1. vectors as a class template
-    - A vector is a class template. C++ has both class and function templates. 
-    - Instantiation: Templates are not themselves functions or classes. Instead, they can be thought of as instructions to the compiler for generating classes or functions. The process that the compiler uses to create classes or functions from templates is called instantiation.
-    - vector is a template, not a type. Types generated from vector must include the element type, for example, vector<int>.
+    
+1. ***Instantiation***: C++ has both class and function templates. Templates are not themselves functions or classes. Instead, they can be thought of as instructions to the compiler for generating classes or functions. The process that the compiler uses to create classes or functions from templates is called instantiation.
+
+2. vectors as a class template
+    - A vector is a class template, not a type. Types generated from vector must include the element type, for example, vector<int>.
     - Because references are not objects, we cannot have a vector of references.
     - Some compilers may require the old-style declarations for a vector of vectors, for example, vector<vector<int> >.
 
-2. restrictions of the forms of initialization
-    - when we use the copy initialization form (i.e., when we use =) , we can supply only a single initializer
-    - when we supply an in-class initializer, we must either use copy initialization or use curly braces.
-    - we can supply a list of element values only by using list initialization in which the initializers are enclosed in curly braces. We cannot supply a list of initializers using parentheses.
+3. restrictions of the forms of initialization
+    - When we use the copy initialization form (i.e., when we use =) , we can supply only a single initializer.
+    - When we supply an in-class initializer, we must either use copy initialization or use curly braces.
+    - We can supply a list of element values only by using list initialization in which the initializers are enclosed in curly braces. We cannot supply a list of initializers using parentheses.
 ```
 string s7(10, 'c'); // direct initialization; s7 is cccccccccc
 string s7 = String(10, 'c');     // ok
@@ -80,7 +102,7 @@ vector<string> v1{"a", "an", "the"}; // list initialization
 vector<string> v2("a", "an", "the"); // error
 ```
 
-3. ways to initialize a vector
+4. ways to initialize a vector
 ```
 vectors<T> v1;  // default initialization; v1 is empty
 vector<T> v2(v1);  // v2 has a copy of each element in v1.
@@ -91,7 +113,7 @@ vector<T> v5{a, b, c ...}  // v5 has as many elements as there are initializers;
 vector<T> v5 = {a, b, c ...};  // Equivalent to v5{a, b, c ...}.
 ```
 
-4. curly braces or parentheses
+5. curly braces or parentheses
     - In a few cases, what initialization means depends upon whether we use curly braces or parentheses to pass the initializer(s). 
     ```
     vector<int> v1(10); // v1 has ten elements with value 0
@@ -108,21 +130,21 @@ vector<T> v5 = {a, b, c ...};  // Equivalent to v5{a, b, c ...}.
     vector<string> v8{10, "hi"}; // v8 has ten elements with value "hi"
     ```
 
-5.  Because vectors grow efficiently, it is often unnecessary—and can result in poorer performance—to define a vector of a specific size. The exception to this rule is if all the elements actually need the same value. If differing element values are needed, it is usually more efficient to define an empty vector and add elements as the values we need become known at run time. 
+6.  Because vectors grow efficiently, it is often unnecessary—and can result in poorer performance—to define a vector of a specific size. The exception to this rule is if all the elements actually need the same value. If differing element values are needed, it is usually more efficient to define an empty vector and add elements as the values we need become known at run time. 
 
-6. we cannot use a range for if the body of the loop adds elements to the vector. Warning: The body of a range for must not change the size of the sequence over which it is iterating.
+7. we cannot use a range for if the body of the loop adds elements to the vector. Warning: The body of a range for must not change the size of the sequence over which it is iterating.
 
-7. To use size_type, we must name the type in which it is defined. A vector type always includes its element type.
+8. To use size_type, we must name the type in which it is defined. A vector type always includes its element type.
 ```
 vector<int>::size_type // ok
 vector::size_type      // error
 ```
 
-8. We can compare two vectors only if we can compare the elements in those vectors.
+9. We can compare two vectors only if we can compare the elements in those vectors.
 
-9. Advice: A good way to ensure that subscripts are in range is to avoid subscripting altogether by using a range for whenever possible.
+10. Advice: A good way to ensure that subscripts are in range is to avoid subscripting altogether by using a range for whenever possible.
 
-### Iterators
+### 3.4. Introducing Iterators
 
 1. All of the library containers have iterators, but only a few of them support the subscript operator. Technically speaking, a string is not a container type, but string supports many of the container operations. As we’ve seen string, like vector has a subscript operator. Like vectors, strings also have iterators.
 
@@ -132,7 +154,7 @@ vector::size_type      // error
 
 4. Because the iterator returned from end does not denote an element, it may not be incremented or dereferenced.
 
-5. Key Concept: Generic Programming
+5. Key Concept: ***Generic Programming***
     - Programmers coming to C++ from C or Java might be surprised that we used != rather than < in our for loops. C++ programmers use != as a matter of habit. They do so for the same reason that they use iterators rather than subscripts: This coding style applies equally well to various kinds of containers provided by the library. 
     - As we’ve seen, only a few library types, vector and string being among them, have the subscript operator. Similarly, all of the library containers have iterators that define the == and != operators. Most of those iterators do not have the < operator. By routinely using iterators and !=, we don’t have to worry about the precise type of container we’re processing.
 
@@ -145,32 +167,17 @@ vector::size_type      // error
     string::const_iterator it4; // it4 can read but not write characters
     ```
     - If a vector or string is const, we may use only its const_iterator type. With a nonconst vector or string, we can use either iterator or const_iterator.
-    - The type returned by begin and end depends on whether the object on which they operator is const. If the object is const, then begin and end return a const_iterator; if the object is not const, they return iterator.
+    - The type returned by begin and end depends on whether the object is const. If the object is const, then begin and end return a const_iterator; if the object is not const, they return iterator.
     - To let us ask specifically for the const_iterator type, the new standard introduced two new functions named cbegin and cend.
 
 7. Combining Dereference and Member Access
     - When we dereference an iterator, we get the object that the iterator denotes.
-    - Assuming it is an iterator into this vector, we can check whether the string that it denotes is empty as follows: `(\*it).empty()`. Note that the parentheses in (\*it).empty() are necessary, because 成员选择运算符优先级高于取址运算符。
-    - To simplify expressions such as this one, the language defines the arrow operator (the -> operator). The arrow operator combines dereference and member access into a single operation. That is, it->mem is a synonym for (\* it).mem.
+    - Assuming it is an iterator into this vector, we can check whether the string that it denotes is empty as follows: `(*it).empty()`. Note that the parentheses in (\*it).empty() are necessary, because 成员选择运算符优先级高于取址运算符。
+    - To simplify expressions such as this one, the language defines the arrow operator (the -> operator). The arrow operator combines dereference and member access into a single operation. That is, ***it->mem is a synonym for (\* it).mem.***
 
-8. Any operation, such as push_back, that changes the size of a vector potentially invalidates all iterators into that vector. 
+8. Any operation, such as push_back, that changes the size of a vector potentially invalidates all iterators into that vector. （伍注：如果新增元素导致vector内部重新分配内存，那么原来的iterator将变为无效）
 
-### Initializers
-
-1. List Initialization:  
-    - use curly braces for initialization
-    - Braced lists of initializers can now be used whenever we initialize an object and in some cases when we assign a new value to an object.
-    - The compiler will not let us list initialize variables of built-in type if the initializer might lead to the loss of information.
-
-2. Default Initialization:
-    - When we define a variable without an initializer, the variable is default initialized. Such variables are given the “default” value. What that default value is depends on the type of the variable and may also depend on where the variable is defined. 
-    - The value of an object of built-in type that is not explicitly initialized depends on where it is defined. Variables defined outside any function body are initialized to zero. With one exception, variables of built-in type defined inside a function are uninitialized. The value of an uninitialized variable of built-in type is undefined.
-
-3. Value Initialization: 
-    - We can usually omit the value and supply only a size. In this case the library creates a value-initialized element initializer for us. This library-generated value is used to initialize each element in the container. The value of the element initializer depends on the type of the elements stored in the vector. 
-    - If the vector holds elements of a built-in type, such as int, then the element initializer has a value of 0. If the elements are of a class type, such as string, then the element initializer is itself default initialized.
-
-### Arrays
+### 3.5. Arrays
 
 1. Explicitly Initializing Array Elements 
     - If we omit the dimension, the compiler infers it from the number of initializers. 
@@ -185,7 +192,7 @@ int a3[5] = {};  // a3[] = {0, 0, 0, 0, 0}
     - Character arrays have an additional form of initialization: We can initialize such arrays from a string literal.
     - When we use this form of initialization, it is important to remember that string literals end with a null character. That null character is copied into the array along with the characters in the literal.
 
-3. Understanding complicated array declarations
+3. ***Understanding complicated array declarations***
     - By default, type modifiers bind right to left. 
     - If there are parentheses, start by observing the things inside the parentheses.
     - It can be easier to understand array declarations by starting with the array’s name and reading them from the inside out.
@@ -202,14 +209,14 @@ decltype(ia) ia3 = {0,1,2,3,4,5,6,7,8,9};  // ia3 is an array of ten ints
 ia3 = p; // error: can't assign an int* to an array
 ```
 
-7.  To make it easier and safer to use pointers, the new library includes two functions, named begin and end. However, arrays are not class types, so these functions are not member functions. Instead, they take an argument that is an array: begin returns a pointer to the first, and end returns a pointer one past the last element in the given array. These functions are defined in the iterator header.
+7.  To make it easier and safer to use pointers, the new library includes two functions, named ***begin and end***. However, arrays are not class types, so these functions are not member functions. Instead, they take an argument that is an array: begin returns a pointer to the first, and end returns a pointer one past the last element in the given array. These functions are defined in the iterator header.
 ```
 int ia[] = {0,1,2,3,4,5,6,7,8,9}; // ia is an array of ten ints
 int *beg = begin(ia); // pointer to the first element in ia
 int *last = end(ia); // pointer one past the last element in ia
 ```
 
-8. Unlike subscripts for vector and string, the index of the built-in subscript operator is not an unsigned type.
+8. ***Unlike subscripts for vector and string, the index of the built-in subscript operator is not an unsigned type.***
 ```
 int *p = &ia[2]; // p points to the element indexed by 2
 int j = p[1]; // p[1] is equivalent to *(p + 1),
@@ -222,15 +229,13 @@ int k = p[-2]; // p[-2] is the same element as ia[0]
 10. Mixing Library strings and C-Style Strings
     - we can use a null-terminated character array anywhere that we can use a string literal:
         - We can use a null-terminated character array to initialize or assign a string.
-        - We can use a null-terminated character array as one operand (but not both
-operands) to the string addition operator or as the right-hand operand in the
-string compound assignment (+=) operator.
+        - We can use a null-terminated character array as one operand (but not both operands) to the string addition operator or as the right-hand operand in the string compound assignment (+=) operator.
     - The reverse functionality is not provided: There is no direct way to use a library string when a C-style string is required. For example, there is no way to initialize a character pointer from a string. There is, however, a string member function named c_str that we can often use to accomplish what we want:
     ```
     char *str = s; // error: can't initialize a char* from a string
     const char *str = s.c_str(); // ok
     ```
-    - If a program needs continuing access to the contents of the array returned by str(), the program must copy the array returned by c_str.
+    - If a program needs continuing access to the contents of the array returned by c_str(), the program must copy the array returned by c_str().
 
 11. We can use an array to initialize a vector. To do so, we specify the address of the first element and one past the last element that we wish to copy:
 ```

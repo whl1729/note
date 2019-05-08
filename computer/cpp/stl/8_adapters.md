@@ -24,7 +24,7 @@
 
 4. function adapters包括连结（bind）、否定（negate）、组合（compose）以及对一般函数或成员函数的修饰（使其成为一个仿函数）。function adapters的价值在于，通过它们之间的绑定、组合、修饰能力，几乎可以无限制地创造出各种可能的表达式，搭配STL算法一起演出。
 
-5. function adapters
+5. ***function adapters***
 
 辅助函数  | 实际效果
 --------- | --------

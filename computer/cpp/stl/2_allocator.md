@@ -4,14 +4,18 @@
 
 ### 2.2 具备次配置力（sub-allocation）的SGI空间配置器
 
-1. new操作包括内存配置和对象构造两阶段，delete操作包括对象析构和内存释放两阶段。为了精密分工，STL allocator决定将这两阶段操作区分开来。内存配置操作由alloc::allocate()负责，内存释放操作由alloc::deallocate()负责；对象构造操作由::construct()负责，对象析构操作由::destroy()负责。
+1. new操作包括内存配置和对象构造两阶段，delete操作包括对象析构和内存释放两阶段。为了精密分工，STL allocator决定将这两阶段操作区分开来。
+    - 内存配置操作由alloc::allocate()负责，内存释放操作由alloc::deallocate()负责
+    - 对象构造操作由::construct()负责，对象析构操作由::destroy()负责。construct()调用指定对象的constructor来构造对象，destroy调用指定对象的destructor来析构对象。
+
+> 伍注：在ubuntu的/usr/include/c++目录下找不到operator new的实现，难道已经编译到二进制文件中去了？
 
 2. memory
     |__ stl_construct.h: 定义了全局函数construct()和destroy()
     |__ stl_alloc.h: 定义了一、二级配置器，彼此合作。配置器名为alloc
     |__ stl_uninitialized.h: 定义了一些全局函数，用来填充或复制大块内存数据。
 
-3. `destroy(ForwardIterator first, ForwardIterator last)`利用`iterator_traits<ForwardIterator>::value_type`来判断该类型的析构函数是否trivial（无关痛痒），若是则什么也不做就结束；否则遍历迭代器来析构该类型的对象。
+3. ***`destroy(ForwardIterator first, ForwardIterator last)`利用`iterator_traits<ForwardIterator>::value_type`来判断该类型的析构函数是否trivial（无关痛痒），若是则什么也不做就结束；否则遍历迭代器来析构该类型的对象。***
 
 4. 关于对象构造前的空间配置和对象析构后的空间释放，SGI的设计哲学如下
     - 向system heap要求空间
@@ -45,3 +49,5 @@ uninitialized_fill_n(ForwardIterator first, Size n, const T &x);
 3. C++标准规格书要求uninitialized_copy()具有“commit or rollback”语意，意思是要么“构造出所有必要元素”，要么（当有任何一个copy constructor失败时）“不构造任何东西”。
 
 4. POD意指Plain Old Data，也就是标量类型（scalar types）或传统的C struct类型。POD类型必然拥有trivial ctor/dtor/copy/assignment函数。
+
+5. uninitialized_copy，uninitialized_fill, uninitialized_fill_n这三个函数的处理流程类似：判断value type是否POD，若是则直接交给高阶函数进行处理，若否则循环调用construct来逐个创建对象。

@@ -31,7 +31,7 @@ copy_backward(position, old_finish - n, old_finish);
 
 4. list内部提供一个迁移操作：`transfer(iterator pos, iterator first, iterator last)`，作用是将\[first, last)内的所有元素移动到position之前。而list公开提供的是合并操作（splice）：将某连续范围的元素从一个list移动到另一个list的某个定点。
 
-5. 由于STL sort算法只接受RandomAccessIterator，所以list不能使用STL sort算法，必须使用自己的sort()成员函数。list::sort采用的是归并排序：创建64路链表，第i路最多装2^i个元素，最后将所有非空链表合并。参考[std::list::sort 用了什么算法？为什么速度这么快？ - 邱浩的回答 - 知乎](https://www.zhihu.com/question/31478115/answer/74892321)和[What makes the gcc std::list sort implementation so fast?](https://stackoverflow.com/questions/6728580/what-makes-the-gcc-stdlist-sort-implementation-so-fast)
+5. ***由于STL sort算法只接受RandomAccessIterator，所以list不能使用STL sort算法，必须使用自己的sort()成员函数。list::sort采用的是归并排序：创建64路链表，第i路最多装2^i个元素，最后将所有非空链表合并。***参考[std::list::sort 用了什么算法？为什么速度这么快？ - 邱浩的回答 - 知乎](https://www.zhihu.com/question/31478115/answer/74892321)和[What makes the gcc std::list sort implementation so fast?](https://stackoverflow.com/questions/6728580/what-makes-the-gcc-stdlist-sort-implementation-so-fast)
 
 6. STL forward_list是单向链表。
 
@@ -45,7 +45,7 @@ copy_backward(position, old_finish - n, old_finish);
 
 2. 出于复杂度的考虑，除非必要，我们应尽可能选择使用vector而非deque，对deque进行的排序操作，为了最高效率，可将deque先完整复制到一个vector身上，将vector排序后，再复制回deque。
 
-3. deque采用一块所谓的map作为主控。这里所谓的map是一小块连续空间，其中每个元素都是指针，指向另一段较大的连续线性空间，成为缓冲区。SGI STL允许我们指定缓冲区大小，默认值0表示将使用512 bytes缓冲区。
+3. ***deque采用一块所谓的map作为主控。这里所谓的map是一小块连续空间，其中每个元素都是指针，指向另一段较大的连续线性空间，成为缓冲区。SGI STL允许我们指定缓冲区大小，默认值0表示将使用512 bytes缓冲区。***
 
 4. 在初始化map时，令nstart和nfinish指向map所拥有之全部节点的中间位置，这样可使头尾的扩充能力一样大。
 

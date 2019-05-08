@@ -14,7 +14,7 @@
 
 ### 3.4 Traits编程技法——STL源代码门钥
 
-1. 通过class template partial specialization的作用，不论是原生指针或class-type iterators，都可以让外界方便地取其相应类型：value_type, difference_type, pointer, reference, iterator_category。以上五种类型是最常用到的迭代器类型，如果你希望你所开发的容器能与STL水乳交融，一定要为你的容器的迭代器定义这五种相应类型。
+1. 通过class template partial specialization的作用，不论是原生指针或class-type iterators，都可以让外界方便地取其相应类型：***value_type, difference_type, pointer, reference, iterator_category***。以上五种类型是最常用到的迭代器类型，如果你希望你所开发的容器能与STL水乳交融，一定要为你的容器的迭代器定义这五种相应类型。
 ```
 template <class I>
 struct iterator_traits
@@ -31,7 +31,7 @@ struct iterator_traits
 
 3. 根据“迭代器所指对象之内容是否允许改变”的角度观之，迭代器分为两种：不允许改变“所指对象之内容”者，称为constant iterators，例如const int \*pic；允许改变“所指对象之内容”者，称为mutable iterators，例如int \*pi。当我们对一个mutable iterators进行解引用时，获得的是一个左值（lvalue），因为只有左值才允许赋值操作，右值不允许。
 
-4. 根据移动特性与支持的操作，迭代器被分为五类：
+4. 根据移动特性与支持的操作，***迭代器被分为五类***：
     - Input Iterator：只读（read only），所指对象不允许外界改变。
     - Output Iterator：只写（write only）
     - Forward Iterator：运行“写入型”算法（例如replace()）在此种迭代器所形成的区间上进行读写操作

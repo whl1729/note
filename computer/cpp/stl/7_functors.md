@@ -10,7 +10,7 @@
 
 3. 就实现观点而言，仿函数其实就是一个“行为类似函数”的对象，为了能够“行为类似函数”，其类型定义中必须重载function call运算符。
 
-4. 如果想要使用STL build-in的仿函数，必须包含\<functional\>头文件，而\<functional\>包含\<bits/stl_function.h\>，后者定义了各种仿函数。
+4. ***如果想要使用STL build-in的仿函数，必须包含\<functional\>头文件，而\<functional\>包含\<bits/stl_function.h\>，后者定义了各种仿函数。***
 
 5. 仿函数的主要用途是为了搭配STL算法。
 

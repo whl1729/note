@@ -27,7 +27,7 @@
 
 ## 导读（译者的话）
 
-1. 本书技术名词及其意义
+1. ***本书技术名词及其意义***
     - access level：访问级。就是C++的public、private、protected三种等级
     - access section：访问区段。就是class中的public、private、protected三种段落
     - bitwise：对每一个bit施以...

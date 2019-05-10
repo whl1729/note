@@ -15,7 +15,7 @@
     - Space and time efficiency. If there are a hundred member functions associated with a class, but your program uses only two for one type and five for a second type, then instantiating the additional 193 can be a significant time and space hit.
     - Unimplemented functionality. Not all types with which a template is instantiated support all the operators (such as i/o and the relational operators) required by the complete set of member functions. By instantiating only those member functions actually used, a template is able to support types that otherwise would generate compile-time errors.
 
-4. All typedependent checking involving the template parameters must be deferred until an actual instantiation occurs.
+4. All type-dependent checking involving the template parameters must be deferred until an actual instantiation occurs.
 
 5. In current implementation, a template declaration has only limited error checking applied to it prior to an instantiation of an actual set of parameters. 
 

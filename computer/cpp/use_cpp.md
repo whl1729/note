@@ -27,7 +27,9 @@ cout << word << endl;  // print "hello world"
 ```
 ## Sequential Containers
 
-1. 整数转字符串：使用to_string而非tostring.
+1. 数字与字符串之间的转换
+    - 整数转字符串：使用to_string而非tostring.
+    - 字符串转数字：atoi(const char\*), atol, atof, 头文件为cstdlib
 
 2. string
 ```
@@ -68,7 +70,13 @@ w.lock()       // If expired is true, returns a null shared_ptr; otherwise retur
     - 定义Screen类，并声明clear为其friend。
     - 定义clear函数。注意：clear函数使用了Screen，编译器的Lookup过程如下：首先查找clear函数，没找到Screen的声明；然后回到Window_mgr中查找clear函数，还是没找到；最后在同一文件内clear函数前面找到了Screen的声明及定义。
 
-2. If the member was declared as a const member function, then the definition must also specify const after the parameter list. 
+2. 类成员的声明与定义
+    - The keywords should specified on both the declaration and the definition
+        - If the member was declared as a **const** member function, then the definition must also specify const after the parameter list.
+        - We must specify **noexcept** on both the declaration in the class header and on the definition if that definition appears outside the class.
+    - The keywords should specified only on the declaration
+        - You cannot put a virt-specifier (**override** and **final**) outside of a class definition. You only put that specifier on the function declaration within the class definition. The same is true for **explicit**, **static**, **virtual**.
+        - The = default can appear with the declaration inside the class body or on the definition outside the class body. 
 
 3. Member functions cannot use the Constructor Initializer list to set members.
 ```
@@ -81,6 +89,12 @@ HasPtr& operator=(const HasPtr &rhp): ps(new string(*rhp.ps)), i(rhp.i) {}
 5. If we want users of the class to be able to call a friend function, then we must also declare the function separately from the friend declaration.
 
 6. 定义class时别忘了大括号后面要加个分号。
+
+7. [Can we have a static virtual functions?](https://stackoverflow.com/questions/9863007/can-we-have-a-static-virtual-functions-if-not-then-why): No, because it doesn't make any sense in C++. Virtual functions are invoked when you have a pointer/reference to an instance of a class. Static functions aren't tied to a particular instance, they're tied to a class. C++ doesn't have pointers-to-class, so there is no scenario in which you could invoke a static function virtually.
+
+8. [c++ class with constructor declaration but no code where it is implemented?](https://stackoverflow.com/questions/15283864/c-class-with-constructor-definition-but-no-code-where-it-is-implemented)
+    - Copy construction and assignment have been explicitly forbidden by the author.  If it is used externally, it will be an error (because it is private). If it is referenced internally or by a friend, then it will produce a link error because the definition does not exist.
+    - In C++11, this is more clearly written as `= delete;`
 
 ## Templates
 

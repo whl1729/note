@@ -1,5 +1,14 @@
 # linux使用笔记
 
+## 开发环境
+
+1. 根据结构体某个成员的指针获得对应结构体的指针
+```
+#define list_entry(ptr, type, member)  ({       \
+        const typeof(((type *)0)->member) *_mptr = (ptr);   \
+        (type *)( (char *)_mptr - offsetof(type, member));})
+```
+
 ## 基本技巧
 
 ### 设置开机启动

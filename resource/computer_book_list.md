@@ -68,6 +68,7 @@
 - [ ] Structure and Interpretation of Computer Programs（计算机程序的构造与解释）
 - [ ] Linkers and Loaders（链接器和加载器）
 - [ ] 软件调试（张银奎）
+- [ ] 软件调试的艺术
 - [ ] 格蠹汇编：软件调试案例集锦
 
 ## TP316 操作系统
@@ -81,6 +82,7 @@
 - [ ] 深入Linux内核架构
 - [ ] Linux内核设计与实现
 - [ ] 深入理解Linux内核
+- [ ] Linux程序设计
 
 ## TP393 计算机网络
 

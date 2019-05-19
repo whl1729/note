@@ -42,7 +42,7 @@
     - `getline(is, s)` reads the given stream up to and including the first newline and stores what it read—not including the newline—in its string argument. After getline sees a newline, even if it is the first character in the input, it stops reading and returns. If the first character in the input is a newline, then the resulting string is the empty string.
     - `s.empty()` returns true if s is empty, otherwise returns false.
     - `s.size()` returns the number of characters in s.
-    - `s.substr(pos, n)` return a string containing n charactres from s starting at pos.
+    - `s.substr(pos, n)` return a string containing n charactres from s starting at pos. pos defaults to 0, n defaults to a value that causes the library to copy all the characters in s starting from pos
     - s.insert(pos, args);
     - s.erase(pos, len);
     - s.assign(args);
@@ -50,7 +50,7 @@
     - s.replace(range, args);
     - s.find(args);
     - s.rfind(args);
-    - s.find_first_of(args);
+    - s.find_first_of(args); // args must be (c, pos), (s2, pos), (cp, pos) or (cp, pos, n)
     - s.find_last_of(args);
     - s.find_first_not_of(args);
     - s.find_last_not_of(args);
@@ -204,3 +204,20 @@ q.emplace(args);
 12. nth_element：重新排列[first, last)，使排序后，以nth所指的元素作为一个分界点，即[nth, last)内任何一个元素均大于[first, nth)内的元素。
 
 13. 由于Merge Sort需借用额外的内存，而且在内存之间移动（复制）数据也会耗费不少时间，所以Merge Sort的效率比不上Quick Sort。实现简单、概念简单，是Merge Sort的两大优点。
+
+## exception
+
+1. ***Standard Exception Classes Defined in <stdexcept>***
+    ```
+    exception         The most general kind of problem
+    runtime_error     Problem that can be detected only at run time
+    range_error       Run-time error: result generated outside the range of values that are meaningful
+    overflow_error
+    underflow_error
+    logic_error
+    domain_error      Logic error: argument doesn't match the domain of a mathematical function
+    invalid_argument  Logic error: inappropriate argument.
+    length_error      Logic error: attempt to create an object larger than the maximum size for that type
+    out_of_range      Logic error: used a value outside the valid range
+    ```
+

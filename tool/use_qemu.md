@@ -16,6 +16,8 @@
 
 - `-serial dev` Redirect the virtual serial port to host character device dev. The default device is vc in graphical mode and stdio in non graphical mode. This option can be used several times to simulate up to 4 serial ports. Use `-serial none` to disable all serial ports.
 
+- `-monitor dev` Redirect the monitor to host device dev (same devices as the serial port). The default device is vc in graphical mode and stdio in non graphical mode. Use -monitor none to disable the default monitor.
+
 - `-s` 等待gdb连接到端口1234
 
 - `-S` Do not start CPU at startup (you must type ’c’ in the monitor).

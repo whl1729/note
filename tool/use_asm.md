@@ -25,6 +25,12 @@
 3. `.space size , fill` This directive emits size bytes, each of value fill. Both size and fill are absolute expressions. If the comma and fill are omitted, fill is assumed to be zero.
 
 4. `.rept count` Repeat the sequence of lines between the .rept directive and the next .endr directive count times.
+
+5. hello world编译后出现的一些伪指令
+    - `.LC0` local constant, e.g string literal.
+    - `.LFB0` local function beginning.
+    - `.LFE0` local function ending.
+
 ## 内联汇编
 
 参考资料：

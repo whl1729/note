@@ -1,5 +1,15 @@
 # shell使用笔记
 
+## 进制转换
+```
+echo "obase=2;15" | bc  // 1111
+echo "obase=8;15" | bc  // 17
+echo "obase=16;15" | bc // F
+printf %x 15  // F
+printf %d 0xf // 15
+printf %o 15  // 17
+```
+
 ## grep
 
 ### 匹配多个字符串
@@ -8,6 +18,10 @@ grep默认不支持”或“运算符（”|“），需要加上-E选项或使�
 grep -E 'warning|error'
 egrep 'warning|error'
 ```
+
+## sed
+
+1. 打印文件的指定行：`sed -n "2,5p" filename`
 
 ## awk
 

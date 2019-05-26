@@ -12,6 +12,7 @@
 
 1. `readelf` 打印ELF文件的信息
     - `-a` 打印所有信息
+    - `-l` 打印segment信息
     - `-s` 打印符号表信息
     - `-S` 打印段表信息。Displays the information contained in the file's ***section headers***, if it has any.（伍注：打印section headers，所以选项为首字母S）
     - `-h` Displays the information contained in the ELF header at the start of the file.
@@ -21,6 +22,7 @@
     - `-d` 打印反汇编后的汇编代码
     - `-f` 打印文件的格式、硬件架构及入口地址等基本信息
     - `-h` 打印ELF文件各个段的基本信息。输出的每个段的第二行表示段的各种属性，"CONTENTS"表示该段在文件中存在，"ALLOC"
+    - `-r` 打印目标文件的重定位表，可以查看目标文件中需要重定位的地方
     - `-s` 打印所有非空段的全部内容，可打印字符会显示在右侧
     - `-s -j .text` 打印.text段的全部内容
     - `-S` 交替打印源代码和汇编代码
@@ -38,6 +40,10 @@
 5. `nm` 查看ELF文件的符号表
 
 6. `strip` 去掉ELF文件中的调试信息
+
+7. `ar` 创建、修改或解压archives
+    - `-x` 把.a文件中的所有目标文件“解压”到当前目录
+    - `-t` 查看.a文件中包含哪些.o文件
 
 ### ELF文件结构
 
@@ -72,7 +78,7 @@ struct elfhdr {
 ```
 
 > 疑问：什么是program header？什么是section header？
-> 我猜：前者对应程序段的描述，但程序段不是只有.text吗？后者对应所有段的描述。两者之间有重叠？
+> 答：program header是描述segment的结构，section header是描述section的结构。一个segment包含一个或多个属性类似的“Section”。
 
 2. 段的类型：对于编译器和链接器而言，主要决定段的属性的是段的类型和段的标志位。
     - NULL: 无效段
@@ -87,7 +93,8 @@ struct elfhdr {
     - DNYSYM: 动态链接的符号表
     - NOTE: 提示性信息
 
-> 疑问：符号表和字符串表的区别是什么？符号表记录函数、变量等符号的信息，字符串表保存字符串。符号表中每个符号的名字也是保存在字符串表中的，符号表通过记录符号名在字符串表中的偏移来访问符号名。
+> 疑问：符号表和字符串表的区别是什么？ 
+> 答：符号表记录函数、变量等符号的信息，字符串表保存字符串。符号表中每个符号的名字也是保存在字符串表中的，符号表通过记录符号名在字符串表中的偏移来访问符号名。
 
 3. 字符串表
     - 定义：ELF文件中用到段名、变量名等字符串，为便于管理，ELF文件将字符串集中起来存放在一个表，然后使用字符串在表中的偏移来引用字符串。这个表便是字符串表。
@@ -117,6 +124,11 @@ struct elfhdr {
 6. eh_frame
     - eh_frame contains exception unwinding and source language information. Each entry in this section is represented by single CFI (call frame information).
     - eh_frame_hdr, is used by c++ runtime code to access the eh_frame. That means, it contains the pointer and binary search table to efficiently retrieve the information from eh_frame.
+
+7. 重定位表
+    - 在ELF文件中，有一个叫重定位表（Relocation Table）的结构专门用来保存与重定位相关的信息。它在ELF文件中往往是一个或多个段。
+    - 如果代码段".text"有要被重定位的地方，那么就会有一个对应的".rel.text"段保存了代码段的重定位表；如果数据段".data"有要被重定位的地方，那么就会有一个对应的".rel.data"段保存了数据段的重定位表。
+    - 使用`objdump -r`可以查看目标文件的重定位表。
 
 #### stabs
 
@@ -152,7 +164,7 @@ struct internal_nlist {
 
 5. [STABS](https://sourceware.org/gdb/onlinedocs/stabs/index.html#Top)
 
-## Preprocessor
+## 预处理
 
 参考资料：[Preprocessor Output](https://gcc.gnu.org/onlinedocs/cpp/Preprocessor-Output.html)
 
@@ -164,7 +176,9 @@ struct internal_nlist {
     - `3` This indicates that the following text comes from a system header file, so certain warnings should be suppressed.
     - `4` This indicates that the following text should be treated as being wrapped in an implicit extern "C" block.
 
-## Compiler
+3. 经过预编译后的.i文件不包含任何宏定义，因为所有的宏已经被展开，并且包含的文件也已经被插入到.i文件。所以当我们无法判断宏定义是否正确或头文件包含是否正确时，可以查看预编译后的文件来确定问题。
+
+## 编译
 
 1. 观察编译阶段做了什么事情（注：gcc使用cc1的程序来完成编译，其中有个默认编译选项`-quiet`，会导致不显示编译各阶段的执行时间。如果我们想观察这个信息，可以手动调用cc1工具来编译，别带上`-quiet`选项即可）
 ```
@@ -185,7 +199,9 @@ Execution times (seconds)
  TOTAL                 :   0.06             0.02             0.18               1731 kB
 ```
 
-## collect2
+## 链接
+
+### collect2
 
 1. 使用`gcc -v -H`编译hello.c文件时，发现链接过程中用到的是collect2而不是ld，那么collect2是什么玩意？以下来自[gcc collect2的说明文档](https://gcc.gnu.org/onlinedocs/gccint/Collect2.html)
 
@@ -194,3 +210,13 @@ Execution times (seconds)
 3. The program collect2 works by linking the program once and looking through the linker output file for symbols with particular names indicating they are constructor functions. If it finds any, it creates a new temporary ‘.c’ file containing a table of them, compiles it, and links the program a second time including that file.
 
 4. The actual calls to the constructors are carried out by a subroutine called \_\_main, which is called (automatically) at the beginning of the body of main (provided main was compiled with GNU CC). Calling \_\_main is necessary, even when compiling C code, to allow linking C and C++ object code together. (If you use -nostdlib, you get an unresolved reference to \_\_main, since it’s defined in the standard GCC library. Include -lgcc at the end of your compiler command line to resolve this reference.)
+
+### 动态链接
+
+1. ELF可执行文件引入了一个概念叫“Segment”，一个Segment包含一个或多个属性类似的“Section”。Segment的概念实际上是从装载的角度重新划分了ELF的各个段。在将目标文件链接成可执行文件时，链接器会尽量把相同权限属性的段分配在同一空间。这样做的好处是可以很明显地减少页面内部碎片，从而节省了内存空间。
+
+2. 一个进程基本上可以分为如下几种VMA区域：
+    - 代码VMA，权限只读、可执行；有映像文件
+    - 数据VMA，权限可读写、可执行；有映像文件
+    - 堆VMA，权限可读写、可执行；无映像文件，匿名，可向上扩展
+    - 栈VMA，权限可读写、不可执行；无映像文件，匿名，可向下扩展

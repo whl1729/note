@@ -5,13 +5,25 @@
 1. `movl $0, 0x8000` 将地址为0x8000的内存中的数值设置为零；
    `incl 0x8000` 将地址为0x8000的内存中的数值加1
 
-2. ret vs iret
+2. call, ret and iret
+    - call: 将返回地址（即当前call指令的下一条指令的地址）入栈，然后跳转到被调用过程的起始处。
     - ret: pops the last value from the stack, which supposed to be the returning address, and assigned it to IP register.
     - iret: In Real Address Mode, iret pops CS, the flags register, and the instruction pointer from the stack and resumes the routine that was interrupted. In Protect Address Mode,  the action of the IRET instruction depends on the settings of the NT (nested task) and VM flags in the EFLAGS register and the VM flag in the EFLAGS image stored on the current stack. [Reference](http://faydoc.tripod.com/cpu/iret.htm)
 
 3. pusha vs pushal
     - pusha: Push AX, CX, DX, BX, original SP, BP, SI, and DI
     - pushal: Push EAX, ECX, EDX, EBX, original ESP, EBP, ESI, and EDI
+
+4. push vs pop（伍注：%esp指向栈顶元素，所以记住%esp指向的内存是已被占用的）
+```
+push %ebp  // is equivalent to
+sub $4, %esp
+mov %ebp, (%esp)
+
+pop %eax // is equivalent to
+mov (%esp), %eax
+add $4, %esp
+```
 
 ## 伪指令
 

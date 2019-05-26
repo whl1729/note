@@ -5,6 +5,7 @@
 - [x] 深入理解计算机系统
 - [x] 计算机组成与设计：硬件/软件接口
 - [ ] Computer Architecture: A Quantitative Approach（计算机体系结构：量化研究方法）
+- [ ] The Elements of Computer Systems（计算机系统要素）
 
 ## TP301.6 算法
 

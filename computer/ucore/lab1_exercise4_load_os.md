@@ -70,7 +70,7 @@ static void readsect(void *dst, uint32_t secno) {
     - uint va; // 段的第一个字节将被放到内存中的虚拟地址，由此可知要将该Segment加载到内存中哪个位置
     - uint memsz; // 段在内存映像中占用的字节数，由此可知要加载多少内容
 
-3. 根据ELF Header和Program Header表的信息，我们便可以将ELF文件中的所有Segment逐个加载到内存中
+3. 根据ELF Header和Program Header表的信息，我们便可以将ELF文件中的所有Segment逐个加载到内存中。
 
 #### 分析代码
 
@@ -100,19 +100,19 @@ void bootmain(void) {
 }
 ```
 
-1. 首先从硬盘中将bin/kernel文件的第一页内容加载到内存地址为0x10000的位置，目的是读取kernel文件的ELF Header信息。
+1. 首先从硬盘中将bin/kernel文件的第一页内容加载到内存地址为0x10000的位置，目的是读取kernel文件的ELF Header信息。（伍注：为什么加载到0x10000这个地址？）
 
-2. 校验ELF Header的e_magic字段，以确保这是一个ELF文件
+2. 校验ELF Header的e_magic字段，以确保这是一个ELF文件。
 
 3. 读取ELF Header的e_phoff字段，得到Program Header表的起始地址；读取ELF Header的e_phnum字段，得到Program Header表的元素数目。
 
-4. 遍历Program Header表中的每个元素，得到每个Segment在文件中的偏移、要加载到内存中的位置（虚拟地址）及Segment的长度等信息，并通过磁盘I/O进行加载
+4. 遍历Program Header表中的每个元素，得到每个Segment在文件中的偏移、要加载到内存中的位置（虚拟地址）及Segment的长度等信息，并通过磁盘I/O进行加载。
 
-5. 加载完毕，通过ELF Header的e_entry得到内核的入口地址，并跳转到该地址开始执行内核代码
+5. 加载完毕，通过ELF Header的e_entry得到内核的入口地址，并跳转到该地址开始执行内核代码。
 
 #### 调试代码
 
-1. 输入`make debug`启动gdb，并在bootmain函数入口处即0x7d0d设置断点，输入c跳到该入口
+1. 输入`make debug`启动gdb，并在bootmain函数入口处即0x7d0d设置断点，输入c跳到该入口。
 
 2. 单步执行几次，运行到call readseg处，由于该函数会反复读取硬盘，为节省时间，可在下一条语句设置断点，避免进入到readseg函数内部反复执行循环语句。（或者直接输入n即可，不用这么麻烦）
 
@@ -153,6 +153,6 @@ Program Headers:
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RWE 0x10
 ```
 
-5. 继续单步执行，由`0x7d34  movzwl 0x1002c,%esi`可知ELF Header的e_phnum字段将加载到esi寄存器，执行完x07d34处的指令后，可以看到esi的值变为3，这说明一共有3个segment。
+5. 继续单步执行，由`0x7d34  movzwl 0x1002c,%esi`可知ELF Header的e_phnum字段将加载到esi寄存器，执行完x07d34处的指令后，可以看到esi的值变为3，这说明一共有3个segment。注意：由于GNU_STACK的MemSiz等于0，所以这个segment不会被加载，在代码中的体现就是readseg函数中的for循环没执行就返回了。这是正常的，因为GNU_STACK本来就是不可加载的，仅用于提供stack的控制信息（比如几字节对齐）。
 
 6. 后面是通过磁盘I/O完成三个Segment的加载，不再赘述。

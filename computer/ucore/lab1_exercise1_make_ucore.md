@@ -171,9 +171,9 @@ endef
 	
 7. 第164行反汇编obj/bootblock.o文件得到obj/bootblock.asm文件：`@$(OBJDUMP) -S $(call objfile,bootblock) > $(call asmfile,bootblock)`
 
-8. 第165行使用objcopy将obj/bootblock.o转换生成obj/bootblock.out文件，其中-S表示转换时去掉重定位和符号信息：`@$(OBJCOPY) -S -O binary $(call objfile,bootblock) $(call outfile,bootblock)`
+8. 第165行使用objcopy将obj/bootblock.o转换生成obj/bootblock.out文件，其中***-S表示转换时去掉重定位和符号信息***：`@$(OBJCOPY) -S -O binary $(call objfile,bootblock) $(call outfile,bootblock)`
 	
-9. 第166行使用bin/sign工具将obj/bootblock.out转换生成bin/bootblock目标文件：`@$(call totarget,sign) $(call outfile,bootblock) $(bootblock)`，从tools/sign.c代码中可知sign工具其实只做了一件事情：将输入文件拷贝到输出文件，控制输出文件的大小为512字节，并将最后两个字节设置为0x55AA（也就是ELF文件的magic number）
+9. 第166行使用bin/sign工具将obj/bootblock.out转换生成bin/bootblock目标文件：`@$(call totarget,sign) $(call outfile,bootblock) $(bootblock)`，从tools/sign.c代码中可知sign工具其实只做了一件事情：***将输入文件拷贝到输出文件，控制输出文件的大小为512字节，并将最后两个字节设置为0x55AA（也就是ELF文件的magic number）***
 
 10. 第168行调用了create_target函数`$(call create_target,bootblock)`，根据上文的分析，由于只有一个输入参数，此处函数调用应该也是直接返回，啥也没干。
 
@@ -214,9 +214,9 @@ endef
 
 3. 编译tools/sign.c文件，得到bin/sign文件
 
-4. 利用bin/sign工具将bin/bootblock.out文件转化为512字节的bin/bootblock文件，并将bin/bootblock的最后两个字节设置为0x55AA
+4. 利用bin/sign工具将bin/bootblock.out文件转化为512字节的bin/bootblock文件，并将bin/bootblock的最后两个字节设置为0x55AA，可见bin/bootblock是一个启动扇区。
 
-5. 为bin/ucore.img分配5000MB的内存空间，并将bin/bootblock复制到bin/ucore.img的第一个block，紧接着将bin/kernel复制到bin/ucore.img第二个block开始的位置
+5. 为bin/ucore.img分配5000MB的内存空间，并将bin/bootblock复制到bin/ucore.img的第一个block，紧接着将bin/kernel复制到bin/ucore.img第二个block开始的位置。可见ucore.img实际上包含启动扇区文件bin/bootblock和操作系统内核文件bin/kernel两部分。
 
 ### 题目3的解答
 

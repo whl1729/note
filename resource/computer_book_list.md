@@ -5,7 +5,12 @@
 - [x] 深入理解计算机系统
 - [x] 计算机组成与设计：硬件/软件接口
 - [ ] Computer Architecture: A Quantitative Approach（计算机体系结构：量化研究方法）
-- [ ] The Elements of Computer Systems（计算机系统要素）
+- [ ] The Elements of Computing Systems（计算机系统要素：从零开始构建现代计算机）
+- [ ] CPU芯片逻辑设计技术
+- [ ] 自己动手写CPU
+- [ ] 编码：隐匿在计算机软硬件背后的语言
+- [ ] 穿越计算机的迷雾
+- [ ] 大话处理器
 
 ## TP301.6 算法
 

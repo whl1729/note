@@ -10,6 +10,7 @@
 1. "legacy USB support" should be enabled, otherwise the computer cannot read input from USB devices.
 2. An efi area should be partitioned, otherwise the computer cannot startup.
 3. Choose the UEFI mode.
+4. boot loader should be installed on /boot.
 
 ## install softwares
 
@@ -35,7 +36,7 @@ sudo apt-get purge fcitx-ui-qimpanel // solve the problem of two icons
 1. `sudo dpkg -i google-chrome-xxx.deb`
 2. `sudo apt install shadowsocks`
 3. 新增并配置/etc/shadowsocks.json文件，参考博客[Ununtu下shadowsocks配置说明](https://www.linuxidc.com/Linux/2015-09/123579.htm)
-4. 在/etc/rc.local文件中添加`sslocal -c /etc/shadowsocks.json > /var/log/ss.log &`
+4. 在/etc/rc.local文件中添加`sslocal -c /etc/shadowsocks.json > /var/log/ss.log &`（注意启动shadowsock后还需要安装SwitchyOmega来配置浏览器的网络连接）
 5. [下载SwitchOmega的.crx文件](https://www.switchyomega.com/download.html)，并拖到[chrome拓展程序页面](chrome://extensions/)。注意：最新版的Chrome不允许拖拽crx到扩展程序里，这时可以将crx文件后缀改为zip并解压，然后勾选developer模式，点击load unpacked来加载加压后的文件即可。
 6. 在SwitchyOmega配置页面，点击SETTINGS -> Import/Export -> Restore frome file，然后选择本地的OmegaOptions.bak文件
 7. 点击PROFILES -> Shadowsocks -> Proxy servers，Protocol选择`SOCKS5`，Server和port要和/etc/shadowsocks.json保持一致，一般为`127.0.0.1:1080`

@@ -4,6 +4,7 @@
 
 - [x] 深入理解计算机系统
 - [x] 计算机组成与设计：硬件/软件接口
+- [ ] Structured Computer Organization（计算机组成：结构化方法）
 - [ ] Computer Architecture: A Quantitative Approach（计算机体系结构：量化研究方法）
 - [ ] The Elements of Computing Systems（计算机系统要素：从零开始构建现代计算机）
 - [ ] CPU芯片逻辑设计技术

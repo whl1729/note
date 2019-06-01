@@ -36,3 +36,5 @@
     - `git whatchanged ` 每次修改的文件列表
     - `git whatchanged --stat ` 每次修改的文件列表, 及文件修改的统计
     - `git show ` 显示最后一次的文件改变的具体内容
+
+10. [突破github的100M单个大文件上传限制](https://blog.csdn.net/Tyro_java/article/details/53440666)

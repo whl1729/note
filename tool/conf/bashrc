@@ -6,6 +6,7 @@
 alias ga="git add"
 alias gb="git branch"
 alias gc="git commit"
+alias gcm="git commit --amend"
 alias gd="git diff"
 alias gh="git hist -all"
 alias gl="git log"
@@ -129,6 +130,3 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-export SPARK_HOME=/home/along/src/spark
-export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin

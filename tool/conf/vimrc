@@ -33,7 +33,7 @@ nmap <Leader>q :q<CR>
 " 定义快捷键保存当前窗口内容
 nmap <Leader>w :w<CR>
 " 定义快捷键保存所有窗口内容并退出 vim
-nmap <Leader>WQ :wa<CR>:q<CR>
+nmap <Leader>wq :wa<CR>:q<CR>
 " 不做任何保存，直接退出 vim
 nmap <Leader>Q :qa!<CR>
 
@@ -102,7 +102,7 @@ Plugin 'terryma/vim-multiple-cursors'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'vim-scripts/DrawIt'
 Plugin 'SirVer/ultisnips'
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe'
 Plugin 'derekwyatt/vim-protodef'
 Plugin 'scrooloose/nerdtree'
 Plugin 'fholgado/minibufexpl.vim'
@@ -110,7 +110,7 @@ Plugin 'gcmt/wildfire.vim'
 Plugin 'sjl/gundo.vim'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'suan/vim-instant-markdown'
-Plugin 'lilydjwg/fcitx.vim'
+" Plugin 'lilydjwg/fcitx.vim'
 
 " 插件列表结束
 call vundle#end()
@@ -121,7 +121,13 @@ filetype plugin indent on
 Bundle 'ShowTrailingWhitespace'
 
 " 删除行尾的空格
-nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<CR>
+" nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<CR>
+"
+" 注释
+nmap <Leader>c :s/^/\/\//g<CR>
+" 取消注释
+nmap <Leader>uc :s/^\/\///g<CR>
+
 
 " 配色方案
 set background=dark
@@ -303,7 +309,7 @@ let g:tagbar_type_cpp = {
      \ 'kinds'     : [
          \ 'c:classes:0:1',
          \ 'd:macros:0:1',
-         \ 'e:enumerators:0:0', 
+         \ 'e:enumerators:0:0',
          \ 'f:functions:0:1',
          \ 'g:enumeration:0:1',
          \ 'l:local:0:1',
@@ -337,7 +343,7 @@ let g:tagbar_type_cpp = {
 
 " >>
 " 代码导航
- 
+
 " 基于标签的代码导航
 
 " 设置插件 indexer 调用 ctags 的参数
@@ -456,7 +462,7 @@ let g:ycm_cache_omnifunc=0
 let g:ycm_seed_identifiers_with_syntax=1
 
 " <<
- 
+
 " >>
 " 由接口快速生成实现框架
 
@@ -467,7 +473,7 @@ let g:disable_protodef_sorting=1
 
 " >>
 " 库信息参考
- 
+
 " 启用:Man命令查看各类man信息
 source $VIMRUNTIME/ftplugin/man.vim
 
@@ -496,7 +502,7 @@ let NERDTreeAutoDeleteBuffer=1
 
 " >>
 " 多文档编辑
- 
+
 " 显示/隐藏 MiniBufExplorer 窗口
 map <Leader>bl :MBEToggle<cr>
 
@@ -526,14 +532,14 @@ map <leader>ss :mksession! my.vim<cr>
 map <leader>rs :source my.vim<cr>
 
 " <<
- 
+
 " 设置快捷键实现一键编译及运行
 nmap <Leader>m :wa<CR> :cd build/<CR> :!rm -rf main<CR> :!cmake CMakeLists.txt<CR>:make<CR><CR> :cw<CR> :cd ..<CR>
 nmap <Leader>g :wa<CR>:cd build/<CR>:!rm -rf main<CR>:!cmake CMakeLists.txt<CR>:make<CR><CR>:cw<CR>:cd ..<CR>:!build/main<CR>
 
 " >>
 " 快速选中结对符内的文本
- 
+
 " 快捷键
 map <SPACE> <Plug>(wildfire-fuel)
 vmap <S-SPACE> <Plug>(wildfire-water)

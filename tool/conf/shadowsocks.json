@@ -1,8 +1,8 @@
 {
     "server" : "li-gao.top",
-    "server_port" : 443,
+    "server_port" : 18505,
     "local_address" : "127.0.0.1",
     "local_port" : 1080,
-    "password" : "ZDg2YzYxMW",
+    "password" : "ZDg2YzGjBMWdd24trtTtplG",
     "method" : "AES-256-CFB"
 }

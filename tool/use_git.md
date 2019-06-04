@@ -38,3 +38,5 @@
     - `git show ` 显示最后一次的文件改变的具体内容
 
 10. [突破github的100M单个大文件上传限制](https://blog.csdn.net/Tyro_java/article/details/53440666)
+
+11. 解决git pull/push每次都需要输入密码问题：`git config --global credential.helper store`

@@ -67,6 +67,10 @@ patch -p1 -u < ../diff.patch
     - [安装教程](https://blog.csdn.net/shixiaolu63/article/details/81937440)
     - code: 09E58CD1FB79
 
+### 网络管理
+
+1. [ubuntu 同时使用无线网卡和有线网卡](https://blog.csdn.net/huohongpeng/article/details/78608671)
+
 ## ubuntu
 
 ### 1. 如何从vim中复制内容到系统剪切板？

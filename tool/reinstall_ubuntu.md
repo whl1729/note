@@ -31,6 +31,8 @@ sudo apt-get purge fcitx-ui-qimpanel // solve the problem of two icons
     * 打开System Settings -> Language Support -> Language，keyboard input method system选择fcitx
     * 打开System Setting -> Text Entry，input source添加sogou pinyin，然后右下角点击形如钳子的图标，Input Methods Configurations添加sogou pinyin。
 
+4. 如果在搜狗中设置了`Shift`切换输入法，但输入`Ctrl + Shift`时也会切换输入法，可能是fcitx中启动了该设置，可以将其取消掉。方法是：sogou settings -> “高级” -> “打开Fcitx配置界面” -> “Global Config”，把“Enable Hotkey to scroll between Input Method”取消掉。
+
 ### chrome
 0. 下载chrome安装包：注意如果在windows系统下载linux安装包，需要在网页左下方点击other platform，否则会默认下载windows版本的安装包。
 1. `sudo dpkg -i google-chrome-xxx.deb`

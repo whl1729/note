@@ -37,6 +37,9 @@ nmap <Leader>wq :wa<CR>:q<CR>
 " 不做任何保存，直接退出 vim
 nmap <Leader>Q :qa!<CR>
 
+inoremap { {}<ESC>i
+inoremap {<CR> {<CR>}<ESC>O
+
 " 设置快捷键遍历子窗口
 " 依次遍历
 nnoremap nw <C-W><C-W>

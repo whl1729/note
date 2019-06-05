@@ -9,3 +9,5 @@
     - 安装vim-go: 在.vimrc中添加`Plugin 'fatih/vim-go'`,然后输入`:PluginInstall`
     - 在vim中执行`:GoInstallBinaries`
     - 下载golang/tools: `git clone https://github.com/golang/tools.git`
+
+3. 在vim中让go自动导入package:`let g:go_fmt_command = "goimports"`

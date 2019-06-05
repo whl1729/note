@@ -104,6 +104,10 @@
     * `:ts`  List all of the definitions of the last tag
     * `Ctrl-t`  Jump back up in the tag stack
 
+### nerdtree
+
+1. ctr+w+h  光标移到左侧树形目录，ctrl+w+l 光标移到右侧文件显示窗口。多次摁 ctrl+w，光标自动在左右侧窗口切换。
+
 ## ex命令
 
 1. `:11,19g/./s/^/* /g`：在第11~19行中的非空行开头加上星号

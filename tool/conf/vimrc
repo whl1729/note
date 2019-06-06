@@ -37,6 +37,13 @@ nmap <Leader>wq :wa<CR>:q<CR>
 " 不做任何保存，直接退出 vim
 nmap <Leader>Q :qa!<CR>
 
+inoremap ' ''<ESC>i
+inoremap " ""<ESC>i
+inoremap ( ()<ESC>i
+inoremap [ []<ESC>i
+inoremap 【 【】<ESC>i
+inoremap 《 《》<ESC>i
+inoremap （ （）<ESC>i
 inoremap { {}<ESC>i
 inoremap {<CR> {<CR>}<ESC>O
 

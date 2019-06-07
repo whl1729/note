@@ -83,15 +83,26 @@ sudo apt-get install vim-gnome
 A：参考博客[Ubuntu终端颜色设置、路径名设置以及ls命令设置](http://blog.sina.com.cn/s/blog_65a8ab5d0101g6cf.html)，主要是修改\~/.bashrc文件中的`PS1`的值。
 
 ### 3. Q：如何定位Ubuntu启动失败的问题？
-A：相关调试手段如下：
-1. 开机后长按F2或F12可进入BIOS启动菜单，排查配置是否正确。
-2. 当启动到登录界面后，按`Ctrl+Alt+F1~F6`可进入tty1~tty6，也就是命令行界面。
-3. 可以在/var/log/syslog日志中查看启动失败原因。
+
+相关调试手段如下：
+- 开机后长按F2或F12可进入BIOS启动菜单，排查配置是否正确。
+- 当启动到登录界面后，按`Ctrl+Alt+F1~F6`可进入tty1~tty6，也就是命令行界面。
+- 可以在/var/log/syslog日志中查看启动失败原因。
 
 ### 4. Ubuntu as a subsystem on Windows  10
 
-#### 1. Q: 如何解决ubuntu子系统中文乱码的问题？
-A: 参考[Windows10内置ubuntu子系统安装后中文环境设置](https://blog.csdn.net/KERTORP/article/details/80102143)
+- Q: 如何解决ubuntu子系统中文乱码的问题？
+    - A: 参考[Windows10内置ubuntu子系统安装后中文环境设置](https://blog.csdn.net/KERTORP/article/details/80102143)
+
+### 5. ubuntu下alt + tab切换窗口时,不要把同组的窗口合并的配置方法
+
+- 运行 dconf-editor 
+
+- 打开 org/gnome/desktop/wm/keybindings
+
+- 可以看到 <alt> Tab 是放在了 switch-application 里面的，要把它拿出来, 放到 switch-windows 中。switch application 就是把相同的窗口合并，这个就是罪魁祸首。
+
+- 保存，立马生效。
 
 ## CentOS
 

@@ -101,6 +101,13 @@
 - [ ] Unix网络编程·卷1-套接字
 - [ ] Unix网络编程·卷2-进程间通信
 
+## TP394 web
+
+- [ ] Go Web编程 (Sau Sheong Chang)
+- [ ] Go Web编程 （谢孟军）
+- [ ] Web API的设计与开发 (水野贵明)
+- [ ] HTTP权威指南
+
 ## TP312-0 编程语言原理
 
 - [ ] Elements of Programming（编程原本）

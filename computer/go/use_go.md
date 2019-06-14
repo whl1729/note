@@ -11,3 +11,7 @@
     - 下载golang/tools: `git clone https://github.com/golang/tools.git`
 
 3. 在vim中让go自动导入package:`let g:go_fmt_command = "goimports"`
+
+## Beego
+
+1. 获取配置信息：`beego.AppConfig.String("mysqluser")`

@@ -1,5 +1,10 @@
 # shell使用笔记
 
+## 多标签页
+
+1. 在terminal中新建一个标签页：`Ctrl + Shift + t`
+2. 在多个标签页中切换：`Ctrl + PageUp`和`Ctrl + PageDown`
+
 ## 进制转换
 ```
 echo "obase=2;15" | bc  // 1111

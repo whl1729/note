@@ -4,6 +4,12 @@
 
 1. 查找单词时要求完全匹配：`/\<word\>`
 
+2. vim的noremap映射
+    - `noremap` 是不会递归的映射 (大概是no recursion)，例如`noremap Y y; noremap y Y`不会出现问题。前缀代表生效范围。
+    - inoremap就只在插入(insert)模式下生效
+    - vnoremap只在visual模式下生效
+    - nnoremap就在normal模式下生效
+
 ## 常用
 
 1. [vim-tabe多标签切换](https://blog.csdn.net/xs1326962515/article/details/77837017)

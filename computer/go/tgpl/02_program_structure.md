@@ -26,7 +26,17 @@ continue for import return var
 ### 2.2 声明
 
 1. Go语言主要有四种类型的声明语句：var、const、type和func，分别对应变量、常量、类型和函数实体对象的声明。
-每个源文件以包的声
-明语句开始， 说明该源文件是属于哪个包。 包声明语句之后是import语句导入依赖的其它包，
-然后是包一级的类型、 变量、 常量、 函数的声明语句， 包一级的各种类型的声明语句的顺序
-无关紧要（ 译注： 函数内部的名字则必须先声明之后才能使用） 。
+
+2. 每个源文件以包的声明语句开始，说明该源文件是属于哪个包。包声明语句之后是import语句导入依赖的其它包，然后是包一级的类型、变量、常量、函数的声明语句，包一级的各种类型的声明语句的顺序无关紧要（译注：函数内部的名字则必须先声明之后才能使用）。
+
+### 2.3 变量
+
+1. 如果初始化表达式被省略，那么将用零值初始化该变量。数值类型变量对应的零值是0，布尔类型变量对应的零值是false，字符串类型对应的零值是空字符串，接口或引用类型（包括slice、map、chan和函数）变量对应的零值是nil。数组或结构体等聚合类型对应的零值是每个元素或字段都是对应该类型的零值。
+
+2. 在一个声明语句中可以同时声明多个类型不同的变量。比如：`var b, f, s = true, 2.3, "four"`
+
+3. 简短变量声明左边的变量可能并不是全部都是刚刚声明的。如果有一些已经在相同的词法域声明过了，那么简短变量声明语句对这些已经声明过的变量就只有赋值行为了。简短变量声明语句中必须至少要声明一个新的变量。
+
+4. 在Go语言中， 返回函数中局部变量的地址也是安全的。
+
+> Go performs pointer escape analysis. If the pointer escapes the local stack, which it does in this case, the object is allocated on the heap. If it doesn't escape the local function, the compiler is free to allocate it on the stack.

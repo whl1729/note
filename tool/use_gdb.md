@@ -10,7 +10,7 @@
 
 * `c (or continue)`: 连续执行命令直到遇到下一个断点或Ctrl-c.
 * `si (or stepi)`: 执行一条机器指令
-* `b function or b file:line (or breakpoint)`: 在指定函数或代码行设置一个断点
+* `b function or b file:line or b line(or breakpoint)`: 在指定函数或代码行设置一个断点
 * `b if (condition)`：设置条件断点，比如condition可以设置为`i == 10`
 * `b *addr (or breakpoint)`: 在指定内存地址设置断点
 * `info breakpoints`: 打印所有设置的断点信息
@@ -22,6 +22,7 @@
 * `symbol-file file`: 切换到符号文件file。当GDB连接到QEMU时，它不知道VM中的进程边界，因此需要我们告诉它使用什么符号。
 * `thread n`: GDB默认只关注一个线程，此命令可以让GDB关注线程n.
 * `info threads`: 列出所有线程的状态和所在的函数。
+* `watch variable or watch condition`: 监视某个变量，当该变量的值改变时程序停下来；或监视某个变量是否满足某个条件，当满足该条件后程序停下来。
 
 ## Tsinghua os实验课提供的gdb命令
 * `info win `显示窗口的大小

@@ -16,6 +16,15 @@
 
 1. 获取配置信息：`beego.AppConfig.String("mysqluser")`
 
+2. 将error类型转化为string类型：`err.Error()`
+
+3. 单元测试
+    - 测试函数以Test*开头。
+    - 测试函数将*testing.T作为参数，可以在失败的情况下使用Errorf()方法。
+    - 在包内使用`go test -v -count 1`来运行单元测试。（-v用于打印log日志，-count 1用于清除缓存）
+
+4. 如果想在Beego中通过c.Ctx.Input.RequestBody来获取POST body，需要在conf/app.conf中配置`copyrequestbody = true`。否则c.Ctx.Input.RequestBody永远为空。
+
 ## 格式化字符串
 
 详见[fmt](https://golang.org/pkg/fmt/)。

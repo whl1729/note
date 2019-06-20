@@ -1,5 +1,11 @@
 # Go 使用笔记
 
+## 数据类型
+
+### map
+
+1. Go语言中，一个map就是一个哈希表的引用。
+
 ## 环境配置
 
 1. 设置`go install`的默认安装路径：[What does go install do?](https://stackoverflow.com/questions/24069664/what-does-go-install-do/54429573)

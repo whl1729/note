@@ -18,6 +18,16 @@
 
 3. 在vim中让go自动导入package:`let g:go_fmt_command = "goimports"`
 
+## 包
+
+1. 使用某个包中的某个类型时，需要注明包名，比如：`websocket.Conn`
+
+## 调试
+
+1. 使用gdb调试Go程序：[Debugging Go Code with GDB](https://golang.org/doc/gdb)
+    - 编译时要增加编译选项：`go build -gcflags=all="-N -l"`
+    - 调试go test也要增加编译选项：`go test -c`
+
 ## Beego
 
 1. 获取配置信息：`beego.AppConfig.String("mysqluser")`

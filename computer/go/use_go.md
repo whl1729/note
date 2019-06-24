@@ -22,6 +22,8 @@
 
 1. 使用某个包中的某个类型时，需要注明包名，比如：`websocket.Conn`
 
+2. 使用`json.Unmarshal`来解析json文件到某个结构体时，对应结构体的相关字段首字母必须大写，否则无法获取到json文件的真实值（因此该字段的值为原来的默认值）
+
 ## 调试
 
 1. 使用gdb调试Go程序：[Debugging Go Code with GDB](https://golang.org/doc/gdb)

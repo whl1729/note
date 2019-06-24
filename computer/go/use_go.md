@@ -1,5 +1,11 @@
 # Go 使用笔记
 
+## 数据类型
+
+### map
+
+1. Go语言中，一个map就是一个哈希表的引用。
+
 ## 环境配置
 
 1. 设置`go install`的默认安装路径：[What does go install do?](https://stackoverflow.com/questions/24069664/what-does-go-install-do/54429573)
@@ -12,9 +18,30 @@
 
 3. 在vim中让go自动导入package:`let g:go_fmt_command = "goimports"`
 
+## 包
+
+1. 使用某个包中的某个类型时，需要注明包名，比如：`websocket.Conn`
+
+2. 使用`json.Unmarshal`来解析json文件到某个结构体时，对应结构体的相关字段首字母必须大写，否则无法获取到json文件的真实值（因此该字段的值为原来的默认值）
+
+## 调试
+
+1. 使用gdb调试Go程序：[Debugging Go Code with GDB](https://golang.org/doc/gdb)
+    - 编译时要增加编译选项：`go build -gcflags=all="-N -l"`
+    - 调试go test也要增加编译选项：`go test -c`
+
 ## Beego
 
 1. 获取配置信息：`beego.AppConfig.String("mysqluser")`
+
+2. 将error类型转化为string类型：`err.Error()`
+
+3. 单元测试
+    - 测试函数以Test*开头。
+    - 测试函数将*testing.T作为参数，可以在失败的情况下使用Errorf()方法。
+    - 在包内使用`go test -v -count 1`来运行单元测试。（-v用于打印log日志，-count 1用于清除缓存）
+
+4. 如果想在Beego中通过c.Ctx.Input.RequestBody来获取POST body，需要在conf/app.conf中配置`copyrequestbody = true`。否则c.Ctx.Input.RequestBody永远为空。
 
 ## 格式化字符串
 

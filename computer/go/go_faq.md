@@ -4,6 +4,9 @@
 
 1. 问题描述：为什么我在handler中调用StopRun时不会抛出panic异常？StopRun函数内部就是调用panic啊。
 
+2. 解答：
+    - 调用StopRun时确实会抛出panic(ErrAbort)异常，这个异常会在recoverPanic中被捕捉，而recoverPanic对该异常实际上不作处理而直接返回。因此调用StopRun的效果就是函数立即返回，其后的
+
 ## Q5 2019/6/15 强类型、弱类型和无类型各有什么优缺点？
 
 ## Q4 2019/6/14 Go语言如何实现垃圾回收？

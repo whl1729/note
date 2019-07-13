@@ -1,5 +1,9 @@
 # Go FAQs
 
+## Q8 2019/7/2 为什么C1-InterfaceServer项目中的TestSetSpeakerVolumn函数中串行执行会失败？
+
+## Q7 2019/7/1 通道只能先写后读吗？能不能反过来？
+
 ## Q6 2019/6/20 beego里面的StopRun的工作原理？
 
 1. 问题描述：为什么我在handler中调用StopRun时不会抛出panic异常？StopRun函数内部就是调用panic啊。

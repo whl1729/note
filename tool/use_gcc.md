@@ -201,6 +201,10 @@ Execution times (seconds)
 
 ## 链接
 
+### 基础知识
+
+1. 设置共享库路径：`export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/tmp/SD0/c1/lib`
+
 ### collect2
 
 1. 使用`gcc -v -H`编译hello.c文件时，发现链接过程中用到的是collect2而不是ld，那么collect2是什么玩意？以下来自[gcc collect2的说明文档](https://gcc.gnu.org/onlinedocs/gccint/Collect2.html)

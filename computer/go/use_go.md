@@ -32,6 +32,18 @@
     - 编译时要增加编译选项：`go build -gcflags=all="-N -l"`
     - 调试go test也要增加编译选项：`go test -c`
 
+2. 只跑指定的测试用例：`go test -run regexp`
+
+3. delve
+```
+dlv debug main.go
+b main.main
+b main.go:28
+print：输出变量信息
+args：打印所有的方法参数信息
+locals: 打印所有的本地变量
+```
+
 ## Beego
 
 1. 获取配置信息：`beego.AppConfig.String("mysqluser")`

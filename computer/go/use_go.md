@@ -2,6 +2,37 @@
 
 ## 数据类型
 
+1. Go语言变量声明后的默认值
+    - 整型：0
+    - 浮点型：0.0
+    - 布尔型：false
+    - 复数类型：0+0i
+    - 字符串型：""
+    - 错误类型err: nil
+    - interfaces, slices, channels, maps, pointers and functions: nil
+
+2. 在Go中使用C的类型
+    - C.char
+    - C.schar (signed char)
+    - C.uchar (unsigned char)
+    - C.short
+    - C.ushort
+    - C.int
+    - C.uint
+    - C.long
+    - C.ulong
+    - C.longlong
+    - C.ulonglong
+    - C.float
+    - C.double
+
+3. Go string convert to C char*
+    ```
+    cs := C.CString("Hello from stdio")
+	defer C.free(unsafe.Pointer(cs))
+	C.myprint(cs)
+    ```
+
 ### map
 
 1. Go语言中，一个map就是一个哈希表的引用。
@@ -17,6 +48,13 @@
     - 下载golang/tools: `git clone https://github.com/golang/tools.git`
 
 3. 在vim中让go自动导入package:`let g:go_fmt_command = "goimports"`
+
+4. 下载go package时，如果是golang网站下的安装包，需要翻墙才能下载，可以通过以下命令设置代理。
+```
+export http_proxy=socks5://127.0.0.1:1080
+export https_proxy=socks5://127.0.0.1:1080
+```
+
 
 ## 包
 

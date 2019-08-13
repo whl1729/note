@@ -42,6 +42,12 @@ apt-get remove <package>    // 移除 <package> 以及所有依赖的软件包
 
 4. Ubuntu的软件包获取依赖升级源，可以通过修改 “/etc/apt/sources.list” 文件来修改升级源（需要 root 权限） ；或者修改新立得软件包管理器中 “设置 > 软件库”。
 
+5. 设置网络代理
+```
+export http_proxy=socks5://127.0.0.1:1080
+export https_proxy=socks5://127.0.0.1:1080
+```
+
 ### 进程管理
 
 1. 后台进程：如果您有一个命令将占用很多时间，您想把它放入后台运行，也很简单。只要在命令运行时按下ctrl-z，它就会停止。然后键入 bg使其转入后台。fg 命令可使其转回前台。
@@ -70,6 +76,10 @@ patch -p1 -u < ../diff.patch
 ### 网络管理
 
 1. [ubuntu 同时使用无线网卡和有线网卡](https://blog.csdn.net/huohongpeng/article/details/78608671)
+
+2. scp：远程拷贝，加上`-r`选项可以拷贝一个目录。
+
+3. 查看端口占用情况：`lsof -i :8080`
 
 ## ubuntu
 

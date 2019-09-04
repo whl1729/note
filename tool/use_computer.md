@@ -12,3 +12,4 @@
 
 1. 打开外接显示器，设置为右侧扩展`xrandr --output VGA-0 --right-of DVI-D-0 --auto`
 
+2. 取消外接显示器`xrandr --output HDMI-1 --off`

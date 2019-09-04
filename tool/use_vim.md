@@ -99,6 +99,8 @@
     * <C-K> - Move cursor to previous match.
     * <C-C> - Stop a background searching process.
 
+4. 设置搜索路径：`:CtrlSF word path`
+
 ### ctags
 
 1. 在项目根目录下使用`ctags -R *`生成索引文件

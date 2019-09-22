@@ -1,5 +1,9 @@
 # Go 使用笔记
 
+## 易错点
+
+1. 指针和指针所指向的对象只有在索引成员时是可以混淆的，其他情况下不可混淆。为避免犯错，按照C语言的方式来使用指针吧。
+
 ## 经验
 
 1. package的设计要考虑模块间的依赖。不应将内聚性低的模块放在同一个package。
@@ -85,6 +89,8 @@ print：输出变量信息
 args：打印所有的方法参数信息
 locals: 打印所有的本地变量
 ```
+
+4. [stack-traces-in-go](https://www.ardanlabs.com/blog/2015/01/stack-traces-in-go.html)
 
 ## Beego
 

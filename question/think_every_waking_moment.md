@@ -4,6 +4,12 @@
 
 ## 问题列表
 
+- [ ] Q43 git发布版本管理（添加标签）
+- [ ] Q42 wireshark
+- [ ] Q41 串口
+- [ ] Q40 adb tools
+- [ ] Q39 2019/9/28 ifconfig的用法与含义
+    - [修改了/etc/network/interface和/etc/resolve.conf](https://www.cnblogs.com/linjiqin/p/3148346.html)
 - [ ] Q38 2019/9/5  netstat的用法
 - [ ] Q37 2019/8/18 为什么要这样判断变量是否为空？`if [ "_$var" = "_" ]`
 - [ ] Q36 2019/8/12 beego响应http请求时数据可以逐步发吗？

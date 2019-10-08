@@ -10,6 +10,16 @@
     - vnoremap只在visual模式下生效
     - nnoremap就在normal模式下生效
 
+3. 全局搜索并跳转
+    - `:vim /main ** | copen` 在当前目录及其子目录下搜索“hello”字符串
+    - `:cw`  打开quickfix 列表窗口
+    - `:ccl` 关闭quickfix 列表串口
+    - `:cfirst, :cnext, :cprev, :clast` 跳转到quickfix的第一项、后一项、前一项及最后项
+    - `%` 在当前缓冲区文件中搜索
+    - `*.cpp` 在当前目录下的.cpp文件中搜索
+    - `**/*.cpp` 在当前目录及子目录中.cpp文件中搜索
+    - `**/*.cpp, **/*.h` 在当前目录及子目录中.cpp, .h文件中搜索
+
 ## 常用
 
 1. [vim-tabe多标签切换](https://blog.csdn.net/xs1326962515/article/details/77837017)

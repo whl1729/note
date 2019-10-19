@@ -20,6 +20,10 @@
     - `**/*.cpp` 在当前目录及子目录中.cpp文件中搜索
     - `**/*.cpp, **/*.h` 在当前目录及子目录中.cpp, .h文件中搜索
 
+4. 删除指定字符串的行
+    - `g/pattern/d` 删除含有pattern的行
+    - `v/pattern/d` 删除不含有pattern的行
+
 ## 常用
 
 1. [vim-tabe多标签切换](https://blog.csdn.net/xs1326962515/article/details/77837017)

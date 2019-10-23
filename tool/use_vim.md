@@ -24,6 +24,13 @@
     - `g/pattern/d` 删除含有pattern的行
     - `v/pattern/d` 删除不含有pattern的行
 
+5. 把当前单词插入到命令行：`<Ctrl-r><Ctrl-w>`
+
+6. 相对于活动文件目录打开一个文件
+    - `:edit %<Tab>` 输入活动缓冲区的完整文件路径
+    - `:edit %:h<Tab>` 输入当前文件所在目录的路径
+    - `cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%%'` 创建映射项
+
 ## 常用
 
 1. [vim-tabe多标签切换](https://blog.csdn.net/xs1326962515/article/details/77837017)

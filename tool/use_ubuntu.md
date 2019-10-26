@@ -50,6 +50,10 @@ export https_proxy=socks5://127.0.0.1:1080
 2. 如何修改终端颜色、路径名以及ls命令显示设置？
     - 参考博客[Ubuntu终端颜色设置、路径名设置以及ls命令设置](http://blog.sina.com.cn/s/blog_65a8ab5d0101g6cf.html)，主要是修改\~/.bashrc文件中的`PS1`的值。
 
+3. 中文字体设置：推荐使用文泉驿-正黑字体。安装和设置方法：
+    - 终端输入`sudo apt-get install ttf-wqy-zenhei`进行安装。
+    - 在Terminal右键选择"Preferences"，点击"Profiles"，左边选中"Default"，在"General"中，取消勾选"Use the system fixed width font"，再选择"WenQuanYi Zen Hei Mono Regular"，字体设置为25.
+
 ## 其他
 
 1. Q：如何定位Ubuntu启动失败的问题？

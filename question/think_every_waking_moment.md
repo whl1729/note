@@ -4,6 +4,12 @@
 
 ## 问题列表
 
+- [ ] Q52 解决vim-go无法跳转的问题
+- [ ] Q51 搭VPN服务器
+- [ ] Q50 go包管理器
+- [ ] Q49 linux下查询进程状态相关命令
+- [ ] Q48 理解嵌入式接口double free的具体原因
+- [ ] Q47 理解断点下载unexpected end of stream的bug的具体原因
 - [ ] Q46 理解golang timer的用法
 - [ ] Q45 shell常用语法
 - [ ] Q44 linux系统中的文件权限和所有者信息存储在哪里？

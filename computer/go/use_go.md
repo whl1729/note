@@ -4,6 +4,16 @@
 
 1. 指针和指针所指向的对象只有在索引成员时是可以混淆的，其他情况下不可混淆。为避免犯错，按照C语言的方式来使用指针吧。
 
+2. go build 出错：
+```
+along:~/work/C1-InterfaceServer$ GOARCH=arm64 go build tests/mockadasserver/mockadasserver.go 
+# github.com/hujia-team/C1-InterfaceServer/controllers/utils
+controllers/utils/utils.go:126:2: undefined: RunLed
+controllers/utils/utils.go:129:2: undefined: PlayStartupSound
+controllers/utils/utils.go:132:2: undefined: RunTakePhoto
+controllers/utils/utils.go:135:2: undefined: InitRecord
+```
+
 ## 经验
 
 1. package的设计要考虑模块间的依赖。不应将内聚性低的模块放在同一个package。

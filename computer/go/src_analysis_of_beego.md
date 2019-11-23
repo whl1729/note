@@ -45,3 +45,11 @@ conn.server.ServeHTTP()
 
     execController.Finish()
 ```
+
+3. beego.Handler
+```
+Handler(rootpath string, h http.Handler, options ...interface{})
+	BeeApp.Handlers.Handler(rootpath, h, options...)
+        route.routerType = routerTypeHandler
+		p.addToRouter(m, pattern, route)
+```

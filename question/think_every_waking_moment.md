@@ -4,8 +4,22 @@
 
 ## 问题列表
 
+- [ ] Q60 阅读linux系统每个目录下的内容
+- [ ] Q59 挂载究竟是什么意思？
+- [ ] Q58 存储卡内部文件拷贝的具体实现原理？
+- [ ] Q57 beego究竟啥时候把数据发送到网络中？
+- [ ] Q56 学习syslog原理，理解如何重定向log到socket
+- [ ] Q55 学习beego框架
+- [ ] Q54 理解interface
+- [ ] Q53 golang http serveFile能否设置内存大小
+- [ ] Q52 解决vim-go无法跳转的问题
+- [ ] Q51 搭VPN服务器
+- [ ] Q50 go包管理器
+- [ ] Q49 linux下查询进程状态相关命令
+- [ ] Q48 理解嵌入式接口double free的具体原因
+- [ ] Q47 理解断点下载unexpected end of stream的bug的具体原因
 - [ ] Q46 理解golang timer的用法
-- [ ] Q45 shell常用语法
+- [ ] Q45 ***shell常用语法***
 - [ ] Q44 linux系统中的文件权限和所有者信息存储在哪里？
 - [ ] Q43 git发布版本管理（添加标签）
 - [ ] Q42 wireshark

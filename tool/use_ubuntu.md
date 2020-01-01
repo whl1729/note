@@ -14,6 +14,8 @@ xev | grep keycode  // 查看某个符号对应的键值
 xmodmap -e "keycode 68=x"  // 将f2的键值68映射到字母x，这时按下f2键时会显示x
 ```
 
+5. 设置virtualbox虚拟机使用主机代理：在Setting - Network Proxy中，选择Manual，并将http/https/socks的代理ip设置为10.0.2.2（virtual NAT默认网关），port设置为1080.
+
 ## 软件包管理
 
 1. apt-get：适用于 deb 包管理式的操作系统，主要用于自动从互联网软件库中搜索、安装、升级以及卸载软件或者操作系统。

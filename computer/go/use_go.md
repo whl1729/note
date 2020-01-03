@@ -14,6 +14,8 @@ controllers/utils/utils.go:132:2: undefined: RunTakePhoto
 controllers/utils/utils.go:135:2: undefined: InitRecord
 ```
 
+3. for-select-case 结构中，注意break和return的区别，避免误用return而过早退出goroutine。
+
 ## 经验
 
 1. package的设计要考虑模块间的依赖。不应将内聚性低的模块放在同一个package。

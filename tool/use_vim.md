@@ -44,6 +44,8 @@
     - `\?` 匹配0个或1个
     - `\{n, m}` 匹配n～m个
 
+9. 将命令的标准输出重定向到当前缓冲区：`:read !{cmd}`
+
 ## 常用
 
 1. [vim-tabe多标签切换](https://blog.csdn.net/xs1326962515/article/details/77837017)

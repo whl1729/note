@@ -1,0 +1,42 @@
+# 信息获取渠道
+
+- 维基百科
+- Google
+- 新闻
+    - 人民日报
+    - 新华社
+    - 澎湃新闻
+    - The Economist 经济学人
+    - Financial Times 金融时报
+    - Wall Street Journal 华尔街日报
+    - The New York Times 纽约时报
+    - BBC News
+- 纪录片
+    - [哪些纪录片让你开阔眼界、增长见识？ - 皇太极的回答 - 知乎](https://www.zhihu.com/question/27325912/answer/518950608)
+    - [哪些纪录片让你开阔眼界、增长见识？ - 孤独匹诺草的回答 - 知乎](https://www.zhihu.com/question/27325912/answer/883703313)
+- 学术论文
+- 书籍
+- 专家
+- 网站
+    - [中央人民政府](http://www.gov.cn/index.htm)
+    - [中国统计年鉴](http://www.stats.gov.cn/tjsj/ndsj/)
+    - [数字之道汇总](http://news.sohu.com/matrix/)
+    - [乐晴智库|深度投资研究](http://www.767stock.com/)
+    - [世界数据图册](https://cn.knoema.com/atlas)
+    - [Wired](https://www.wired.com/)
+    - [全历史](https://www.allhistory.com/)
+    - 图书馆网站（数据库链接）
+- B站
+    - [B 站上有哪些很好的学习资源? - Kevin的回答 - 知乎](https://www.zhihu.com/question/265883810/answer/977284119)
+    - [B 站上有哪些很好的学习资源? - 吾道幻灯片的回答 - 知乎](https://www.zhihu.com/question/265883810/answer/978128957)
+    - [B 站上有哪些很好的学习资源? - 秦阳的回答 - 知乎](https://www.zhihu.com/question/265883810/answer/974890029)
+    - 思维实验室
+    - 李永乐
+    - 局座召忠
+    - 3Blue1Brown（“数学之美”）
+    - LinusTechTips（硬件评测）
+    - 罗兹（电子工程技术）
+    - 巫师财经（经济）
+    - 赖世雄英语学习法
+
+## 2020/1/25

@@ -20,6 +20,8 @@ controllers/utils/utils.go:135:2: undefined: InitRecord
 
 1. package的设计要考虑模块间的依赖。不应将内聚性低的模块放在同一个package。
 
+2. beego http超时时间大约为6分钟。（待确认）
+
 ## 数据类型
 
 1. Go语言变量声明后的默认值

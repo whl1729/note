@@ -10,6 +10,42 @@
     - vnoremap只在visual模式下生效
     - nnoremap就在normal模式下生效
 
+3. 全局搜索并跳转
+    - `:vim /main ** | copen` 在当前目录及其子目录下搜索“hello”字符串
+    - `:cw`  打开quickfix 列表窗口
+    - `:ccl` 关闭quickfix 列表串口
+    - `:cfirst, :cnext, :cprev, :clast` 跳转到quickfix的第一项、后一项、前一项及最后项
+    - `%` 在当前缓冲区文件中搜索
+    - `*.cpp` 在当前目录下的.cpp文件中搜索
+    - `**/*.cpp` 在当前目录及子目录中.cpp文件中搜索
+    - `**/*.cpp, **/*.h` 在当前目录及子目录中.cpp, .h文件中搜索
+
+4. 删除指定字符串的行
+    - `g/pattern/d` 删除含有pattern的行
+    - `v/pattern/d` 删除不含有pattern的行
+
+5. 把当前单词插入到命令行：`<Ctrl-r><Ctrl-w>`
+
+6. 相对于活动文件目录打开一个文件
+    - `:edit %<Tab>` 输入活动缓冲区的完整文件路径
+    - `:edit %:h<Tab>` 输入当前文件所在目录的路径
+    - `cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%%'` 创建映射项
+
+7. 定位编译错误的位置
+    - `:make`进行编译
+    - `:cw` 打开错误窗口
+    - `:cc` 显示当前错误信息
+    - `:cn` 显示下一个错误信息
+    - `:cp` 显示上一个错误信息
+    - `:ccl` 关闭错误信息窗口
+
+8. 元字符
+    - `\+` 匹配1个或多个
+    - `\?` 匹配0个或1个
+    - `\{n, m}` 匹配n～m个
+
+9. 将命令的标准输出重定向到当前缓冲区：`:read !{cmd}`
+
 ## 常用
 
 1. [vim-tabe多标签切换](https://blog.csdn.net/xs1326962515/article/details/77837017)

@@ -1,5 +1,15 @@
 # Go FAQs
 
+## Q10 调用`os.Stat`报错"invalid argument"
+
+1. 原因：输入参数末尾含有0字符。可以使用`bytes.Trim`去掉byte数组中的0字符
+
+## Q9 编译C1代码时由于import sqlite3而失败，为什么？
+
+1. 问题描述：编译报错："ccache: error: Failed to create directory .ccache/tmp: Permission denied"
+
+2. 临时解决方案：`编译时增加选项 CCACHE_DISABLE=1`
+
 ## Q8 2019/7/2 为什么C1-InterfaceServer项目中的TestSetSpeakerVolumn函数中串行执行会失败？
 
 ## Q7 2019/7/1 通道只能先写后读吗？能不能反过来？

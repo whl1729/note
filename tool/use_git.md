@@ -40,3 +40,15 @@
 10. [突破github的100M单个大文件上传限制](https://blog.csdn.net/Tyro_java/article/details/53440666)
 
 11. 解决git pull/push每次都需要输入密码问题：`git config --global credential.helper store`
+
+12. git commit规范
+    - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.2/)
+    - commit type
+        - fix
+        - feat
+        - chore
+        - docs
+        - style
+        - refactor
+        - perf
+        - test

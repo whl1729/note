@@ -25,6 +25,7 @@
     - [世界数据图册](https://cn.knoema.com/atlas)
     - [Wired](https://www.wired.com/)
     - [全历史](https://www.allhistory.com/)
+    - [知识视界](http://www.libvideo.com/)
     - 图书馆网站（数据库链接）
 - B站
     - [B 站上有哪些很好的学习资源? - Kevin的回答 - 知乎](https://www.zhihu.com/question/265883810/answer/977284119)
@@ -38,5 +39,3 @@
     - 罗兹（电子工程技术）
     - 巫师财经（经济）
     - 赖世雄英语学习法
-
-## 2020/1/25

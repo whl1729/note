@@ -9,3 +9,17 @@
 3. 安装[rust.vim插件](https://github.com/rust-lang/rust.vim)
     - Add Plug 'rust-lang/rust.vim' to ~/.vimrc
     - :PlugInstall or $ vim +PlugInstall +qall
+
+4. 更换crates源
+```
+[source.crates-io]
+registry = "https://github.com/rust-lang/crates.io-index.git"
+replace-with = "ustc"
+# replace-with = "rustcc"
+
+[source.rustcc]
+registry = "https://code.aliyun.com/rustcc/crates.io-index.git"
+
+[source.ustc]
+registry = "git://mirrors.ustc.edu.cn/crates.io-index"
+```

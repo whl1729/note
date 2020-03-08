@@ -10,7 +10,7 @@
     - Add Plug 'rust-lang/rust.vim' to ~/.vimrc
     - :PlugInstall or $ vim +PlugInstall +qall
 
-4. 更换crates源
+4. 更换crates源：在$HOME/.cargo/目录下新建config文件，并添加以下内容：
 ```
 [source.crates-io]
 registry = "https://github.com/rust-lang/crates.io-index.git"

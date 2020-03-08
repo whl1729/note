@@ -20,6 +20,9 @@
 ```
 3. 使用`sslocal -c /etc/shadowsocks.json`命令启动shadowsocks客户端
 4. 设置开机启动shadowsocks客户端：在/etc/rc.local文件中添加以上命令
+5. 在virtualbox虚拟机终端上使用主机VPN
+    - 在虚拟机终端设置http/https代理：`export https_proxy=socks5://192.168.0.105:1080`
+    - 修改主机的shadowsocks配置：勾选“允许其他设备连入”
 
 ### 安装及配置SwitchyOmega
 1. 在[SwitchyOmega的github网站](https://github.com/FelisCatus/SwitchyOmega/releases)下载`SwitchyOmega_Chromium.crx`文件

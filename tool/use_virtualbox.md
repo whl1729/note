@@ -11,3 +11,7 @@
 4. 在虚拟机中输入F5、F6等功能键：同时输入Fn + F5、Fn + F6.
 
 5. 虚拟机桌面最大化：`Ctrl+F`
+
+6. 在virtualbox虚拟机终端上使用主机VPN
+    - 在虚拟机终端设置http/https代理：`export https_proxy=socks5://192.168.0.105:1080`
+    - 修改主机的shadowsocks配置：勾选“允许其他设备连入”

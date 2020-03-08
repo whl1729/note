@@ -7,8 +7,15 @@
 2. linux系统下的安装命令：`curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
 
 3. 安装[rust.vim插件](https://github.com/rust-lang/rust.vim)
-    - Add Plug 'rust-lang/rust.vim' to ~/.vimrc
-    - :PlugInstall or $ vim +PlugInstall +qall
+    - Add Plugin 'rust-lang/rust.vim' to ~/.vimrc
+    - :PluginInstall
+
+4. 安装[racer-rust/vim-racer插件](https://github.com/racer-rust/vim-racer)：支持函数跳转等
+    - Add Plugin 'racer-rust/vim-racer' to ~/.vimrc
+    - :PluginInstall
+    - rustup toolchain add nightly
+    - cargo +nightly install racer
+    - rustup component add rust-src
 
 4. 更换crates源：在$HOME/.cargo/目录下新建config文件，并添加以下内容：
 ```

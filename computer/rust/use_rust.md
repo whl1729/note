@@ -17,7 +17,7 @@
     - cargo +nightly install racer
     - rustup component add rust-src
 
-4. 更换crates源：在$HOME/.cargo/目录下新建config文件，并添加以下内容：
+5. 更换crates源：在$HOME/.cargo/目录下新建config文件，并添加以下内容：
 ```
 [source.crates-io]
 registry = "https://github.com/rust-lang/crates.io-index.git"
@@ -29,4 +29,9 @@ registry = "https://code.aliyun.com/rustcc/crates.io-index.git"
 
 [source.ustc]
 registry = "git://mirrors.ustc.edu.cn/crates.io-index"
+```
+
+5. rustfmt on save: add this to your vim config:
+```
+let g:rustfmt_autosave = 1
 ```

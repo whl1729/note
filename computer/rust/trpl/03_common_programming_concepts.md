@@ -43,3 +43,9 @@
     - A vector is a similar collection type provided by the standard library that is allowed to grow or shrink in size.
     - If you’re unsure whether to use an array or a vector, you should probably use a vector.
     - if you want to create an array that contains the same value for each element, you can specify the initial value, followed by a semicolon, and then the length of the array in square brackets.
+
+### 3.3 Functions
+
+1. Rust code uses snake case as the conventional style for function and variable names. In snake case, all letters are lowercase and underscores separate words.
+
+2. Rust doesn’t care where you define your functions, only that they’re defined somewhere.

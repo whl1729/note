@@ -86,6 +86,22 @@ export https_proxy=socks5://127.0.0.1:1080
     - 对应结构体的相关字段首字母必须大写，否则无法获取到json文件的真实值（因此该字段的值为原来的默认值）
     - 如果对应结构体含有json文件的key中不包含的字段，unmarshal不会因此报错。
 
+### http
+
+1. [Go doing a GET request and building the Querystring](https://stackoverflow.com/questions/30652577/go-doing-a-get-request-and-building-the-querystring)
+```
+req, err := http.NewRequest("GET", "http://api.themoviedb.org/3/tv/popular", nil)
+    if err != nil {
+        log.Print(err)
+        os.Exit(1)
+    }
+
+    q := req.URL.Query()
+    q.Add("api_key", "key_from_environment_or_flag")
+    q.Add("another_thing", "foo & bar")
+    req.URL.RawQuery = q.Encode()
+```
+
 ## 调试
 
 1. 使用gdb调试Go程序：[Debugging Go Code with GDB](https://golang.org/doc/gdb)

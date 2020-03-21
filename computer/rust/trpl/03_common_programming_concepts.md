@@ -49,3 +49,13 @@
 1. Rust code uses snake case as the conventional style for function and variable names. In snake case, all letters are lowercase and underscores separate words.
 
 2. Rust doesn’t care where you define your functions, only that they’re defined somewhere.
+
+### 3.5 Control Flow
+
+1. Because `if` is an expression, we can use it on the right side of a let statement.
+
+2. The values that have the potential to be results from each arm of the `if` must be the same type.
+
+3. Using the for loop, you wouldn’t need to remember to change any other code if you changed the number of values in the array.
+
+4. The safety and conciseness of for loops make them the most commonly used loop construct in Rust.

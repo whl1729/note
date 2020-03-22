@@ -35,3 +35,7 @@ registry = "git://mirrors.ustc.edu.cn/crates.io-index"
 ```
 let g:rustfmt_autosave = 1
 ```
+
+## Questions
+
+1. Question: why we need to start with "let" when we define a variable?

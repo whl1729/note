@@ -16,6 +16,17 @@
     - rustup toolchain add nightly
     - cargo +nightly install racer
     - rustup component add rust-src
+    - configure vim-racer in ~/.vimrc
+    ```
+    augroup Racer
+        autocmd!
+        autocmd FileType rust nmap <buffer> gd         <Plug>(rust-def)
+        autocmd FileType rust nmap <buffer> gs         <Plug>(rust-def-split)
+        autocmd FileType rust nmap <buffer> gx         <Plug>(rust-def-vertical)
+        autocmd FileType rust nmap <buffer> gt         <Plug>(rust-def-tab)
+        autocmd FileType rust nmap <buffer> <leader>gd <Plug>(rust-doc)
+    augroup END
+    ```
 
 5. 更换crates源：在$HOME/.cargo/目录下新建config文件，并添加以下内容：
 ```
@@ -31,7 +42,7 @@ registry = "https://code.aliyun.com/rustcc/crates.io-index.git"
 registry = "git://mirrors.ustc.edu.cn/crates.io-index"
 ```
 
-5. rustfmt on save: add this to your vim config:
+6. rustfmt on save: add this to your vim config:
 ```
 let g:rustfmt_autosave = 1
 ```

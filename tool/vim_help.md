@@ -95,6 +95,39 @@
 
 - `CTRL-O {command}` you can execute any Normal mode command from Insert mode.
 
+## usr25.txt Editing formatted text
+
+- `gq{motion}` Format the lines that {motion} moves over.
+
+- `:{range}center [width]` Center a range of lines.  {range} is the usual command-line range.  [width] is an optional line width to use for centering.  If [width] is not specified, it defaults to the value of 'textwidth'.  (If 'textwidth' is 0, the default is 80.)
+
+- `:1,5right 37` right-justifies the text.
+
+- `set virtualedit=all` Now you can move the cursor to positions where there isn't any text.  This is called "virtual space".  Editing a table is a lot easier this way.
+- `:set virtualedit=` Go back to non-virtual cursor movements with: >
+
+## usr26.txt Repeating
+
+- `CTRL-A` Add [count] to the number or alphabetic character at or after the cursor.
+- `CTRL-X` Subtract [count] from the number or alphabetic character at or after the cursor.
+
+- `:args *.c` Put all the relevant files in the argument list.
+
+- `:argdo %s/\<x_cnt\>/x_counter/ge | update` takes an argument that is another command.
+
+- `ls | vim -` This allows you to edit the output of the "ls" command, without first saving the text in a file.
+
+## usr27.txt Search commands and patterns
+
+- `/default/2` `/const/e` `/const/e+1` By default, the search command leaves the cursor positioned on the beginning of the pattern.  You can tell Vim to leave it some other place by specifying an offset.  For the forward search command "/", the offset is specified by appending a slash (/) and the offset.
+
+## usr29.txt Moving through programs
+
+- `[[` To move to the start of the outer block.
+- `][` To move to the end of the outer block.
+- `[{` Moves to the start of the current block.
+- `]}` Moves to the end of the current block.
+
 ## index.txt
 
 ### insert-index

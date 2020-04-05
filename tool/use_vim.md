@@ -46,6 +46,11 @@
 
 9. 将命令的标准输出重定向到当前缓冲区：`:read !{cmd}`
 
+10. 关闭光标闪烁（没找到彻底关闭的方法，但找到只闪1秒钟的方法）
+```
+gsettings set org.gnome.desktop.interface cursor-blink-timeout 1
+```
+
 ## 常用
 
 1. [vim-tabe多标签切换](https://blog.csdn.net/xs1326962515/article/details/77837017)

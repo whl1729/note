@@ -14,6 +14,8 @@
 
 - `CTRL-U` command scrolls down half a screen of text.
 - `CTRL-D` command scrolls up half a screen of text.
+- `CTRL-E` Scroll window [count] lines downwards in the buffer.
+- `CTRL-Y` Scroll window [count] lines upwards in the buffer.
 
 - `zz` puts the cursor line at the middle
 - `zt` puts the cursor line at the top
@@ -128,6 +130,33 @@
 - `[{` Moves to the start of the current block.
 - `]}` Moves to the end of the current block.
 
+## usr30.txt Editing programs
+
+- `==` indents the current line.
+- `=a{` indents the current {} block.
+
+## usr32.txt The undo tree
+
+- `g-` Go to older text state.  With a count repeat that many times.
+- `g+` Go to newer text state.  With a count repeat that many times.
+
+## usr40.txt Make new commands
+
+- `:map` defines remapping for keys in Normal mode. You can also define mappings for other modes. For example, ":imap" applies to Insert mode.
+- `:noremap` To avoid keys to be mapped again.
+- `:command` To list the user-defined commands.
+
+## tips.txt
+
+1. renaming files
+```
+	$ vim
+	:r !ls *.c
+	:%s/\(.*\).c/mv & \1.bla
+	:w !sh
+	:q!
+```
+
 ## index.txt
 
 ### insert-index
@@ -171,3 +200,23 @@
 - `CTRL-W s` split current window in two parts, new window N lines high`CTRL-W t` go to top window
 - `CTRL-W v` split current window vertically, new window
 
+
+## editing.txt
+
+- `[count]gf` Edit the file whose name is under or after the cursor. Mnemonic: "goto file".
+
+## motion.txt
+
+- `g^` When lines wrap ('wrap' on): To the first non-blank character of the screen line.
+- `g$` When lines wrap ('wrap' on): To the last character of the screen line and [count - 1] screen lines downward inclusive.
+- `F{char}` To the [count]'th occurrence of {char} to the left.
+- `t{char}` Till before [count]'th occurrence of {char} to the right.  The cursor is placed on the character left of {char} |inclusive|.
+- `T{char}`	Till after [count]'th occurrence of {char} to the left.  The cursor is placed on the character right of {char} |exclusive|.
+
+- `H` To line [count] from top (Home) of window on the first non-blank character.
+- `M` To Middle line of window, on the first non-blank character.
+- `L` To line [count] from bottom of window on the first non-blank character.
+
+## insert.txt
+
+- `CTRL-C` or `CTRL-[` Quit insert mode, go back to Normal mode.

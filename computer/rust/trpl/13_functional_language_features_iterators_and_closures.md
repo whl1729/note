@@ -36,3 +36,28 @@
     - Fn borrows values from the environment immutably.
 
 13. Most of the time when specifying one of the Fn trait bounds, you can start with Fn and the compiler will tell you if you need FnMut or FnOnce based on what happens in the closure body.
+
+### 13.2 Processing a Series of Items with Iterators
+
+1. The iterator pattern allows you to perform some task on a sequence of items in turn. An iterator is responsible for the logic of iterating over each item and determining when the sequence has finished. When you use iterators, you don’t have to reimplement that logic yourself.
+
+2. In Rust, iterators are lazy, meaning they have no effect until you call methods that consume the iterator to use it up.
+
+3. The `iter` method produces an iterator over **immutable references**. If we want to create an iterator that **takes ownership and returns owned values**, we can call `into_iter` instead of `iter`. Similarly, if we want to iterate over **mutable references**, we can call `iter_mut` instead of iter.
+
+4. Other methods defined on the Iterator trait, known as iterator adaptors, allow you to change iterators into different kinds of iterators. You can chain multiple calls to iterator adaptors to perform complex actions in a readable way. But because all iterators are lazy, you have to call one of the consuming adaptor methods to get results from calls to iterator adaptors.
+
+5. `zip` returns None when either of its input iterators return None.
+
+### 13.3 Improving Our I/O Project
+
+1. The functional programming style prefers to minimize the amount of mutable state to make code clearer.
+
+### 13.4 Comparing Performance: Loops vs. Iterators
+
+1. Iterators, although a high-level abstraction, get compiled down to roughly the same code as if you’d written the lower-level code yourself. Iterators are one of Rust’s zero-cost abstractions, by which we mean using the abstraction imposes no additional runtime overhead.
+
+2. Bjarne Stroustrup defines zero-overhead in “Foundations of C++”:
+> In general, C++ implementations obey the zero-overhead principle: What you don’t use, you don’t pay for. And further: What you do use, you couldn’t hand code any better.
+
+3. Unrolling is an optimization that removes the overhead of the loop controlling code and instead generates repetitive code for each iteration of the loop.

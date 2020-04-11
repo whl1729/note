@@ -64,6 +64,10 @@ println!("{}, world!", s1);  // error[E0382]: use of moved value: `s1`
 
 5. A reference’s scope starts from where it is introduced and continues through the last time that reference is used.
 
+6. The Rules of References
+    - At any given time, you can have either one mutable reference or any number of immutable references.
+    - References must always be valid.
+
 ### 4.3 The Slice Type
 
 1. Question: Can we get substring in a non-reference way?

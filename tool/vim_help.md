@@ -220,3 +220,16 @@
 ## insert.txt
 
 - `CTRL-C` or `CTRL-[` Quit insert mode, go back to Normal mode.
+
+## change.txt
+
+- `CTRL-A` Add [count] to the number or alphabetic character at or after the cursor.
+- `{Visual}CTRL-A` Add [count] to the number or alphabetic character in the highlighted text.
+- `CTRL-X` Subtract [count] from the number or alphabetic character at or after the cursor.
+- `{Visual}CTRL-X` Subtract [count] from the number or alphabetic character in the highlighted text.
+
+- `["x]p` Put the text [from register x] after the cursor [count] times.
+- `["x]P` Put the text [from register x] before the cursor [count] times.
+- `["x]gp` Just like "p", but leave the cursor just after the new text.
+- `["x]gP` Just like "P", but leave the cursor just after the new text.
+

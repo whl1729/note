@@ -233,3 +233,16 @@
 - `["x]gp` Just like "p", but leave the cursor just after the new text.
 - `["x]gP` Just like "P", but leave the cursor just after the new text.
 
+- `!{motion}{filter}` Filter {motion} text lines through the external program {filter}.
+- `!!{filter}` 	Filter [count] lines through the external program {filter}.
+- `{Visual}!{filter}` Filter the highlighted lines through the external program {filter}.
+- `:{range}![!]{filter} [!][arg]` Filter {range} lines through the external program {filter}.
+
+
+- `:[range]s[ubstitute]/{pattern}/{string}/[flags] [count]` For each line in [range] replace a match of {pattern} with {string}.
+
+- `:reg[isters]` Display the contents of all numbered and named registers.
+
+- `["x]gp` Just like "p", but leave the cursor just after the new text.
+
+- `["x]gP` Just like "P", but leave the cursor just after the new text.

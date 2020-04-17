@@ -1,5 +1,14 @@
 # Rust 使用笔记
 
+## 常用函数
+
+### 字符串
+
+1. 重复打印某个字符
+```
+println!("{}", "*".repeat(30));
+```
+
 ## 安装Rust
 
 1. 参考[Rust: Getting started](https://www.rust-lang.org/learn/get-started)

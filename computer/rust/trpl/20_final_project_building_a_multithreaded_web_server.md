@@ -17,3 +17,5 @@
 4. We’ll use **compiler-driven** development here. We’ll write the code that calls the functions we want, and then we’ll look at errors from the compiler to determine what we should change next to get the code to work.
 
 5. Create a new directory, src/bin, and move the binary crate rooted in src/main.rs into src/bin/main.rs. Doing so will make the library crate the primary crate in the hello directory; we can still run the binary in src/bin/main.rs using cargo run.
+
+6. Question: Why can't we use 'while let' in Listing 20-21?

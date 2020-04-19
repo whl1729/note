@@ -62,6 +62,8 @@
 
 6. We mentioned the **orphan rule** that states we’re allowed to implement a trait on a type as long as either the trait or the type are local to our crate. It’s possible to get around this restriction using the **newtype pattern**, which involves creating a new type in a tuple struct. The tuple struct will have one field and be a thin wrapper around the type we want to implement a trait for. Then the wrapper type is local to our crate, and we can implement the trait on the wrapper. Newtype is a term that originates from the Haskell programming language. There is no runtime performance penalty for using this pattern, and the wrapper type is elided at compile time.
 
+7. Sometimes, you might need one trait to use another trait’s functionality. In this case, you need to rely on the dependent trait also being implemented. The trait you rely on is a **supertrait** of the trait you’re implementing.
+
 ### 19.3 Advanced Types
 
 1. Using Newtype Pattern to

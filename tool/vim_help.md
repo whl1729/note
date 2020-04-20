@@ -246,3 +246,40 @@
 - `["x]gp` Just like "p", but leave the cursor just after the new text.
 
 - `["x]gP` Just like "P", but leave the cursor just after the new text.
+
+## cmdline.txt
+
+- Use `CTRL-P` to go through the list in the other direction in command line completion.
+- type "=" and press <Tab>:  What happens here is that Vim inserts the old value of the option.  Now you can edit it.
+- When there are many matches, you would like to see an overview.  Do this by pressing `CTRL-D`.
+- `q:` Open the command line window.
+- `:his[tory]` Print the history of last entered commands.
+
+## options.txt
+
+- `:se[t]` Show all options that differ from their default value.
+- `:se[t] all` Show all but terminal options.
+- `:se[t] termcap` Show all terminal options.
+- `:se[t] {option}?` Show value of {option}.
+- `:se[t] {option}` Toggle option: set, switch it on.  Number option: show value.  String option: show value.
+- `:se[t] no{option}` Toggle option: Reset, switch it off.
+
+## pattern.txt
+
+- `*` Search forward for the [count]'th occurrence of the word nearest to the cursor. Only whole keywords are searched for, like with the command "/\<keyword\>".
+- `#` Same as "\*", but search backward.
+- `g*` Like "\*", but don't put "\<" and "\>" around the word.
+- `g#` Like "#", but don't put "\<" and "\>" around the word.
+- `gd` Goto local Declaration.
+
+- `\+` Matches 1 or more of the preceding atom, as many as possible.
+- `\=` Matches 0 or 1 of the preceding atom, as many as possible.
+- `\{n,m}` Matches n to m of the preceding atom, as many as possible
+- `\{n}` Matches n of the preceding atom
+- `\{n,}` Matches at least n of the preceding atom, as many as possible
+- `\{,m}` Matches 0 to m of the preceding atom, as many as possible
+
+- `\_^`	Matches start-of-line.
+- `\_$`	Matches end-of-line.
+- `\%^`	Matches start of the file.
+- `\%$`	Matches end of the file.

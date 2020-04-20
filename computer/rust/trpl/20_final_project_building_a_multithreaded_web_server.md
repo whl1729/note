@@ -18,4 +18,4 @@
 
 5. Create a new directory, src/bin, and move the binary crate rooted in src/main.rs into src/bin/main.rs. Doing so will make the library crate the primary crate in the hello directory; we can still run the binary in src/bin/main.rs using cargo run.
 
-6. Question: Listing 20-21. Why cannot use `while let`?
+6. Question: Why can't we use 'while let' in Listing 20-21?

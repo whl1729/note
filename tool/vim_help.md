@@ -207,6 +207,12 @@
 
 ## motion.txt
 
+- `CTRL-O` Go to [count] Older cursor position in jump list
+- `CTRL-I` Go to [count] newer cursor position in jump list
+
+- `g;` Go to [count] older position in change list.
+- `g,` Go to [count] newer cursor position in change list.
+
 - `g^` When lines wrap ('wrap' on): To the first non-blank character of the screen line.
 - `g$` When lines wrap ('wrap' on): To the last character of the screen line and [count - 1] screen lines downward inclusive.
 - `F{char}` To the [count]'th occurrence of {char} to the left.
@@ -216,6 +222,31 @@
 - `H` To line [count] from top (Home) of window on the first non-blank character.
 - `M` To Middle line of window, on the first non-blank character.
 - `L` To line [count] from bottom of window on the first non-blank character.
+
+- `%` Find the next item in this line after or under the cursor and jump to its match. Items can be: `([{}])`, `/* */`,  `#if, #ifdef, #else, #elif, #endif`
+
+- `(` [count] sentences backward.  |exclusive| motion.
+- `)` [count] sentences forward.  |exclusive| motion.
+- `{` [count] paragraphs backward.  |exclusive| motion.
+- `}` [count] paragraphs forward.  |exclusive| motion.
+- `]]` [count] sections forward or to the next '{' in the first column.
+- `][` [count] sections forward or to the next '}' in the first column.
+- `[[` [count] sections backward or to the previous '{' in the first column.
+- `[]` [count] sections backward or to the previous '}' in the first column.
+
+- `[(` go to [count] previous unmatched '('.
+- `[{` go to [count] previous unmatched '{'.
+- `])` go to [count] next unmatched ')'.
+- `]}` go to [count] next unmatched '}'.
+
+- `aw` "a word", select [count] words.  Leading or trailing white space is included, but not counted.
+- `iw` "inner word", select [count] words.  White space between words is counted too.
+- `aW` "a WORD", select [count] WORDs.  Leading or trailing white space is included, but not counted.
+- `as` "a sentence", select [count] sentences
+- `is` "inner sentence", select [count] sentences
+- `ap` "a paragraph", select [count] paragraphs
+- `ip` "inner paragraph", select [count] paragraphs
+- `a]` or `a[` "a [] block", select [count] '[' ']' blocks.
 
 ## insert.txt
 
@@ -246,6 +277,10 @@
 - `["x]gp` Just like "p", but leave the cursor just after the new text.
 
 - `["x]gP` Just like "P", but leave the cursor just after the new text.
+
+## repeat.txt
+
+- `@:` Repeat last command-line [count] times.
 
 ## cmdline.txt
 
@@ -283,3 +318,32 @@
 - `\_$`	Matches end-of-line.
 - `\%^`	Matches start of the file.
 - `\%$`	Matches end of the file.
+
+## map.txt
+
+Overview of which map command works in which mode.  More details below.
+     COMMANDS                    MODES ~
+:map   :noremap  :unmap     Normal, Visual, Select, Operator-pending
+:nmap  :nnoremap :nunmap    Normal
+:vmap  :vnoremap :vunmap    Visual and Select
+:smap  :snoremap :sunmap    Select
+:xmap  :xnoremap :xunmap    Visual
+:omap  :onoremap :ounmap    Operator-pending
+:map!  :noremap! :unmap!    Insert and Command-line
+:imap  :inoremap :iunmap    Insert
+:lmap  :lnoremap :lunmap    Insert, Command-line, Lang-Arg
+:cmap  :cnoremap :cunmap    Command-line
+:tmap  :tnoremap :tunmap    Terminal-Job
+
+## tagsrch.txt
+
+- `CTRL-]` Jump to the definition of the keyword under the cursor.
+- `CTRL-T` Jump to [count] older entry in the tag stack
+
+- `[i` Display the first line that contains the keyword under the cursor.  The search starts at the beginning of the file.
+- `]i` like "[i", but start at the current cursor position.
+- `[I` Display all lines that contain the keyword under the cursor.  Filenames and line numbers are displayed for the found lines.  The search starts at the beginning of the file.
+- `]I` like "[I", but start at the current cursor position.
+- `[ CTRL-I` Jump to the first line that contains the keyword under the cursor. The search starts at the beginning of the file.
+- `] CTRL-I` like "[ CTRL-I", but start at the current cursor position.
+- `CTRL-W CTRL-I` or `CTRL-W i` Open a new window, with the cursor on the first line that contains the keyword under the cursor.

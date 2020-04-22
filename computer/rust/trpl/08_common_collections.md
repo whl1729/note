@@ -6,7 +6,9 @@
 
 ### 8.1 Storing Lists of Values with Vectors
 
-1. We don't need the type annotation if Rust can infers it from the data. Question: So the Rust compiler will be more complicated ?
+1. We don't need the type annotation if Rust can infers it from the data.
+    - [Solved] Q: So the Rust compiler will be more complicated ?
+    - A: Yes.
 ```
 let mut v = Vec::new();
 v.push(5);

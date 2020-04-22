@@ -28,16 +28,16 @@
 
 ### 疑问
 
+- [ ] Q: The Rust compiler has a borrow checker that compares scopes to determine whether all borrows are valid. (Question: How does the checker compare scopes?)
 - [x] Q: Can we define our drop function? What if we do that? (See ch04)
 - [x] Q: So what should we do if the type needs something special to happen when it goes out scope? (See ch04)
 - [x] Q: What is trait? And How to define the Copy trait? (See ch04)
-- [ ] Q: Can we get substring in a non-reference way?
-- [ ] Q: How can the Option type prevent bugs?
-- [ ] Q: I can't understand crate root?
-- [ ] Q: We don't need the type annotation if Rust can infers it from the data. Question: So the Rust compiler will be more complicated ?
-- [ ] Q: how to understand the `&` in `for &item in list.iter()` ?
-- [ ] Q: The impl Trait syntax lets you concisely specify that a function returns some type that implements the Iterator trait without needing to write out a very long type. (not understand?)
-- [ ] Q: The Rust compiler has a borrow checker that compares scopes to determine whether all borrows are valid. (Question: How does the checker compare scopes?)
+- [x] Q: Can we get substring in a non-reference way?
+- [x] Q: How can the Option type prevent bugs?
+- [x] Q: I can't understand crate root?
+- [x] Q: We don't need the type annotation if Rust can infers it from the data. Question: So the Rust compiler will be more complicated ?
+- [x] Q: How to understand the `&` in `for &item in list.iter()` ?
+- [x] Q: The impl Trait syntax lets you concisely specify that a function returns some type that implements the Iterator trait without needing to write out a very long type. (not understand?)
 - [ ] Q: Why should we add lifetime specifier in `fn longest(x: &str, y: &str) -> &str`?
 - [ ] Q: What's the differences between memory leaks and memory unsafe?
 - [ ] Q: I can't understand Figure 15-4: Why does `Cons(10, RefCell::new(Rc::clone(&a))` point to a instead of Cons(5, ...)`?

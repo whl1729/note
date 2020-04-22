@@ -6,7 +6,21 @@
 
 1. Rust’s type-naming convention is CamelCase.
 
-2. Question: how to understand the `&` in `for &item in list.iter()` ?
+2. [Solved] Q: How to understand the `&` in `for &item in list.iter()` ?
+    - A: This is used for pattern matching. `list.iter()` return `&i32`, so we can match the i32 value and store it in item.
+```
+fn largest_i32(list: &[i32]) -> i32 {
+    let mut largest = list[0];
+
+    for &item in list.iter() {
+        if item > largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+```
 
 3. In the following example, we have to declare T just after impl so we can use it to specify that we’re implementing methods on the type Point<T>. By declaring T as a generic type after impl, Rust can identify that the type in the angle brackets in Point is a generic type rather than a concrete type.
 ```
@@ -28,7 +42,7 @@ impl<T> Point<T> {
 4. One restriction to note with trait implementations is that we can implement a trait on a type only if either the trait or the type is local to our crate. This restriction is part of a property of programs called coherence, and more specifically the orphan rule, so named because the parent type is not present. This rule ensures that other people’s code can’t break your code and vice versa. Without the rule, two crates could implement the same trait for the same type, and Rust wouldn’t know which implementation to use.
 
 5. Traits as Parameter
-    - `impl Trait` syntax
+    - `impl Trait` syntax: The impl Trait syntax works for straightforward cases but is actually syntax sugar for a longer form, which is called a **trait bound**.
     ```
     pub fn notify(item: impl Summary) {
         println!("Breaking news! {}", item.summarize());
@@ -41,7 +55,9 @@ impl<T> Point<T> {
     }
     ```
 
-6. The impl Trait syntax lets you concisely specify that a function returns some type that implements the Iterator trait without needing to write out a very long type. (Question:?)
+6. The ability to return a type that is only specified by the trait it implements is especially useful in the context of closures and iterators. Closures and iterators create types that only the compiler knows or types that are very long to specify. The `impl Trait` syntax lets you concisely specify that a function returns some type that implements the Iterator trait without needing to write out a very long type.
+    - [Solved] Q: Not understand?
+    - A: See [impl Trait](https://doc.rust-lang.org/stable/rust-by-example/trait/impl_trait.html) for more details.（伍注：`impl Trait`语法可以方便我们简洁地声明某种类型，这个要结合实际例子才容易理解。）
 
 7. You can only use impl Trait if you’re returning a single type.
 
@@ -52,9 +68,11 @@ impl<T> Point<T> {
         - if using self, the function introduced is a method
         - if using any other name, the function introduced is an associated function
 
-9. Implementations of a trait on any type that satisfies the trait bounds are called blanket implementations and are extensively used in the Rust standard library.
+9. By using a trait bound with an impl block that uses generic type parameters, we can implement methods **conditionally** for types that implement the specified traits.
 
-10. In dynamically typed languages, we would get an error at runtime if we called a method on a type which didn’t implement the type which defines the method. But Rust moves these errors to compile time so we’re forced to fix the problems before our code is even able to run. Additionally, we don’t have to write code that checks for behavior at runtime because we’ve already checked at compile time. Doing so improves performance without having to give up the flexibility of generics.
+10. Implementations of a trait on any type that satisfies the trait bounds are called **blanket implementations** and are extensively used in the Rust standard library.
+
+11. In dynamically typed languages, we would get an error at runtime if we called a method on a type which didn’t implement the type which defines the method. But Rust moves these errors to compile time so we’re forced to fix the problems before our code is even able to run. Additionally, we don’t have to write code that checks for behavior at runtime because we’ve already checked at compile time. Doing so improves performance without having to give up the flexibility of generics.
 
 ### 10.3 Validating References with Lifetimes
 
@@ -65,7 +83,16 @@ impl<T> Point<T> {
 
 2. The Rust compiler has a borrow checker that compares scopes to determine whether all borrows are valid. (Question: How does the checker compare scopes?)
 
-3. Question: Why should we add lifetime specifier in `fn longest(x: &str, y: &str) -> &str`?
+3. Question: Why should we add lifetime specifier in Listing 10-22 `fn longest(x: &str, y: &str) -> &str`?
+```
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+```
 
 4. Lifetime syntax is about connecting the lifetimes of various parameters and return values of functions. Once they’re connected, Rust has enough information to allow memory-safe operations and disallow operations that would create dangling pointers or otherwise violate memory safety.
 

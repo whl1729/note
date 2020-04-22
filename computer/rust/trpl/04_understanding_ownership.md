@@ -82,8 +82,16 @@ println!("{}, world!", s1);  // error[E0382]: use of moved value: `s1`
 
 ### 4.3 The Slice Type
 
-1. Question: Can we get substring in a non-reference way?
+1. A slice is a dynamically sized type representing a 'view' into a sequence of elements of type T. The slice type is written as [T].
+
+2. To use a slice type it generally has to be used behind a pointer for example as:
+    - &[T], a 'shared slice', often just called a 'slice', it doesn't own the data it points to, it borrows it.
+    - &mut [T], a 'mutable slice', mutably borrows the data it points to.
+    - Box<[T]>, a 'boxed slice'
+
+3. [Solved] Q: Can we get substring in a non-reference way?
+    - A: No, we can't. From [Unsized Types](https://doc.rust-lang.org/1.2.0/book/unsized-types.html): We can only manipulate an instance of an unsized type via a pointer. An &[T] works just fine, but a [T] does not.（伍注：使用slice时，只能使用&[T]的方式，而不能使用[T]，那为什么还允许[T]这种类型的存在？原因在于这样在对类型T实现一些方法时可以带来方便。详情参考以上文档）
 ```
 let s = String::from("hello world");
-let hello = &s[..5]; // error[E0277]: the size for values of type `str` cannot be known at compilation time
+let hello = s[..5]; // error[E0277]: the size for values of type `str` cannot be known at compilation time
 ```

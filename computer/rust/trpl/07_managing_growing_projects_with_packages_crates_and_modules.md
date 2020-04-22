@@ -17,7 +17,8 @@
     - If a package contains src/main.rs and src/lib.rs, it has two crates: a library and a binary, both with the same name as the package.
     - src/main.rs and src/lib.rs are called crate roots. The reason for their name is that the contents of either of these two files form a module named crate at the root of the crate’s module structure, known as the module tree.
 
-> Question: I can't understand crate root?
+> [Solved] Q: I can't understand crate root?
+>     - A: In fact, the above description offers a clear answer: crate root is a source file whose name is src/main.rs or src/lib.rs
 
 2. A package is one or more crates that provide a set of functionality. A package contains a Cargo.toml file that describes how to build those crates.
 

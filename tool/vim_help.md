@@ -345,5 +345,31 @@ Overview of which map command works in which mode.  More details below.
 - `[I` Display all lines that contain the keyword under the cursor.  Filenames and line numbers are displayed for the found lines.  The search starts at the beginning of the file.
 - `]I` like "[I", but start at the current cursor position.
 - `[ CTRL-I` Jump to the first line that contains the keyword under the cursor. The search starts at the beginning of the file.
-- `] CTRL-I` like "[ CTRL-I", but start at the current cursor position.
+- `] CTRL-I` like "\[ CTRL-I", but start at the current cursor position.
 - `CTRL-W CTRL-I` or `CTRL-W i` Open a new window, with the cursor on the first line that contains the keyword under the cursor.
+
+- `:ts[elect][!] [ident]` List the tags that match [ident], using the information in the tags file(s).  When [ident] is not given, the last tag name from the tag stack is used.
+- `g]` Like CTRL-], but use ":tselect" instead of ":tag".
+
+## quickfix.txt
+
+- A location list is a window-local quickfix list. You get one after commands like `:lvimgrep`, `:lgrep`, `:lhelpgrep`, `:lmake`, etc., which create a location list instead of a quickfix list as the corresponding `:vimgrep`, `:grep`, `:helpgrep`, `:make` do.
+
+- `:cc[!] [nr]`	Display error [nr]. If [nr] is omitted, the same error is displayed again.
+- `:ll[!] [nr]`	Same as ":cc", except the location list for the current window is used instead of the quickfix list.
+
+- `:[count]cn[ext][!]` Display the [count] next error in the list that includes a file name.  If there are no file names at all, go to the [count] next error.
+- `:[count]lne[xt][!]` Same as ":cnext", except the location list for the current window is used instead of the quickfix list.
+
+- `:[count]cN[ext][!]` or `:[count]cp[revious][!]` Display the [count] previous error in the list that includes a file name. If there are no file names at all, go to the [count] previous error.
+- `:[count]lN[ext][!]` or `:[count]lp[revious][!]` Same as ":cNext" and ":cprevious", except the location list for the current window is used instead of the quickfix list.
+
+- `:cl[ist]! [from] [, [to]]` List all errors.
+- `:lli[st]! [from] [, [to]]` List all the entries in the location list for the current window.
+- `:cdo[!] {cmd}` Execute {cmd} in each valid entry in the quickfix list.
+
+- `:cope[n] [height]` Open a window to show the current list of errors.
+- `:lop[en] [height]` Open a window to show the location list for the current window.
+
+- `:ccl[ose]` Close the quickfix window.
+- `:lcl[ose]` Close the window showing the location list for the current window.

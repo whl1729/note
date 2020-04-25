@@ -373,3 +373,8 @@ Overview of which map command works in which mode.  More details below.
 
 - `:ccl[ose]` Close the quickfix window.
 - `:lcl[ose]` Close the window showing the location list for the current window.
+
+## diff.txt
+
+- `vimdiff file1 file2 [file3 [file4]]` or `vim -d file1 file2 [file3 [file4]]` This starts Vim as usual, and additionally sets up for viewing the differences between the arguments. >
+

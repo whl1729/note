@@ -1,11 +1,12 @@
 ## Python使用笔记
 
+### 环境配置
+
+1. 修改默认python版本
+```
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+```
+
 ### Python shell
 
-* Python shell清屏
-    * 方法1： `Ctrl + L`
-    * 方法2：
-```
-import os
-os.system("clear")
-```
+1. Python shell清屏: `Ctrl-L`

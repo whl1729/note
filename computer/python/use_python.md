@@ -5,6 +5,8 @@
 1. 修改默认python版本
 ```
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+// reconfig
+sudo update-alternatives --config python3
 ```
 
 ### Python shell

@@ -81,9 +81,11 @@ impl<T> Point<T> {
     - Most of the time, lifetimes are implicit and inferred, just like most of the time, types are inferred.
     - We must annotate types when multiple types are possible. In a similar way, we must annotate lifetimes when the lifetimes of references could be related in a few different ways. Rust requires us to annotate the relationships using generic lifetime parameters to ensure the actual references used at runtime will definitely be valid.
 
-2. The Rust compiler has a borrow checker that compares scopes to determine whether all borrows are valid. (Question: How does the checker compare scopes?)
+2. The main aim of lifetimes is to **prevent dangling references**, which cause a program to reference data other than the data it’s intended to reference.
 
-3. Question: Why should we add lifetime specifier in Listing 10-22 `fn longest(x: &str, y: &str) -> &str`?
+3. The Rust compiler has a borrow checker that compares scopes to determine whether all borrows are valid. (Question: How does the checker compare scopes?)
+
+4. Question: Why should we add lifetime specifier in Listing 10-22 `fn longest(x: &str, y: &str) -> &str`?
 ```
 fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
     if x.len() > y.len() {
@@ -94,23 +96,23 @@ fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
 }
 ```
 
-4. Lifetime syntax is about connecting the lifetimes of various parameters and return values of functions. Once they’re connected, Rust has enough information to allow memory-safe operations and disallow operations that would create dangling pointers or otherwise violate memory safety.
+5. Lifetime syntax is about connecting the lifetimes of various parameters and return values of functions. Once they’re connected, Rust has enough information to allow memory-safe operations and disallow operations that would create dangling pointers or otherwise violate memory safety.
 
-5. It’s possible that more deterministic patterns will emerge and be added to the compiler. In the future, even fewer lifetime annotations might be required.
+6. It’s possible that more deterministic patterns will emerge and be added to the compiler. In the future, even fewer lifetime annotations might be required.
 
-6. The patterns programmed into Rust’s analysis of references are called the lifetime elision rules. These aren’t rules for programmers to follow; they’re a set of particular cases that the compiler will consider, and if your code fits these cases, you don’t need to write the lifetimes explicitly.
+7. The patterns programmed into Rust’s analysis of references are called the lifetime elision rules. These aren’t rules for programmers to follow; they’re a set of particular cases that the compiler will consider, and if your code fits these cases, you don’t need to write the lifetimes explicitly.
 
-7. Lifetimes on function or method parameters are called input lifetimes, and lifetimes on return values are called output lifetimes.
+8. Lifetimes on function or method parameters are called input lifetimes, and lifetimes on return values are called output lifetimes.
 
-8. The compiler uses three rules to figure out what lifetimes references have when there aren’t explicit annotations. The first rule applies to input lifetimes, and the second and third rules apply to output lifetimes. If the compiler gets to the end of the three rules and there are still references for which it can’t figure out lifetimes, the compiler will stop with an error. These rules apply to fn definitions as well as impl blocks.
+9. The compiler uses three rules to figure out what lifetimes references have when there aren’t explicit annotations. The first rule applies to input lifetimes, and the second and third rules apply to output lifetimes. If the compiler gets to the end of the three rules and there are still references for which it can’t figure out lifetimes, the compiler will stop with an error. These rules apply to fn definitions as well as impl blocks.
 
-9. Three Rules
+10. Three Rules
     - The first rule is that each parameter that is a reference gets its own lifetime parameter.
     - The second rule is if there is exactly one input lifetime parameter, that lifetime is assigned to all output lifetime parameters.
     - The third rule is if there are multiple input lifetime parameters, but one of them is &self or &mut self because this is a method, the lifetime of self is assigned to all output lifetime parameters.
 
-10. Where we declare and use the lifetime parameters depends on whether they’re related to the struct fields or the method parameters and return values.
+11. Where we declare and use the lifetime parameters depends on whether they’re related to the struct fields or the method parameters and return values.
 
-11. One special lifetime is 'static, which means that this reference can live for the entire duration of the program. All string literals have the 'static lifetime.
+12. One special lifetime is 'static, which means that this reference can live for the entire duration of the program. All string literals have the 'static lifetime.
 
-12. Most of the time, the problem results from attempting to create a dangling reference or a mismatch of the available lifetimes.
+13. Most of the time, the problem results from attempting to create a dangling reference or a mismatch of the available lifetimes.

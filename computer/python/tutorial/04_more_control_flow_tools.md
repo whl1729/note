@@ -20,3 +20,11 @@ for user, status in users.items():
 ```
 
 3. If you do need to iterate over a sequence of numbers, the built-in function `range()` comes in handy. To iterate over the indices of a sequence, you can combine `range()` and `len()` or use the `enumerate()` function.
+
+4. We say such an object is **iterable**, that is, suitable as a target for functions and constructs that expect something from which they can obtain successive items until the supply is exhausted.
+
+5. Get a list from a range:
+```
+>>> list(range(4))
+[0, 1, 2, 3]
+```

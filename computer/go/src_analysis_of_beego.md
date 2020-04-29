@@ -1,5 +1,68 @@
 # beego 源码剖析
 
+## 数据结构
+
+1. App
+```
+// App defines beego application with a new PatternServeMux.
+type App struct {
+	Handlers *ControllerRegister
+	Server   *http.Server
+}
+
+```
+
+2. ControllerRegister
+```
+// ControllerRegister containers registered router rules, controller handlers and filters.
+type ControllerRegister struct {
+	routers      map[string]*Tree
+	enablePolicy bool
+	policies     map[string]*Tree
+	enableFilter bool
+	filters      [FinishRouter + 1][]*FilterRouter
+	pool         sync.Pool
+}
+```
+
+## controller
+
+### 注册handler
+
+1. beego.Router()
+```
+func Router(rootpath string, c ControllerInterface, mappingMethods ...string) *App {
+	BeeApp.Handlers.Add(rootpath, c, mappingMethods...)
+	return BeeApp
+}
+```
+
+2. Add()
+```
+func (p *ControllerRegister) Add(pattern string, c ControllerInterface, mappingMethods ...string) {
+	p.addWithMethodParams(pattern, c, nil, mappingMethods...)
+}
+```
+
+3. addWithMethodParams()
+```
+func (p *ControllerRegister) addWithMethodParams(pattern string, c ControllerInterface, methodParams []*param.MethodParam, mappingMethods ...string) {
+	reflectVal := reflect.ValueOf(c)
+	t := reflect.Indirect(reflectVal).Type()
+
+	methods := make(map[string]string)
+    methods[strings.ToUpper(m)] = colon[1]
+
+	route := &ControllerInfo{}
+	route.pattern = pattern
+	route.methods = methods
+	route.controllerType = t
+    p.addToRouter(m, pattern, route)
+```
+
+### 使用handler
+
+
 ## WebIM（在线聊天室）
 
 1. 浏览器与服务器交互过程

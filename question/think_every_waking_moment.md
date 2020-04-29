@@ -2,15 +2,22 @@
 
 大学时在图书馆看过著名华人数学家樊畿的一句口头禅：只要醒着，就必须思考数学。（ You have to think about mathematics every waking moment!---Ky Fan）这里化用作为本文的题目。本文用来记录自己每天思考的问题，领域不限，可以是计算机、数学、物理、经济学、心理学甚至足球。本文的初衷是促使自己养成勤于思考的习惯。
 
+## 如何提问
+
+1. 问题描述应该清楚、具体，不应该太抽象。
+
 ## 问题列表
 
-Total Question: 94
-Solved Question: 5
+Total Question: 96
+Solved Question: 6
 
 ### todo
 
+**Attention: Update "Total Question" each time you add questions.**
+
 #### 计算机
 
+- [ ] 【计算机】Q96 2020-04-29 Python中的pyc是什么？Python的解释运行过程是怎样的？
 - [ ] 【计算机】Q94 2020-03-04 理解c2的工作原理？
 - [ ] 【计算机】Q93 2020-03-04 理解socks5 的工作原理（阅读RFC）？
 - [ ] 【计算机】Q92 2020-02-26 为什么我的双网卡有时无法同时连接两个wifi？
@@ -123,6 +130,8 @@ Solved Question: 5
 
 #### 计算机
 
+- [x] 【计算机】Q95 2020-04-28 当同时发送多个http请求时，C1 controller会不会冲突？
+    - A95: 不会冲突。在每个http请求的ServeHttp处理函数中，会创建一个context，因此不会冲突。
 - [x] 【计算机】Q75 2020-01-25 有哪些权威可信的信息获取渠道？如何高效使用Google等搜索引擎？
 - [x] 【计算机】Q15 2019-5-12 警察追逃犯问题。详见[跟波利亚学解题] (http://mindhacks.cn/2008/04/18/learning-from-polya/)
 - [x] 【计算机】Q02 2019-4-18 全排列生成问题

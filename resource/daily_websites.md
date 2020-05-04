@@ -6,6 +6,16 @@
 - [新华网](http://www.xinhuanet.com/)
 - [澎湃新闻](https://www.thepaper.cn/)
 - [参考消息](http://m.cankaoxiaoxi.com/)
+- [半岛电视台网站](https://www.aljazeera.com/)
+- [BBC](https://www.bbc.com/)
+- [NBC](https://www.nbcnews.com/)
+- [CNN](https://us.cnn.com/)
+- [CNN International](https://edition.cnn.com/)
+- [路透社](https://uk.reuters.com/)
+- [法新社](https://www.afp.com/en)
+- [Financial Times](https://www.ft.com/)
+- [赫芬顿邮报](https://www.huffpost.com/)
+- [The New York Times](https://www.nytimes.com/)
 
 ## 行业动态
 

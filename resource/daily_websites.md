@@ -32,13 +32,18 @@
 - [微软亚洲研究院-新闻中心](https://www.msra.cn/zh-cn/news)
 - [Microsoft Research Blog](https://www.microsoft.com/en-us/research/blog/)
 - [Microsoft Security Response Center](https://msrc-blog.microsoft.com/)
+- [Microsoft Developers Blog](https://devblogs.microsoft.com/)
+- [Microsoft CSE Developers Blog](https://devblogs.microsoft.com/)
 - [Google Technology Blog](https://blog.google/technology)
 - [Google Engineering Tools](http://google-engtools.blogspot.com/)
 - [Google Open Source Blog](https://opensource.googleblog.com/)
+- [Google Developers Blog](https://developers.googleblog.com/)
+- [Facebook Engineering](https://engineering.fb.com/)
 - [Twitter Engineering Blog](https://blog.twitter.com/engineering/en_us.html)
 - [Mozilla Hacks](https://hacks.mozilla.org/)
 - [Linkedin Engineering Blog](https://opensource.googleblog.com/)
 - [Uber Engineering Blog](https://eng.uber.com/)
+- [Dropbox Tech Blog](https://dropbox.tech/)
 
 ## 编程语言
 

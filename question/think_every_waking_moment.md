@@ -8,7 +8,7 @@
 
 ## 问题列表
 
-Total Question: 96
+Total Question: 97
 Solved Question: 6
 
 ### todo
@@ -17,6 +17,7 @@ Solved Question: 6
 
 #### 计算机
 
+- [ ] 【计算机】Q97 2020-05-07 理解虚拟网卡的原理？usb接口和can接口均可用作虚拟网卡？
 - [ ] 【计算机】Q96 2020-04-29 Python中的pyc是什么？Python的解释运行过程是怎样的？
 - [ ] 【计算机】Q94 2020-03-04 理解c2的工作原理？
 - [ ] 【计算机】Q93 2020-03-04 理解socks5 的工作原理（阅读RFC）？

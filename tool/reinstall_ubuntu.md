@@ -1,5 +1,9 @@
 # reinstall ubuntu
 
+## reference
+
+1. [Windows + Ubuntu 16.04 双系统安装详细教程](https://blog.csdn.net/flyyufenfei/article/details/79187656)
+
 ## backup configuration file
 - ~/.vimrc
 - ~/.bashrc

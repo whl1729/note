@@ -26,6 +26,7 @@
 - [ ] sogou
 - [ ] chrome && shadowsocks
 - [ ] foxit
+- [ ] youdao-dict
 - [ ] c/c++
 - [ ] python
 - [ ] golang

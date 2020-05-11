@@ -124,6 +124,8 @@ gsettings set org.gnome.desktop.interface cursor-blink-timeout 1
 
 ### CtrlSF
 
+注意：CtrlSF 依赖于 ag 程序，可以通过`sudo apt install silversearcher-ag` 进行安装。
+
 1. 基本用法：`:CtrlSF pattern dir`（如果后面不带dir则默认是当前目录搜索）
 2. 使用`j k h l`浏览CtrlSP窗口，使用`Ctrl + j/k`在匹配项中跳转，使用q退出CtrlSP窗口
 3. In CtrlSF window:

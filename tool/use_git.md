@@ -42,7 +42,7 @@
 11. 解决git pull/push每次都需要输入密码问题：`git config --global credential.helper store`
 
 12. git commit规范
-    - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.2/)
+    - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
     - commit type
         - fix
         - feat

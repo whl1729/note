@@ -1,5 +1,10 @@
 # reinstall ubuntu
 
+## reference
+
+1. [Windows + Ubuntu 16.04 双系统安装详细教程](https://blog.csdn.net/flyyufenfei/article/details/79187656)
+2. [windows10安装ubuntu双系统教程](https://www.cnblogs.com/masbay/p/10745170.html)
+
 ## backup configuration file
 - ~/.vimrc
 - ~/.bashrc
@@ -21,6 +26,7 @@
 - [ ] sogou
 - [ ] chrome && shadowsocks
 - [ ] foxit
+- [ ] youdao-dict
 - [ ] c/c++
 - [ ] python
 - [ ] golang
@@ -61,7 +67,9 @@ xclip -sel clip < ~/.ssh/id_rsa.pub
 
 1. 使用命令`sudo apt-get install vim`或通过源码重新编译最新版的vim：[Building-vim-from-source](https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source)
 
-2. 参考[use vim as ide](https://github.com/yangyangwithgnu/use_vim_as_ide)来配置~/.vimrc文件
+2. 使用`sudo apt-get install vim-gnome`安装vim-gnome，以支持系统剪贴板。
+
+3. 参考[use vim as ide](https://github.com/yangyangwithgnu/use_vim_as_ide)来配置~/.vimrc文件
     - 安装插件管理工具Vundle：`git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
     - 拷贝note/tool/conf/vimrc到`~/.vimrc`
     - 打开vim，输入`:PluginInstall`来安装vim插件
@@ -84,7 +92,7 @@ sudo apt-get purge fcitx-ui-qimpanel // solve the problem of two icons
 
 3. 如果是ubuntu 14，接下来的步骤：
     - 打开System Settings -> Language Support -> Language，keyboard input method system选择fcitx
-    - 打开System Setting -> Text Entry，input source添加sogou pinyin，然后右下角点击形如钳子的图标，Input Methods Configurations添加sogou pinyin。
+    - 打开System Setting -> Text Entry，input source添加sougou pinyin，然后右下角点击形如钳子的图标，Input Methods Configurations添加sogou pinyin。（为避免输入乱码，不要把sougou放在第一位）
 
 4. 如果在搜狗中设置了`Shift`切换输入法，但输入`Ctrl + Shift`时也会切换输入法，可能是fcitx中启动了该设置，可以将其取消掉。方法是：sogou settings -> “高级” -> “打开Fcitx配置界面” -> “Global Config”，把“Enable Hotkey to scroll between Input Method”取消掉。
 

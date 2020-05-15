@@ -17,6 +17,7 @@ filetype plugin on
 " 缩进
 " 自适应不同语言的智能缩进
 filetype indent on
+autocmd FileType html setlocal shiftwidth=2 tabstop=2
 
 " 将制表符扩展为空格
 set expandtab
@@ -34,18 +35,22 @@ set cindent
 "自动对齐
 set autoindent
 
-inoremap { {}<ESC>i
-inoremap [ []<ESC>i
-inoremap ( ()<ESC>i
-inoremap " ""<ESC>i
-inoremap ' ''<ESC>i
-inoremap （ （）<ESC>i
-inoremap 《 《》<ESC>i
-inoremap 【 【】<ESC>i
-inoremap  “ “”<ESC>i
-inoremap  ” “”<ESC>i
+map <F6> :cN<CR>
+map <F7> :cn<CR>
+
+"inoremap { {}<ESC>i
+"inoremap [ []<ESC>i
+"inoremap ( ()<ESC>i
+"inoremap " ""<ESC>i
+"inoremap ' ''<ESC>i
+"inoremap （ （）<ESC>i
+"inoremap 《 《》<ESC>i
+"inoremap 【 【】<ESC>i
+"inoremap  “ “”<ESC>i
+"inoremap  ” “”<ESC>i
 inoremap {<CR> {<CR>}<ESC>O
 inoremap (<CR> (<CR>)<ESC>O
+inoremap [<CR> [<CR>]<ESC>O
 
 " <<
 
@@ -82,7 +87,7 @@ nnoremap <leader>h :set nohls<CR>
 " 注释
 nmap <Leader>c :s/^/\/\//g<CR>
 " 取消注释
-nmap <Leader>uc :s/^\/\///g<CR>
+nmap <Leader>uc :s/\/\///g<CR>
 
 " 设置快捷键遍历子窗口
 " 依次遍历
@@ -182,7 +187,9 @@ colorscheme molokai
 " 营造专注气氛
 
 " 禁止光标闪烁
-set gcr=a:block-blinkon0
+set guicursor+=a:blinkon0
+"set gcr=a:block-blinkon0
+
 
 " 禁止显示滚动条
 set guioptions-=l

@@ -94,6 +94,16 @@ gsettings set org.gnome.desktop.interface cursor-blink-timeout 1
     * `g + d`: 高亮显示光标所属单词，"n" 查找
 
 7. 支持markdown实时预览：[iamcco/markdown-preview.vim](https://github.com/iamcco/markdown-preview.vim)
+```
+" for normal mode
+nmap <silent> <F8> <Plug>MarkdownPreview
+" for insert mode
+imap <silent> <F8> <Plug>MarkdownPreview
+" for normal mode
+nmap <silent> <F9> <Plug>StopMarkdownPreview
+" for insert mode
+imap <silent> <F9> <Plug>StopMarkdownPreview
+```
 
 8. 重新加载已打开的文件：`:e file`.
 

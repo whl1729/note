@@ -161,7 +161,7 @@ Plugin 'fholgado/minibufexpl.vim'
 Plugin 'gcmt/wildfire.vim'
 Plugin 'sjl/gundo.vim'
 Plugin 'Lokaltog/vim-easymotion'
-Plugin 'suan/vim-instant-markdown'
+Plugin 'iamcco/markdown-preview.vim'
 Plugin 'fatih/vim-go'
 Plugin 'mattn/emmet-vim'
 Plugin 'pangloss/vim-javascript'
@@ -596,3 +596,15 @@ augroup Racer
     autocmd FileType rust nmap <buffer> gb         <Plug>(rust-def-tab)
     autocmd FileType rust nmap <buffer> gc <Plug>(rust-doc)
 augroup END
+
+nmap <silent> <F7> :!google-chrome %<CR>
+imap <silent> <F7> :!google-chrome %<CR>
+
+" for normal mode
+nmap <silent> <F8> <Plug>MarkdownPreview
+" for insert mode
+imap <silent> <F8> <Plug>MarkdownPreview
+" for normal mode
+nmap <silent> <F9> <Plug>StopMarkdownPreview
+" for insert mode
+imap <silent> <F9> <Plug>StopMarkdownPreview

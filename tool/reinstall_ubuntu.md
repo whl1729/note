@@ -6,12 +6,13 @@
 2. [windows10安装ubuntu双系统教程](https://www.cnblogs.com/masbay/p/10745170.html)
 
 ## backup configuration file
+
 - ~/.vimrc
 - ~/.bashrc
-- /etc/shadowsocks.json
 - ~/.ssh/\*
 
 ## install ubuntu
+
 1. "legacy USB support" should be enabled, otherwise the computer cannot read input from USB devices.
 2. An efi area should be partitioned, otherwise the computer cannot startup.
 3. Choose the UEFI mode.
@@ -147,9 +148,25 @@ deb http://ppa:launchpad.net/hzwhuang/ss-qt5/ubuntu artful main
 
 ### Python
 
-- pyenv
-- `apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev`
+```
+sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev
+curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+pyenv install 3.8.3
+pyenv global 3.8.3
+```
 
 ### Golang
 
 ### Rust
+
+### JavaScript
+
+```
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sed -i "s/https/http/g" /etc/apt/sources.list.d/nodesource.list
+sudo apt update
+sudo apt-get install -y nodejs
+```

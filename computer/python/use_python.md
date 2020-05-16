@@ -6,16 +6,22 @@
 
 ### 环境配置
 
-1. 修改默认python版本
-```
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-// reconfig
-sudo update-alternatives --config python3
-```
-
-2. 安装vim插件
+1. 安装vim插件
 ```
 Plugin 'davidhalter/jedi-vim'
+```
+
+### 使用 pyenv 来管理 python 版本
+
+1. 安装 Python 基本依赖
+```
+sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev
+curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+pyenv install 3.8.3
+pyenv global 3.8.3
 ```
 
 ### Python shell

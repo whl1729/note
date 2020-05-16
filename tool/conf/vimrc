@@ -167,7 +167,7 @@ Plugin 'mattn/emmet-vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'rust-lang/rust.vim'
 Plugin 'racer-rust/vim-racer'
-" Plugin 'lilydjwg/fcitx.vim'
+Plugin 'davidhalter/jedi-vim'
 
 " 插件列表结束
 call vundle#end()

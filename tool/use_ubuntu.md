@@ -16,6 +16,13 @@ xmodmap -e "keycode 68=x"  // 将f2的键值68映射到字母x，这时按下f2�
 
 5. 设置virtualbox虚拟机使用主机代理：在Setting - Network Proxy中，选择Manual，并将http/https/socks的代理ip设置为10.0.2.2（virtual NAT默认网关），port设置为1080.
 
+6. 解决ubuntu 18.04触控板右键失灵的问题
+```
+gsettings set org.gnome.desktop.peripherals.touchpad click-method areas
+```
+
+7. 解决ubuntu 使用 Tab 补全时会响铃（bell）的问题：`In order to turn off Ubuntu error sound in Ubuntu 18.04, you need to go Setting > Sound > Sound Effects > Alert Volume > Off.`
+
 ## 软件包管理
 
 1. apt-get：适用于 deb 包管理式的操作系统，主要用于自动从互联网软件库中搜索、安装、升级以及卸载软件或者操作系统。

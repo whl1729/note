@@ -88,7 +88,7 @@ sudo apt-get purge fcitx-ui-qimpanel // solve the problem of two icons
 
 2. 如果是ubuntu 18，接下来的步骤：
     - 打开Settings -> Region & Language -> Manage Installed Language，在弹出的Language Support中的keyboard input method system选择fcitx
-    - 在桌面右上方点击输入法菜单，选择Configure Current input method，在input method一栏点击"+"，添加sogou pinyin
+    - 在桌面右上方点击输入法菜单，选择Configure Current input method，在input method一栏点击"+"，添加sogou pinyin. 注意：**需要取消勾选"Only Show Current Language"，否则不会找到sogou pinyin**
 
 3. 如果是ubuntu 14，接下来的步骤：
     - 打开System Settings -> Language Support -> Language，keyboard input method system选择fcitx
@@ -119,6 +119,15 @@ sudo apt-get purge fcitx-ui-qimpanel // solve the problem of two icons
 sudo add-apt-repository ppa:hzwhuang/ss-qt5
 sudo apt-get update
 sudo apt-get install shadowsocks-qt5
+```
+
+10. 如果是ubuntu 18，执行第9步会失败，这时需要作以下修改：（参考[Ubuntu18 安装shadowsocks-qt5方法](https://yq.aliyun.com/articles/619951)）
+```
+$ sudo mv hzwhuang-ubuntu-ss-qt5-bionic.list hzwhuang-ubuntu-ss-qt5-artful.list
+$ sudo vim hzwhuang-ubuntu-ss-qt5-artful.list
+# add the following settings
+deb http://ppa:launchpad.net/hzwhuang/ss-qt5/ubuntu artful main
+#deb-src http://ppa:launchpad.net/hzwhuang/ss-qt5/ubuntu artful main
 ```
 
 ### foxit

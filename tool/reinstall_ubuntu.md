@@ -27,7 +27,7 @@
 - [ ] sogou
 - [ ] chrome && shadowsocks
 - [ ] foxit
-- [ ] youdao-dict
+- [ ] GoldenDict
 - [ ] c/c++
 - [ ] python
 - [ ] golang
@@ -132,6 +132,14 @@ deb http://ppa:launchpad.net/hzwhuang/ss-qt5/ubuntu artful main
 ```
 
 ### foxit
+
+### GoldenDict
+
+1. 安装 GoldenDict： `sudo apt-get install goldendict`
+
+2. 添加构词法规则库：[GoldenDict 添加构词法规则库](https://jingyan.baidu.com/article/d8072ac4808225ec95cefde6.html)
+
+3. 添加离线词库和语音库：[ubuntu下安装goldendict及离线词库](https://blog.csdn.net/halazi100/article/details/44700631)
 
 ### terminator
 

@@ -10,6 +10,7 @@
 - ~/.vimrc
 - ~/.bashrc
 - ~/.ssh/\*
+- OmegaOptions.bak
 
 ## install ubuntu
 

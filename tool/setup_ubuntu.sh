@@ -42,3 +42,4 @@ echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nf
 source ~/.bashrc
 pyenv install 3.8.3
 pyenv global 3.8.3
+pip install ipython

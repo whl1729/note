@@ -1,8 +1,19 @@
 ## Python使用笔记
 
+### Question
+
+- [ ] Q: 什么时候使用 classmethod？什么时候不该使用 classmethod？
+- [ ] Q: 定义 class 时，是否需要在最外层声明数据成员？
+- [ ] Q: 定义 class 时，在最外层初始化数据成员是否合适？
+- [ ] Q: 阅读 PEP 8 编程规范
+
 ### 基础知识
 
 1. Ellipsis(`...`): Using the Ellipsis literal as the body of a function does nothing. It's purely a matter of style if you use it instead of pass or some other statement.
+
+### Python shell
+
+1. Python shell清屏: `Ctrl-L`
 
 ### 环境配置
 
@@ -25,7 +36,3 @@ pyenv install 3.8.3
 pyenv global 3.8.3
 pip install ipython
 ```
-
-### Python shell
-
-1. Python shell清屏: `Ctrl-L`

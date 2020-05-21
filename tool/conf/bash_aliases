@@ -1,0 +1,25 @@
+# alias git commands
+alias ga="git add"
+alias gb="git branch"
+alias gc="git commit"
+alias gca="git commit --amend"
+alias gd="git diff"
+alias gh="git hist -all"
+alias gl="git log"
+alias gln="git log --name-only"
+alias gls="git log --name-status"
+alias glt="git log --stat"
+alias gk="git checkout"
+alias gm="git merge"
+alias gph="git push"
+alias gpl="git pull"
+alias gsh="git show"
+alias gst="git status"
+
+alias py="python"
+
+# for c1 project
+
+alias sshi="ssh -i /home/along/c1.ssh"
+alias ssh1="ssh -i /home/along/c1.ssh root@192.168.42.1"
+alias scpi="scp -i /home/along/c1.ssh"

@@ -5,7 +5,10 @@
 - [ ] Q: 什么时候使用 classmethod？什么时候不该使用 classmethod？
 - [ ] Q: 定义 class 时，是否需要在最外层声明数据成员？
 - [ ] Q: 定义 class 时，在最外层初始化数据成员是否合适？
-- [ ] Q: 阅读 PEP 8 编程规范
+- [ ] Q: Python 如何实现单例模式？
+- [ ] Q: 某个功能通过类和函数均能实现，前者是否比后者开销大？每个类实体都需要复制一份成员函数？此时是不是应该使用静态函数？以minieye_ft/JsonManager为例进行分析。
+- [ ] Q: classmethod不能访问`__init__`里面的属性，是因为`__init__`仅当创建instance时才会被调用吗？
+- [ ] Q: Python 的 import 顺序是怎样的？考虑 multi_factory_tool 应该如何 import utils？ import 模块的规范是怎样的？
 
 ### 基础知识
 

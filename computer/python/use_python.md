@@ -14,6 +14,9 @@
 
 1. Ellipsis(`...`): Using the Ellipsis literal as the body of a function does nothing. It's purely a matter of style if you use it instead of pass or some other statement.
 
+2. [How does Python's super() work with multiple inheritance?](https://stackoverflow.com/questions/3277367/how-does-pythons-super-work-with-multiple-inheritance):
+    - `super(MyClass, self).__init__()` provides the next `__init__` method according to the used Method Resolution Ordering (MRO) algorithm in the context of the complete inheritance hierarchy.
+
 ### Python shell
 
 1. Python shell清屏: `Ctrl-L`

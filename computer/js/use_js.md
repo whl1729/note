@@ -1,5 +1,14 @@
 # JavaScript 使用笔记
 
+## 疑问
+
+1. `Number` 和 `number`的区别是什么？`String` 和 `string`的区别是什么？
+```
+typeof(1) // "number"
+let a = new Number();
+typeof(a) // "object"
+```
+
 ## 环境搭建
 
 1. 安装 node 和 npm

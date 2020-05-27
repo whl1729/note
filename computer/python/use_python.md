@@ -10,6 +10,12 @@
 - [ ] Q: classmethod不能访问`__init__`里面的属性，是因为`__init__`仅当创建instance时才会被调用吗？
 - [ ] Q: Python 的 import 顺序是怎样的？考虑 multi_factory_tool 应该如何 import utils？ import 模块的规范是怎样的？
 
+### 编程实践
+
+1. 为了避免各种奇奇怪怪的import问题，我总结了以下方案（不成熟，待完善）：
+    - python 入口脚本永远放在项目根目录下
+    - import 同一项目的其他package或module时，均使用绝对路径的方式。
+
 ### 基础知识
 
 1. Ellipsis(`...`): Using the Ellipsis literal as the body of a function does nothing. It's purely a matter of style if you use it instead of pass or some other statement.
@@ -42,3 +48,24 @@ pyenv install 3.8.3
 pyenv global 3.8.3
 pip install ipython
 ```
+
+### 使用 pyinstaller 打包 python 程序
+
+1. 使用 pyinstaller 打包 multi_factory_tools 时报错：
+```
+OSError: Python library not found: libpython3.8.so.1.0, libpython3.8m.so.1.0, libpython3.8m.so, libpython3.8mu.so.1.0
+    This would mean your Python installation doesn't come with proper library files.
+    This usually happens by missing development package, or unsuitable build parameters of Python installation.
+
+    * On Debian/Ubuntu, you would need to install Python development packages
+      * apt-get install python3-dev
+      * apt-get install python-dev
+    * If you're building Python by yourself, please rebuild your Python with `--enable-shared` (or, `--enable-framework` on Darwin)
+```
+    卸载python，重装时增加"--enable-shared"选项后该问题得到解决：
+```
+pyenv uninstall 3.8.2
+env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.8.2
+```
+
+2. 如果待打包的程序需要动态加载 package 或 module，需要在 pyinstaller 命令后面加上"--hidden-import"参数。

@@ -58,3 +58,33 @@ myElement.onclick = functionB;
 8. `Event handler properties` vs `DOM Level 2 Events`
     - Event handler properties have less power and options, but better cross-browser compatibility (being supported as far back as Internet Explorer 8). You should probably start with these as you are learning.
     - DOM Level 2 Events (addEventListener(), etc.) are more powerful, but can also become more complex and are less well supported (supported as far back as Internet Explorer 9). You should also experiment with these, and aim to use them where possible.
+
+### Other event concepts
+
+1. Sometimes inside an event handler function, you might see a parameter specified with a name such as `event`, `evt`, or simply `e`. This is called the event object, and it is automatically passed to event handlers to provide extra features and information.
+
+2. `e.target` is incredibly useful when you want to set the same event handler on multiple elements and do something to all of them when an event occurs on them. You might, for example, have a set of 16 tiles that disappear when they are clicked on. It is useful to always be able to just set the thing to disappear as e.target, rather than having to select it in some more difficult way.
+
+3. Sometimes, you'll come across a situation where you want to prevent an event from doing what it does by default. The most common example is that of a web form, for example, a custom registration form.
+
+4. Some browsers support automatic form data validation features, but since many don't, you are advised to not rely on those and implement your own validation checks.
+
+#### Bubbling and capturing explained
+
+1. When an event is fired on an element that has parent elements, modern browsers run two different phases: the **capturing phase** and the **bubbling phase**.
+
+2. In the capturing phase:
+    - The browser checks to see if the element's outer-most ancestor (`<html>`) has an onclick event handler registered on it for the capturing phase, and runs it if so.
+    - Then it moves on to the next element inside `<html>` and does the same thing, then the next one, and so on until it reaches the element that was actually clicked on.
+
+3. In the bubbling phase, the exact opposite occurs:
+    - The browser checks to see if the element that was actually clicked on has an onclick event handler registered on it for the bubbling phase, and runs it if so.
+    - Then it moves on to the next immediate ancestor element and does the same thing, then the next one, and so on until it reaches the `<html>` element.
+
+4. In modern browsers, by default, all event handlers are registered for the bubbling phase. If you really want to register an event in the capturing phase instead, you can do so by registering your handler using `addEventListener()`, and setting the optional third property to true.
+
+5. In cases where both types of event handlers are present, bubbling and capturing, the capturing phase will run first, followed by the bubbling phase.
+
+6. The standard Event object has a function available on it called `stopPropagation()` which, when invoked on a handler's event object, makes it so that first handler is run but the event doesn't bubble any further up the chain, so no more handlers will be run.
+
+7. Bubbling also allows us to take advantage of **event delegation** — this concept relies on the fact that if you want some code to run when you click on any one of a large number of child elements, you can set the event listener on their parent and have events that happen on them bubble up to their parent rather than having to set the event listener on every child individually.

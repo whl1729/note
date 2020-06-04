@@ -25,3 +25,8 @@ sudo apt-get install -y nodejs
     - 安装`tern_for_vim`插件
     - 在项目根目录中新建一个配置文件`.tern-project`，并配置"libs"和"plugins"等参数。（详情参考tern_for_vim官方文档）
     - 编程时，按下`Ctrl-x Ctrl-o`即可进行补全。
+
+4. 修改 npm 源
+```
+npm config set registry http://registry.npm.taobao.org/
+```

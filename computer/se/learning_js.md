@@ -1,5 +1,11 @@
 # JavaScript 学习杂记
 
+## 2020年6月7日 Black Lives Matter
+
+今天想了解下electron，第一次打开electron官网，首页却显示关于George Floyd.的同情和援助："Black Lives Matter", "To be silent is to be complicit".
+
+感觉被程序员的善良暖到。同时也再一次体会到：程序员有能力也应该为改善社会尽一份力。
+
 ## 2020年5月28日 js 为什么要设计成单线程的？
 
 ## 2020年5月28日 js 为什么不提供 sleep 函数？

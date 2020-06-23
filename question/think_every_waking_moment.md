@@ -8,7 +8,7 @@
 
 ## 问题列表
 
-Total Question: 98
+Total Question: 100
 Solved Question: 6
 
 ### todo
@@ -17,6 +17,7 @@ Solved Question: 6
 
 #### 计算机
 
+- [ ] 【计算机】Q100 2020-06-23 电脑是如何读到键盘、鼠标、扫描枪等的输入数据的？
 - [ ] 【计算机】Q99 2020-05-19 理解[C1 显示器 1.1.7 版本内存泄漏 - 张琦注](https://tower.im/teams/397355/repository_documents/17185/) 提及的“生产者-消费者”问题？
 - [ ] 【计算机】Q97 2020-05-07 理解虚拟网卡的原理？usb接口和can接口均可用作虚拟网卡？
 - [ ] 【计算机】Q96 2020-04-29 Python中的pyc是什么？Python的解释运行过程是怎样的？

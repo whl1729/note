@@ -63,7 +63,17 @@ gbm: Last dlopen error: /usr/lib/dri/swrast_dri.so: cannot open shared object fi
 failed to load swrast driver
 ```
 
-2. 解决electron下载慢的问题
+2. 解决electron下载慢的问题（方法1）
     - 设置 npm 源为 `npm config set registry https://registry.npm.taobao.org/`
-    - 使用用浏览器，前往 https://npm.taobao.org/mirrors/electron/ 下载你所需要的版本
+    - 使用浏览器，前往 https://npm.taobao.org/mirrors/electron/ 下载你所需要的版本
     - 将下载的文件拷贝到`~/.cache/electron/`
+
+3. 解决electron下载慢的问题（方法2）
+```
+ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/" npm install
+```
+
+4. 如果electron版本较新，而你使用的js库不支持electron的这个新版本，会导致编译失败。需要重新编译js库，这时需要确保已经安装`windows-build-tool`工具。
+```
+npm install --global windows-build-tools
+```

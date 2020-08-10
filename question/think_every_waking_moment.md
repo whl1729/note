@@ -8,7 +8,7 @@
 
 ## 问题列表
 
-Total Question: 108
+Total Question: 109
 Solved Question: 6
 
 ### todo
@@ -17,7 +17,8 @@ Solved Question: 6
 
 #### 计算机
 
-- [ ] 【计算机】Q108 2020-08-05 golang同时读写文件，使用`file.ReadAt`会返回EOF，使用`ioutil.ReadFile`则能正常读文件，为啥？
+- [ ] 【计算机】【系统】Q109 2020-08-05 golang同时读写文件，使用`file.ReadAt`会返回EOF，使用`ioutil.ReadFile`则能正常读文件，为啥？
+- [ ] 【计算机】【系统】Q108 2020-08-08 操作系统用户态和内核态具体有什么区别？[answer](../computer/os/faq/q108_user_mode_vs_kernel_mode.md)
 - [ ] 【计算机】Q107 2020-07-24 Windows vscode python print重定向时为什么会中文乱码？
 - [ ] 【计算机】Q106 2020-07-22 理解JavaScript 闭包？
 - [ ] 【计算机】Q105 2020-07-21 Javascript `this` 的用法？类的方法里的匿名函数如何访问类成员？

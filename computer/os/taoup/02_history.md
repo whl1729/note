@@ -72,4 +72,28 @@
 
 ### 2.2 Origins and History of the Hackers, 1961-1995
 
-1. 
+#### At Play in the Groves of Academe: 1961-1980
+
+1. The roots of the hacker culture can be traced back to 1961, the year MIT took delivery of its first PDP-1 minicomputer. The PDP-1 was one of the earliest interactive computers, and of the day was inexpensive enough that time on it did not have to be rigidly scheduled. It attracted a group of curious students from the **Tech Model Railroad Club** who experimented with it in a spirit of fun.
+
+2. Several of the TMRC experimenters later went on to become core members of the MIT Artificial Intelligence Lab, which in the 1960s and 1970s became one of the world centers of cutting-edge computer science. They took some of TMRC's slang and in-jokes with them, including a tradition of **elaborate (but harmless)** pranks called “hacks”.
+
+#### Internet Fusion and the Free Software Movement: 1981-1991
+
+1. In 1983 Stallman founded the GNU project, aimed at writing an entire free operating system.
+
+2. In 1985, RMS published the GNU Manifesto. And he also wrote the General Public License (GPL).
+
+3. Although RMS's Free Software Foundation had produced most of the rest of a full software toolkit, it failed to deliver the central piece. Ten years after the founding of the GNU project, there was still **no GNU kernel**. While individual tools like Emacs and GCC proved tremendously useful, GNU without a kernel neither threatened the hegemony of proprietary Unixes nor offered an effective counter to the rising problem of the Microsoft monopoly.
+
+#### Linux and the Pragmatist Reaction: 1991-1998
+
+1. Linus Torvalds neatly **straddled** the GPL/anti-GPL divide by using the GNU toolkit to surround the Linux kernel he had invented and the GPL's infectious properties to protect it, but **rejecting the ideological program that went with RMS's license**. Torvalds affirmed that **he thought free software better in general but occasionally used proprietary programs**. His refusal to be a zealot even in his own cause made him tremendously attractive to the majority of hackers who had been uncomfortable with RMS's rhetoric, but had lacked any focus or convincing spokesperson for their skepticism.
+
+2. In 1995, Linux found its killer app: **Apache**, the open-source webserver. Like Linux, Apache proved remarkably stable and efficient. Linux machines running Apache quickly became the platform of choice for ISPs worldwide; Apache captured about 60% of websites, handily beating out both of its major proprietary competitors.
+
+3. Why Linux's development had not collapsed in confusion years before: "**Given a sufficiently large number of eyeballs, all bugs are shallow.**"
+
+4. For most hackers and almost all nonhackers, "**Free software because it works better**" easily trumped "Free software because all software should be free".
+
+5. In early 1998, the new thinking helped motivate Netscape Communications to release the source code of its Mozilla browser.

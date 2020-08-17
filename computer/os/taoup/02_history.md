@@ -2,7 +2,9 @@
 
 ## Chapter 2. History
 
-### Genesis: 1969-1971
+### 2.1 Origins and History of Unix, 1969-1995
+
+#### Genesis: 1969-1971
 
 1. Unix was born in 1969 out of the mind of a computer scientist at Bell Laboratories, Ken Thompson.
 
@@ -14,7 +16,7 @@
 
 5. The Unix tradition of **lightweight development and informal methods** also began at its beginning. Where Multics had been a large project with thousands of pages of technical specifications written before the hardware arrived, the first running Unix code was brainstormed by three people and implemented by Ken Thompson in two days.
 
-### Exodus: 1971–1980
+#### Exodus: 1971–1980
 
 1. The original Unix operating system was written in **assembler**, and the applications in a mix of **assembler and an interpreted language called B**, which had the virtue that it was small enough to run on the PDP-7. But B was not powerful enough for systems programming, so Dennis Ritchie added data types and structures to it.
 
@@ -24,7 +26,7 @@
 
 4. As late as 1979, Ritchie could write: “It seems certain that much of the success of Unix follows from the readability, modifiability, and portability of its software that in turn follows from its expression in high-level languages”, in the knowledge that this was a point that still needed making.
 
-### TCP/IP and the Unix Wars: 1980-1990
+#### TCP/IP and the Unix Wars: 1980-1990
 
 1. The first BSD release had been in 1977 from a lab run by a then-unknown grad student named Bill Joy.
 
@@ -58,7 +60,7 @@
 
 14. The years from 1989 to 1993 were the **darkest** in Unix's history. It appeared then that all the Unix community's dreams had failed.
 
-### Blows against the Empire: 1991-1995
+#### Blows against the Empire: 1991-1995
 
 1. The first glimmer of light in the darkness was the 1990 effort by William Jolitz to port BSD onto a 386 box, publicized by a series of magazine articles beginning in 1991.
 
@@ -67,3 +69,7 @@
 3. It would take another two years and the great Internet explosion of 1993–1994 before the true importance of Linux and the open-source BSD distributions became evident to the rest of the Unix world. Unfortunately for the BSDers, an AT&T lawsuit against BSDI consumed much of that time and motivated some key Berkeley developers to **switch to Linux**.
 
 4. By late 1993, Linux had both Internet capability and X. The entire GNU toolkit had been hosted on it from the beginning, providing high-quality development tools.
+
+### 2.2 Origins and History of the Hackers, 1961-1995
+
+1. 

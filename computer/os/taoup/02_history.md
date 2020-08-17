@@ -97,3 +97,11 @@
 4. For most hackers and almost all nonhackers, "**Free software because it works better**" easily trumped "Free software because all software should be free".
 
 5. In early 1998, the new thinking helped motivate Netscape Communications to release the source code of its Mozilla browser.
+
+### 2.3 The Open-Source Movement: 1998 and Onward
+
+1. By the time of the Mozilla release in 1998, the hacker community could best be analyzed as a loose collection of factions or tribes that included Richard Stallman's Free Software Movement, the Linux community, the Perl community, the Apache community, the BSD community, the X developers, the Internet Engineering Task Force (IETF), and at least a dozen others. These factions overlap, and an individual developer would be quite likely to be affiliated with two or more.
+
+2. In March of 1998 an unprecedented summit meeting of community influence leaders representing almost all of the major tribes convened to consider common goals and tactics. That meeting adopted a new label for the common development method of all the factions: **open source**.
+
+3. "Open source" was explicitly intended to replace Stallman's preferred "free software" with a public label that was ideologically neutral, acceptable both to historically opposed groups like the BSD hackers and those who did not wish to take a position in the GPL/anti-GPL debate.

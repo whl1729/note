@@ -38,6 +38,30 @@
 
 4. The typical recovery action for a resource-related nonfatal error is to delay and retry later. This technique can be applied in other circumstances.
 
+### 1.8 User Identification
+
+1. We call the user whose user ID is 0 either **root or the superuser**. The entry in the password file normally has a login name of root, and we refer to the special privileges of this user as superuser privileges.
+
+2. These supplementary group IDs are obtained at login time by reading the file `/etc/group` and finding the first 16 entries that list the user as a member.
+
+### 1.9 Signals
+
+1. The process has three choices for dealing with the signal.
+    - Ignore the signal. This option isn’t recommended for signals that denote a hardware exception, such as dividing by zero or referencing memory outside the address space of the process, as the results are undefined.
+    - Let the default action occur. For a divide-by-zero condition, the default is to terminate the process.
+    - Provide a function that is called when the signal occurs (this is called "catching" the signal). By providing a function of our own, we’ll know when the signal occurs and we can handle it as we wish.
+
+### 1.10 Time Values
+
+1. Historically, UNIX systems have maintained two different time values:
+    - Calendar time. This value counts the number of seconds since the Epoch: 00:00:00 January 1, 1970, Coordinated Universal Time (UTC). These time values are used to record the time when a file was last modified, for example.  The primitive system data type `time_t` holds these time values.
+    - Process time. This is also called CPU time and measures the central processor resources used by a process. Process time is measured in clock ticks, which have historically been 50, 60, or 100 ticks per second.  The primitive system data type `clock_t` holds these time values.
+
+2. The UNIX System maintains three values for a process:
+    - Clock time: the amount of time the process takes to run.
+    - User CPU time: the CPU time attributed to user instructions.
+    - System CPU time: the CPU time attributed to the kernel when it executes on behalf of the process.
+
 ## Question
 
 1. Q: Figure 1.4的程序实现读取stdin并写到stdout，我修改为读取stdout并写到stdin，运行结果却没任何区别，为啥？

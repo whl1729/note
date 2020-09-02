@@ -143,3 +143,23 @@ ssize_t write(int fd, const void *buf, size_t nbytes);
 ### 3.9 I/O Efficiency
 
 1. Most file systems support some kind of read-ahead to improve performance. When sequential reads are detected, the system tries to read in more data than an application requests, assuming that the application will read it shortly.
+
+### 3.10 File Sharing
+
+1. The kernel uses three data structures to represent an open file, and the relationships among them determine the effect one process has on another with regard to file sharing.
+
+    ![kernel_data_structures_for_open_files](images/kernel_data_structures_for_open_files.png)
+
+2. `v-node` vs `i-node`
+    - Each open file (or device) has a v-node structure that contains information about the type of file and pointers to functions that operate on the file. For most files, the v-node also contains the i-node for the file.
+    - The i-node contains the owner of the file, the size of the file, pointers to where the actual data blocks for the file are located on disk, and so on.
+    - The v-node was invented to provide support for multiple file system types on a single computer system. This work was done independently by Peter Weinberger (Bell Laboratories) and Bill Joy (Sun Microsystems). Sun called this the Virtual File System and called the file system–independent portion of the i-node the v-node.
+    - Instead of splitting the data structures into a v-node and an i-node, Linux uses a file system–independent i-node and a file system–dependent i-node.
+
+3. If two independent processes have the same file open, we could have the arrangement shown in the following figure:
+
+    ![two_independent_processes_with_the_same_file_open](images/two_independent_processes_with_the_same_file_open.png)
+
+4. It is possible for more than one file descriptor entry to point to the same file table entry, as we’ll see when we discuss the `dup` function. This also happens after a `fork` when the parent and the child share the same file table entry for each open descriptor.
+
+5. Note the difference in scope between the file descriptor flags and the file status flags. The former apply only to a single descriptor in a single process, whereas the latter apply to all descriptors in any process that point to the given file table entry.

@@ -101,3 +101,45 @@ off_t currpos = lseek(fd, 0, SEEK_CUR);
 ```
 
 6. This technique can also be used to determine if a file is capable of seeking. If the file descriptor refers to a pipe, FIFO, or socket, lseek sets errno to **ESPIPE** and returns −1.
+
+7. The file’s offset can be greater than the file’s current size, in which case the next write to the file will extend the file. This is referred to as creating a hole in a file and is allowed. Any bytes in a file that have not been written are read back as 0.
+
+8. **A hole in a file isn’t required to have storage backing it on disk.** Depending on the file system implementation, when you write after seeking past the end of a file, new disk blocks might be allocated to store the data, but there is no need to allocate disk blocks for the data between the old end of file and the location where you start writing.
+
+### 3.7 read Function
+
+1. Data is read from an open file with the read function.
+```
+#include <unistd.h>
+
+ssize_t read(int fd, void *buf, size_t nbytes);
+
+// Returns: number of bytes read, 0 if end of file, −1 on error
+```
+
+2. There are several cases in which the number of bytes actually read is less than the amount requested:
+    - When reading from a regular file, if the end of file is reached before the requested number of bytes has been read. For example, if 30 bytes remain until the end of file and we try to read 100 bytes, read returns 30. **The next time we call read, it will return 0 (end of file).**
+    - When reading from a terminal device. Normally, up to one line is read at a time.
+    - When reading from a network. Buffering within the network may cause less than the requested amount to be returned.
+    - When reading from a pipe or FIFO. If the pipe contains fewer bytes than requested, read will return only what is available.
+    - When reading from a record-oriented device. Some record-oriented devices, such as magnetic tape, can return up to a single record at a time.
+    - When interrupted by a signal and a partial amount of data has already been read.
+
+### 3.8 write Function
+
+1. Data is written to an open file with the write function.
+```
+#include <unistd.h>
+
+ssize_t write(int fd, const void *buf, size_t nbytes);
+
+// Returns: number of bytes written if OK, −1 on error
+```
+
+2. A common cause for a write error is either filling up a disk or exceeding the file size limit for a given process.
+
+3. For a regular file, the write operation starts at the file’s current offset. If the `O_APPEND` option was specified when the file was opened, the file’s offset is set to the current end of file before each write operation.
+
+### 3.9 I/O Efficiency
+
+1. Most file systems support some kind of read-ahead to improve performance. When sequential reads are detected, the system tries to read in more data than an application requests, assuming that the application will read it shortly.

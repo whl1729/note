@@ -20,6 +20,12 @@
     - `bg` 将进程放到后台运行
     - `fg` 将进程放在前台运行
 
+## 文件系统
+
+1. sticky bit
+    - In computing, the sticky bit is a user ownership access right flag that can be assigned to files and directories on Unix-like systems.（注：如果一个文件设置了sticky bit，ls时对应权限位为t）
+    - When a directory's sticky bit is set, the filesystem treats the files in such directories in a special way so only the file's owner, the directory's owner, or root user can rename or delete the file. Without the sticky bit set, any user with write and execute permissions for the directory can rename or delete contained files, regardless of the file's owner. Typically this is set on the /tmp directory to prevent ordinary users from deleting or moving other users' files.
+
 ## 软件开发工具
 
 1. exuberant-ctags：可以为程序语言对象生成索引，其结果能够被一个文本编辑器或者其他工具简捷迅速的定位。支持的编辑器有 Vim、Emacs 等。习惯GUI的同学可以使用understand或source insight等软件。

@@ -76,11 +76,17 @@
 - [Python Blog](https://www.python.org/blogs/)
 - [Python Insider](https://blog.python.org/)
 
+### JavaScript
+
+- [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+
 ## 操作系统
 
 - [Linux | What's New](https://www.linux.org/whats-new/)
 - [Linux Today](https://www.linuxtoday.com/)
+- [Linux Journal](https://www.linuxjournal.com/)
 - [Ubuntu Blog](https://ubuntu.com/blog)
+- [GNU](https://www.gnu.org/)
 
 ## 数据
 
@@ -94,3 +100,7 @@
 - [中华珍宝馆](http://www.ltfc.net/)
 - [重现化学](https://www.envisioningchemistry.cn/)
 - [全历史](https://www.allhistory.com/)
+
+## 网络
+
+- [apache](http://apache.org/)

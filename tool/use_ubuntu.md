@@ -23,6 +23,13 @@ gsettings set org.gnome.desktop.peripherals.touchpad click-method areas
 
 7. 解决ubuntu 使用 Tab 补全时会响铃（bell）的问题：`In order to turn off Ubuntu error sound in Ubuntu 18.04, you need to go Setting > Sound > Sound Effects > Alert Volume > Off.`
 
+8. 创建桌面快捷方式: 参考[How to Add Application Shortcuts on Ubuntu Desktop](https://itsfoss.com/ubuntu-desktop-shortcut/)
+    - go to the directory `/usr/share/applications`
+    - create a `.desktop` file (you can copy an existing `.desktop` file and modify it)
+    - drag-drop the file to the desktop
+    - double click on that file on the desktop, and it will warn you that it’s an ‘untrusted application launcher’ so click on Trust and Launch.
+    - 如果你想运行多条命令，可以写成一个脚本，再将`Exec`配置成调用该脚本。
+
 ## 软件包管理
 
 1. apt-get：适用于 deb 包管理式的操作系统，主要用于自动从互联网软件库中搜索、安装、升级以及卸载软件或者操作系统。

@@ -30,6 +30,15 @@ gsettings set org.gnome.desktop.peripherals.touchpad click-method areas
     - double click on that file on the desktop, and it will warn you that it’s an ‘untrusted application launcher’ so click on Trust and Launch.
     - 如果你想运行多条命令，可以写成一个脚本，再将`Exec`配置成调用该脚本。
 
+9. 设置防火墙
+```
+// wlsp2s0 过滤 192.168.0.104
+iptables -A INPUT -i wlp2s0 -s 192.168.0.104 -j DROP
+// 删除过滤条件（先找出对应行号再删除）
+iptables -L --line-numbers
+iptables -D INPUT some-number
+```
+
 ## 软件包管理
 
 1. apt-get：适用于 deb 包管理式的操作系统，主要用于自动从互联网软件库中搜索、安装、升级以及卸载软件或者操作系统。

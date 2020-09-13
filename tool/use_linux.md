@@ -52,3 +52,22 @@ patch -p1 -u < ../diff.patch
 1. scp：远程拷贝，加上`-r`选项可以拷贝一个目录。
 
 2. 查看端口占用情况：`lsof -i :8080`
+
+3. 设置防火墙
+```
+// wlsp2s0 过滤 192.168.0.104
+iptables -A INPUT -i wlp2s0 -s 192.168.0.104 -j DROP
+// 删除过滤条件（先找出对应行号再删除）
+iptables -L --line-numbers
+iptables -D INPUT some-number
+```
+
+4. 使用curl来发送oauth 2.0请求：参考[How do I perform common OAuth 2.0 tasks using curl commands](https://backstage.forgerock.com/knowledge/kb/article/a45882528)
+```
+// requesting an access token
+curl -X POST -u "some_client_id:some_client_secret" -d "grant_type=password&username=some_user&password=some_pw&scope=cn"
+// refreshing an access token
+curl -X POST -u "some_client_id:some_client_secret" -d "grant_type=refresh_token&refresh_token=some_refresh_token"
+// post with access token
+curl -X POST -i -H 'Content-Type: application/json' -H 'Authorization: Bearer some_access_token' -d '{"serialNo": "1209000903H-2007060058"}'
+```

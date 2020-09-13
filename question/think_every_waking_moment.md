@@ -9,7 +9,7 @@
 ## 问题列表
 
 Total Question: 114
-Solved Question: 13
+Solved Question: 10
 
 ### todo
 
@@ -18,7 +18,6 @@ Solved Question: 13
 #### 计算机
 
 - [ ] 【计算机】【网络】Q101 2020-06-26 USB转网口的原理是什么？
-- [ ] 【计算机】【系统】Q113 2020-09-12 如何在Ubuntu上使用curl发送网络请求？
 - [ ] 【计算机】【编程】Q111 2020-09-12 如何在浏览器调用js的函数？
 - [ ] 【计算机】【系统】Q109 2020-08-05 golang同时读写文件，使用`file.ReadAt`会返回EOF，使用`ioutil.ReadFile`则能正常读文件，为啥？
 - [ ] 【计算机】Q107 2020-07-24 Windows vscode python print重定向时为什么会中文乱码？
@@ -140,15 +139,15 @@ Solved Question: 13
 - [ ] 【医学】Q77 2020-01-28 中医、西医的差别与联系？
 - [ ] 【医学】Q76 2020-01-28 非典的前因后果？
 - [ ] 【建筑】Q74 2020-01-25 盖楼房基本知识？如门口朝向？窗户朝向？
-    - [修改了/etc/network/interface和/etc/resolve.conf] (https://www.cnblogs.com/linjiqin/p/3148346.html)
 - [ ] 【心理学】Q30 2019-6-23 大脑的工作原理？
 
 ### done
 
 #### 计算机
 
+- [x] 【计算机】【系统】Q113 2020-09-12 如何在Ubuntu上使用curl发送oauth 2.0请求？[answer](../tool/use_linux.md)
 - [x] 【计算机】【系统】Q112 2020-09-12 如何在Ubuntu上设置快捷方式？[answer](../tool/use_ubuntu.md)
-- [x] 【计算机】【网络】Q110 2020-09-12 如何设置路由以绑定或过滤指定IP？[answer](../tool/use_ubuntu.md)
+- [x] 【计算机】【网络】Q110 2020-09-12 如何设置路由以绑定或过滤指定IP？[answer](../tool/use_linux.md)
 - [x] 【计算机】【系统】Q108 2020-08-08 操作系统用户态和内核态具体有什么区别？[answer](../computer/os/faq/q108_user_mode_vs_kernel_mode.md)
 - [x] 【计算机】Q95 2020-04-28 当同时发送多个http请求时，C1 controller会不会冲突？
     - A95: 不会冲突。在每个http请求的ServeHttp处理函数中，会创建一个context，因此不会冲突。

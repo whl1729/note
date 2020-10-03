@@ -363,7 +363,7 @@ ssize_t readlinkat(int fd, const char* restrict pathname, char *restrict buf, si
 
 ### 4.19 File Times
 
-1. Three time fields are maintained for each file.
+1. Three time fields are maintained for each file.(Note: Writing to a file does not modify its access time.)
 
 | Field | Description | Example | ls option |
 | ----- | ----------- | ------- | --------- |
@@ -489,3 +489,17 @@ char *getcwd(char *buf, size_t size);
 3. The `st_dev` value for every filename on a system is the device number of the file system containing that filename and its corresponding i-node.
 
 4. Only character special files and block special files have an `st_rdev` value. This value contains the device number for the actual device.
+
+### Exercises
+
+#### Exercise 4.1
+
+1. If we try, using either open or creat, to create a file that already exists, the file’s access permission bits are not changed.
+
+#### Exercise 4.12
+
+1. The chroot function is used by the Internet File Transfer Protocol (FTP) program to aid in security. Users without accounts on a system (termed anonymous FTP) are placed in a separate directory, and a chroot is done to that directory. This prevents the user from accessing any file outside this new root directory.
+
+2. In addition, chroot can be used to build a copy of a file system hierarchy at a new location and then modify this new copy without changing the original file system. This could be used, for example, to test the installation of new software packages.
+
+3. Only the superuser can execute chroot, and once you change the root of a process, it (and all its descendants) can never get back to the original root.

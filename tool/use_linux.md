@@ -26,6 +26,19 @@
     - In computing, the sticky bit is a user ownership access right flag that can be assigned to files and directories on Unix-like systems.（注：如果一个文件设置了sticky bit，ls时对应权限位为t）
     - When a directory's sticky bit is set, the filesystem treats the files in such directories in a special way so only the file's owner, the directory's owner, or root user can rename or delete the file. Without the sticky bit set, any user with write and execute permissions for the directory can rename or delete contained files, regardless of the file's owner. Typically this is set on the /tmp directory to prevent ordinary users from deleting or moving other users' files.
 
+2. [df vs du](http://linuxshellaccount.blogspot.com/2008/12/why-du-and-df-display-different-values.html)
+    - Overlay mounts, which can skew df output when it's run from a higher level directory (e.g. df -k /opt would not report the total space used on /opt if there were overlay mounts of /opt/something and /opt/anotherthing on the system - du will. (Wu: This is the case that du shows more disk spaced used than df.)
+    - df reports only on the mount point, or filesystem, level. So a df on /opt would produce the same results as a df on /opt/csw (assuming that they're both on the same partition)
+    - df gets most of its information from a filesystem's primary superblock. It takes this information at face value, which is to say that it does not question the information provided to it by the primary superblock. In this respect, df is a very **fast** tool for getting disk usage information (at the cost of reliability).
+    - df will include open files (in memory, but not on disk), data/index files (used for data management - sometimes using approximately 2 to 5% of each filesystem) and unnamed files in its size calculation. This is one reason why, sometimes (although not very often), df can show a larger amount of disk used than du does.
+    - df sometimes reports file sizes incorrectly, as it works on what we like to call the **whole-enchilada-principle**.
+    - du reports at the "object" level rather than at the filesystem/mountpoint level, as df does. So, to repeat the example from above, if you run du on /opt and /opt/csw, you'll get different results.
+    - du gets its information at the time you execute it. In this respect, du can be a very **slow** tool for getting disk usage information (with the benefit that your information will be more accurate). It should be noted that it takes much longer for it to report the size of a billion 1 kb files than it does to report the size of one file of 1 billion kb size.
+    - du does not count data/index files or open files (in memory, but not on disk).
+    - du does not take into account any information "supplied" by the system (meaning the information, like from the superblock, as listed under the df section) and gets its information independent of whatever the system thinks is correct.
+    - du does not rely on block size to determine file size. So, if you have a default 8 kb block size on your filesystem, you create a new 1 kb file that writes to an empty 8 kb block, du will report that file as being 1 kb in size and "not" assume a minimum size of the filesystem block size.
+    - du is more reliable if you want to know the state of your filesystem "right now". It doesn't count any data/index blocks.
+
 ## 软件开发工具
 
 1. exuberant-ctags：可以为程序语言对象生成索引，其结果能够被一个文本编辑器或者其他工具简捷迅速的定位。支持的编辑器有 Vim、Emacs 等。习惯GUI的同学可以使用understand或source insight等软件。

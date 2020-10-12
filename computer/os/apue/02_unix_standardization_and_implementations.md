@@ -16,6 +16,8 @@
 
 5. In 1999, the ISO C standard was updated and approved as **ISO/IEC 9899:1999**, largely to improve support for applications that perform numerical processing.
 
+6. ISO C标准定义了24个必需的头文件，POSIX也定义了若干必需的头文件和可选的头文件。
+
 #### 2.2.2 IEEE POSIX
 
 1. POSIX is a family of standards initially developed by the IEEE (Institute of Electrical and Electronics Engineers). POSIX stands for **Portable Operating System Interface**.
@@ -60,8 +62,8 @@
 ### 2.5 Limits
 
 1. Two types of limits are needed:
-    - Compile-time limits (e.g., what’s the largest value of a short integer?)
-    - Runtime limits (e.g., how many bytes in a filename?)
+    - **Compile-time limits** (e.g., what’s the largest value of a short integer?)
+    - **Runtime limits** (e.g., how many bytes in a filename?)
 
 2. Compile-time limits can be defined in headers that any program can include at compile time. But runtime limits require the process to call a function to obtain the limit’s value.
 
@@ -117,6 +119,8 @@ long fpathconf(int fd, int name);
     - Runtime options that are not associated with a file or a directory are identified with the `sysconf` function.
     - Runtime options that are associated with a file or a directory are discovered by calling either the `pathconf` or the `fpathconf` function.
 
+3. Options 用来描述系统是否支持某些功能。
+
 ### 2.7 Feature Test Macros
 
 1. Most implementations can add their own definitions to these headers, in addition to the POSIX.1 and XSI definitions. If we want to compile a program so that it depends only on the POSIX definitions and doesn’t conflict with any implementation-defined constants, we need to define the constant `_POSIX_C_SOURCE`. All the POSIX.1 headers use this constant to exclude any implementation-defined definitions when `_POSIX_C_SOURCE` is defined.
@@ -135,7 +139,7 @@ long fpathconf(int fd, int name);
 
 ### 2.9 Differences Between Standards
 
-1. Conflicts are unintended, but if they should arise, POSIX.1 defers to the ISO C standard.
+1. Conflicts are unintended, but if they should arise, **POSIX.1 defers to the ISO C standard**.
 
 2. ISO C defines the function clock to return the amount of CPU time used by a process. The value returned is a `clock_t` value, but ISO C **doesn’t specify its units**. Thus we must take care when using variables of type `clock_t` so that we don’t mix variables with different units.
 

@@ -12,7 +12,7 @@
 
 3. The C standard is now maintained and developed by the ISO/IEC international standardization working group for the C programming language, known as ISO/IEC JTC1/SC22/WG14, or WG14 for short.
 
-4. The intent of the ISO C standard is to **provide portability of conforming C programs to a wide variety of operating systems**, not only the UNIX System. This standard defines not only the syntax and semantics of the programming language but also a standard library.
+4. The intent of the ISO C standard is to provide **portability of conforming C programs to a wide variety of operating systems**, not only the UNIX System. This standard defines not only the **syntax and semantics** of the programming language but also a **standard library**.
 
 5. This standard defines not only the **syntax and semantics** of the programming language but also a **standard library**.
 
@@ -22,9 +22,11 @@
 
 #### 2.2.2 IEEE POSIX
 
-1. POSIX is a family of standards initially developed by the IEEE (Institute of Electrical and Electronics Engineers). POSIX stands for **Portable Operating System Interface**.
+1. POSIX is a family of standards initially developed by the IEEE (Institute of Electrical and Electronics Engineers). POSIX stands for **Portable Operating System Interface**. It originally referred only to the IEEE Standard 1003.1-1988 — the operating system interface — but was later extended to include **many of the standards and draft standards with the 1003 designation**, including the shell and utilities (1003.2).
 
-2. The goal of the **1003.1** operating system interface standard is to promote the portability of applications among various UNIX System environments. This standard defines the services that an operating system must provide if it is to be "POSIX compliant", and has been adopted by most computer vendors.
+2. The goal of the **1003.1** operating system interface standard is to promote the portability of applications among various UNIX System environments. This standard defines the services that an operating system must provide if it is to be "POSIX compliant", and has been adopted by most computer vendors. Although the 1003.1 standard is based on the UNIX operating system, the standard is **not restricted** to UNIX and UNIX-like systems.
+
+3. Because the 1003.1 standard specifies an **interface** and not an implementation, no distinction is made between system calls and library functions. All the routines in the standard are called **functions**.
 
 3. The 1988 version, IEEE Standard 1003.1-1988, was modified and submitted to the International Organization for Standardization. No new interfaces or features were added, but the text was revised. The resulting document was published as IEEE Standard **1003.1-1990**. This is also International Standard **ISO/IEC 9945-1:1990**. This standard was commonly referred to as **POSIX.1**.
 
@@ -32,9 +34,9 @@
 
 #### 2.2.3 The Single UNIX Specification
 
-1. **The Single UNIX Specification**, a superset of the POSIX.1 standard, specifies additional interfaces that extend the functionality provided by the POSIX.1 specification. POSIX.1 is equivalent to the Base Specifications portion of the Single UNIX Specification.
+1. The Single UNIX Specification, a **superset** of the POSIX.1 standard, specifies additional interfaces that extend the functionality provided by the POSIX.1 specification. POSIX.1 is equivalent to the Base Specifications portion of the Single UNIX Specification.
 
-2. The **X/Open System Interfaces (XSI)** option in POSIX.1 describes optional interfaces and defines which optional portions of POSIX.1 must be supported for an implementation to be deemed **XSI conforming**. These include file synchronization, thread stack address and size attributes, thread process-shared synchronization, and the `_XOPEN_UNIX` symbolic constant. **Only XSIconforming implementations can be called UNIX systems**.
+2. The **X/Open System Interfaces (XSI)** option in POSIX.1 describes optional interfaces and defines which optional portions of POSIX.1 must be supported for an implementation to be deemed **XSI conforming**. These include file synchronization, thread stack address and size attributes, thread process-shared synchronization, and the `_XOPEN_UNIX` symbolic constant. **Only XSI-conforming implementations can be called UNIX systems**.
 
 ### 2.3 UNIX System Implementations
 

@@ -12,11 +12,13 @@
 
 3. The C standard is now maintained and developed by the ISO/IEC international standardization working group for the C programming language, known as ISO/IEC JTC1/SC22/WG14, or WG14 for short.
 
-4. The intent of the ISO C standard is to provide portability of conforming C programs to a wide variety of operating systems, not only the UNIX System. This standard defines not only the syntax and semantics of the programming language but also a standard library.
+4. The intent of the ISO C standard is to **provide portability of conforming C programs to a wide variety of operating systems**, not only the UNIX System. This standard defines not only the syntax and semantics of the programming language but also a standard library.
 
-5. In 1999, the ISO C standard was updated and approved as **ISO/IEC 9899:1999**, largely to improve support for applications that perform numerical processing.
+5. This standard defines not only the **syntax and semantics** of the programming language but also a **standard library**.
 
-6. ISO C标准定义了24个必需的头文件，POSIX也定义了若干必需的头文件和可选的头文件。
+6. In 1999, the ISO C standard was updated and approved as **ISO/IEC 9899:1999**, largely to improve support for applications that perform numerical processing.
+
+7. ISO C标准定义了24个必需的头文件，POSIX也定义了若干必需的头文件和可选的头文件。
 
 #### 2.2.2 IEEE POSIX
 

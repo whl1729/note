@@ -6,13 +6,13 @@
 
 1. Most file I/O on a UNIX system can be performed using only five functions: `open, read, write, lseek, and close`.
 
-2. The term **unbuffered** means that each read or write invokes a system call in the kernel. These unbuffered I/O functions are not part of ISO C, but are part of POSIX.1 and the Single UNIX Specification.
+2. The term **unbuffered** means that each read or write invokes a **system call** in the kernel. **These unbuffered I/O functions are not part of ISO C, but are part of POSIX.1 and the Single UNIX Specification**. (Wu: `man -a open`, we can find that it is a system call -- functions provided by the kernel -- rather than library call -- functions within program libraries)
 
 ### 3.2 File Descriptors
 
 1. To the kernel, all open files are referred to by **file descriptors**. A file descriptor is a **non-negative integer**. When we open an existing file or create a new file, the kernel returns a file descriptor to the process. When we want to read or write a file, we identify the file with the file descriptor that was returned by open or creat as an argument to either read or write.
 
-2. By convention, UNIX System **shells** associate file descriptor 0 with the standard input of a process, file descriptor 1 with the standard output, and file descriptor 2 with the standard error. This convention is used by the shells and many applications; it is not a feature of the UNIX kernel. Nevertheless, many applications would break if these associations weren’t followed.
+2. By convention, UNIX System **shells** associate file descriptor 0 with the **standard input** of a process, file descriptor 1 with the **standard output**, and file descriptor 2 with the **standard error**. This convention is used by the shells and many applications; it is not a feature of the UNIX kernel. Nevertheless, many applications would break if these associations weren’t followed.
 
 3. Although their values are standardized by POSIX.1, the magic numbers 0, 1, and 2 should be replaced in POSIX-compliant applications with the symbolic constants `STDIN_FILENO, STDOUT_FILENO, and STDERR_FILENO` to improve readability.  These constants are defined in the `<unistd.h>` header.
 
@@ -22,6 +22,8 @@
 
 int max_open_num = sysconf(_SC_OPEN_MAX);
 ```
+
+5. 根据我写的测试程序`alloc_fd.c`的运行结果来看，fd的分配规则是：每次分配当前未被占用的最小正整数。这与pid的分配规则不同，pid是这一轮未被分配过的最小正整数。
 
 ### 3.3 open and openat Functions
 
@@ -45,10 +47,10 @@ int openat(int fd, const char *path, int oflag, ... /* mode_t mode */ );
     - `O_TRUNC`: If the file exists and if it is successfully opened for either write-only or read–write, truncate its length to 0.
     - `O_EXCL` Generate an error if `O_CREAT` is also specified and the file already exists. This test for whether the file already exists and the creation of the file if it doesn’t exist is an atomic operation. **This is guaranteed to never clobber an existing file.** （伍注：`O_EXCL`要与`O_CREAT`一起使用。如果只设置了`O_EXCL`，而文件不存在，则行为是undefined的。在我的系统上会返回错误码-1）
 
-3. The file descriptor returned by open and openat is guaranteed to be the lowest-numbered unused descriptor. This fact is used by some applications to open a new file on standard input, standard output, or standard error.
+3. The file descriptor returned by open and openat is guaranteed to be the **lowest-numbered unused descriptor**. This fact is used by some applications to open a new file on standard input, standard output, or standard error.
 
 4. The openat function is one of a class of functions added to the latest version of POSIX.1 to address two problems.
-    - First, it gives threads a way to use relative pathnames to open files in directories other than the current working directory. As we’ll see in Chapter 11, all threads in the same process share the same current working directory, so this makes it difficult for multiple threads in the same process to work in different directories at the same time.
+    - First, it gives threads a way to use **relative pathnames** to open files in directories other than the current working directory. As we’ll see in Chapter 11, all threads in the same process share the same current working directory, so this makes it difficult for multiple threads in the same process to work in different directories at the same time.
     - Second, it provides a way to avoid **time-of-checkto-time-of-use (TOCTTOU)** errors.
 
 5. The basic idea behind TOCTTOU errors is that a program is vulnerable if it makes two file-based function calls where the second call depends on the results of the first call. Because the two calls are not atomic, the file can change between the two calls, thereby invalidating the results of the first call, leading to a program error.

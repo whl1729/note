@@ -58,6 +58,11 @@ export https_proxy=socks5://127.0.0.1:1080
 
 1. [ubuntu 同时使用无线网卡和有线网卡](https://blog.csdn.net/huohongpeng/article/details/78608671)
 
+2. ubuntu server connect to wifi without Internet
+    - 从另一台能上网的电脑上下载好wpa_supplicant安装包及其依赖的安装包，通过U盘拷贝到目标电脑并安装。
+    - [使用wpa_supplicant连接wifi](https://www.linuxbabe.com/ubuntu/connect-to-wi-fi-from-terminal-on-ubuntu-18-04-19-04-with-wpa-supplicant)
+    - 设置开机自启动
+
 ## 终端
 
 1. 如何从vim中复制内容到系统剪切板？

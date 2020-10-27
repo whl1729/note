@@ -60,6 +60,12 @@ patch -p1 -u < ../diff.patch
     - [安装教程](https://blog.csdn.net/shixiaolu63/article/details/81937440)
     - code: 09E58CD1FB79
 
+5. Terminial, console vs shell
+    - [Linux Basics: Terminal, Shell, Console — What Is The Difference?](https://www.futurehosting.com/blog/linux-basics-terminal-shell-console-what-is-the-difference/)
+    - Today’s terminals are software representations of the old physical terminals, often running on a GUI. It provides an interface into which users can type commands and that can print text.
+    - A console was a terminal “plugged into” the computer: it provided the interface that was used to configure and control the computer and to view messages from the operating system.
+    - The broadest definition of a shell is a program that runs other programs, but when you hear shell in the Linux world, it almost certainly refers to a command line shell — the program that creates and manages the command line interface into which users type commands.
+
 ### 网络管理
 
 1. scp：远程拷贝，加上`-r`选项可以拷贝一个目录。

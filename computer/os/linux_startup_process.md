@@ -5,9 +5,8 @@
 1. Linux 引导过程综述
     - UEFI
     - Boot loader
-    - 内核初始化（体系结构相关部分）
-    - 内核初始化（体系结构无关部分）
-    - 用户态初始化
+    - kernel
+    - systemd
 
 ## BIOS
 
@@ -41,6 +40,8 @@
     - Can access files in some specific filesystems
     - Can execute code in a particular format
 
+4. EFI firmwares in general switch to protected mode within a few instructions of exiting processor reset. Switching to protected mode is done early on in the so-called "SEC Phase" of EFI firmware initialization. Technically, 32-bit and greater x86 processors don't even start in real mode proper, but in what is colloquially known as unreal mode. (The initial segment descriptor for the CS register does not describe the conventional real mode mapping and is what makes this "unreal".)
+
 ### EFI executables
 
 1. The UEFI spec defines an **executable format** and requires all UEFI firmwares be capable of executing code in this format. When you write a bootloader for native UEFI, you write in this format.
@@ -64,6 +65,10 @@
 4. UEFI firmware supports booting from removable storage devices such as USB flash drives. For that purpose, a removable device is formatted with a FAT12, FAT16 or FAT32 file system, while a boot loader needs to be stored according to the standard ESP file hierarchy, or by providing a complete path of a boot loader to the system's boot manager. On the other hand, FAT32 is always expected on fixed drives.
 
 5. The mount point for the EFI system partition is usually /boot/efi, where its content is accessible after Linux is booted.
+
+#### Questions for ESP?
+
+1. ESP是何时被挂载的？
 
 ### The UEFI boot manager
 
@@ -106,7 +111,7 @@
 3. [UEFI架构](https://zhuanlan.zhihu.com/p/25941528)
 4. [UEFI与硬件初始化](https://zhuanlan.zhihu.com/p/25941340)
 5. [Coping with the UEFI Boot Process](https://www.linux-magazine.com/Online/Features/Coping-with-the-UEFI-Boot-Process)
-
+6. [What mode do modern 64-bit Intel chip PCs run the boot sector in?](https://superuser.com/questions/344954/what-mode-do-modern-64-bit-intel-chip-pcs-run-the-boot-sector-in/345333#345333)
 
 ### Questions for UEFI
 
@@ -127,8 +132,18 @@
     - 8字节 LBA格式描述符
 
 3. LBA和CHS两种描述符指示相同的信息，但是指示方式有所不同：
-    - LBA (逻辑块寻址，Logical Block Addressing)指示分区的起始扇区和分区长度
-    - CHS(柱面 磁头 扇区)指示首扇区和末扇区。
+    - LBA (逻辑块寻址，Logical Block Addressing) 指示分区的起始扇区和分区长度
+    - CHS (柱面、磁头、扇区)指示首扇区和末扇区。
+
+4. Two similar terms are often used interchangeably, but in fact they refer to different things:
+    - **Boot managers** present a menu of boot options, or provide some other way to control the boot process. The user can then select an option, and the boot manager passes control to the selected tool.
+    - **Boot loaders** handle the task of loading an OS kernel into memory, often along with support files such as a Linux initial RAM disk (initrd) file, and starting the kernel running.
+
+5. Some programs, including the popular GRUB (both GRUB Legacy and GRUB 2), function as both boot managers and boot loaders, which may be why the terms are often used interchangeably. In the EFI world, though, some programs (such as ELILO, SYSLINUX, and the EFI stub loader) can load only Linux kernels and so are boot loaders alone; and others (such as rEFIt, rEFInd, and gummiboot/systemd-boot) are strictly boot managers. In fact, the EFI specification calls for EFIs to provide their own boot managers—but these are often very minimal or awkward to use. In practice, you may end up using a boot manager to launch one or more different boot loaders. Boot loaders are often (but not always) OS-specific, so a boot manager might launch one boot loader for one OS and another boot loader for a second OS. A combination tool like GRUB is likely to use its own boot loader features to launch a Linux kernel, and its boot manager features to launch a boot loader for another OS, such as Windows or macOS.
+
+#### References for boot loader
+
+1. [Boot Loaders vs Boot Managers](http://www.rodsbooks.com/efi-bootloaders/principles.html)
 
 ### GRUB
 
@@ -151,7 +166,24 @@
 
 6. Boot settings are stored in NVRAM, which on classic PCs was also known as CMOS memory but on modern systems may actually use some technology other than CMOS.
 
-### grub.efi
+#### Boot GNU/Linux from GRUB
+
+It is relatively easy to boot GNU/Linux from GRUB, because it somewhat resembles to boot a Multiboot-compliant OS.
+
+1. Set GRUB’s root device to the same drive as GNU/Linux’s. The command search `--set=root --file /vmlinuz` or similar may help you
+
+2. Load the kernel using the command linux: `linux /vmlinuz root=/dev/sda1`
+
+3. If you use an initrd, execute the command initrd after linux: `initrd /initrd`
+
+4. Finally, run the command `boot`
+
+##### Questions
+
+1. grub如何跳转到内核代码的`_start`标号处？
+2. initrd是何时解压和挂载的？
+
+#### grub.efi
 
 1. Typically, `EFI/ubuntu/grubx64.efi` on the EFI System Partition (ESP) is the GRUB binary, and `EFI/ubuntu/shimx64.efi` is the binary for shim. The latter is a relatively simple program that provides a way to boot on a computer with Secure Boot active. On such a computer, an unsigned version of GRUB won't launch, and signing GRUB with Microsoft's keys is impossible, so shim bridges the gap and adds its own security tools that parallel those of Secure Boot. In practice, shim registers itself with the firmware and then launches a program called grubx64.efi in the directory from which it was launched, so on a computer without Secure Boot (such as a Mac), launching shimx64.efi is just like launching grubx64.efi. On a computer with Secure Boot active, launching shimx64.efi should result in GRUB starting up, whereas launching grubx64.efi directly probably won't work.
 
@@ -169,15 +201,52 @@
 
 4. The UEFI-based platform reads the partition table on the system storage and **mounts** the EFI System Partition (ESP), a VFAT partition labeled with a particular globally unique identifier (GUID). The ESP contains EFI applications such as bootloaders and utility software, stored in directories specific to software vendors.
 
-#### References for grub.efi
+#### grub.cfg
+
+1. GRUB 2 reads its configuration from the `/boot/grub2/grub.cfg` file on traditional BIOS-based machines and from the `/boot/efi/EFI/fedora/grub.cfg` file on UEFI machines. This file contains menu information.
+
+2. The GRUB 2 configuration file, grub.cfg, is generated during installation, or by invoking the `/usr/sbin/grub2-mkconfig` utility, and is automatically updated by grubby each time a new kernel is installed.
+
+3.  GRUB 2 places its files in three core locations:
+    - `/boot/grub/grub.cfg` - This is the main configuration file that replaces menu.lst. Unlike menu.lst, this file cannot be edited by hand! I strongly advise against trying to tamper with this file, using chattr command or anything of the sort. Let it be.
+    - `/etc/grub.d/` - This new directory contains GRUB scripts. These scripts are building blocks from which the grub.cfg file is built. When the relevant GRUB command is executed, the scripts are read in a certain sequence and grub.cfg is created.
+    - `/etc/default/grub` - This file contains the GRUB menu settings that are read by the GRUB scripts and written into grub.cfg. It is the customization part of the GRUB, similar to the old menu.lst, except the actual boot entries.
+
+4. This means that if you want to change the GRUB menu, you will have to edit existing scripts or create new ones, then update the menu. This is more similar to LILO than GRUB legacy, which allow editing the menu on the fly.
+
+5. GRUB 2 works like this: `/etc/default/grub` contains customization; `/etc/grub.d/` scripts contain GRUB menu information and operating system boot scripts. When the update-grub command is run, it reads the contents of the grub file and the grub.d scripts and creates the grub.cfg file.
+
+#### grub commands
+
+- `boot` Boot the OS or chain-loader which has been loaded. Only necessary if running the fully interactive command-line (**it is implicit at the end of a menu entry**).
+
+- `configfile file` Load file as a configuration file. If file defines any menu entries, then show a menu containing them immediately. Any environment variable changes made by the commands in file will not be preserved after configfile returns.
+
+- `initrd file` Load an initial ramdisk for a Linux kernel image, and set the appropriate parameters in the Linux setup area in memory. This may only be used after the linux command (see Section 16.3.37 [linux], page 74) has been run.
+
+- `insmod module` Insert the dynamic GRUB module called module.
+
+- `linux file ...` Load a Linux kernel image from file. The rest of the line is passed verbatim as the kernel command-line. Any initrd must be reloaded after using this command
+
+- `search [‘--file’|‘--label’|‘--fs-uuid’] [‘--set’ [var]] [‘--no-floppy’] name` Search devices by file (‘-f’, ‘--file’), filesystem label (‘-l’, ‘--label’), or filesystem UUID (‘-u’, ‘--fs-uuid’).  If the ‘--set’ option is used, the first device found is set as the value of environment variable var. The default variable is ‘root’.  The ‘--no-floppy’ option prevents searching floppy devices, which can be slow.  The ‘search.file’, ‘search.fs_label’, and ‘search.fs_uuid’ commands are aliases for ‘search --file’, ‘search --label’, and ‘search --fs-uuid’ respectively.
+
+#### References for GRUB
 
 1. [What is the difference between grubx64 and shimx64?](https://askubuntu.com/questions/342365/what-is-the-difference-between-grubx64-and-shimx64)
 2. [EFI\boot\bootx64.efi vs EFI\ubuntu\grubx64.efi vs /boot/grub/x86_64-efi/grub.efi vs C:\Windows\Boot\EFI](https://unix.stackexchange.com/questions/565615/efi-boot-bootx64-efi-vs-efi-ubuntu-grubx64-efi-vs-boot-grub-x86-64-efi-grub-efi)
 3. [Managing EFI Boot Loaders for Linux](http://www.rodsbooks.com/efi-bootloaders/)
+4. [UEFI Booting](https://help.ubuntu.com/community/UEFIBooting#Blessing_grub.efi_.28Grub2_as_the_only_bootloader.29)
+5. [Working with the GRUB 2 Boot Loader](https://docs.fedoraproject.org/en-US/fedora/rawhide/system-administrators-guide/kernel-module-driver-configuration/Working_with_the_GRUB_2_Boot_Loader/)
+6. [GNU GRUB Manual 2.04](https://www.gnu.org/software/grub/manual/grub/grub.html)
+7. [GRUB 2 bootloader - Full tutorial](https://www.dedoimedo.com/computers/grub-2.html)
+8. [An introduction to the Linux boot and startup processes](https://opensource.com/article/17/2/linux-boot-and-startup)
+9. [How does GNU GRUB work](https://0xax.github.io/grub/)
+10. [Linux启动流程：从启动到 GRUB](https://www.binss.me/blog/boot-process-of-linux-grub/)
+11. [按下开机键后，电脑都干了些什么？](https://www.zhihu.com/question/22364502)
 
-### 内核引导过程
+## 内核引导过程
 
-#### 1 内核设置
+### 1 内核设置
 
 源码位于`arch/x86/boot/header.S`的`start_of_setup`
 
@@ -186,7 +255,7 @@
 3. 设置BSS段（静态变量区）
 4. 跳转到main函数
 
-#### 2 内核启动在实模式下的工作
+### 2 内核启动在实模式下的工作
 
 - 控制台初始化
 - 堆初始化
@@ -195,7 +264,20 @@
 - 系统参数查询
 - 设置显示模式
 
-#### 3 内核启动从实模式切换到保护模式
+#### 内存分布侦测
+
+1. e820 is shorthand for the facility by which the BIOS of x86-based computer systems reports the memory map to the operating system or boot loader.
+
+2. It is accessed via the `int 15h` call, by setting the AX register to value E820 in hexadecimal. It reports which memory address ranges are usable and which are reserved for use by the BIOS.
+
+3. BIOS-e820 is often the first thing reported by a booting Linux kernel, and it can also be seen with the **dmesg** command.
+
+##### References
+
+1. [e820从硬件获取内存分布](https://richardweiyang-2.gitbook.io/kernel-exploring/00-memory_a_bottom_up_view/01-e820_retrieve_memory_from_hw)
+2. [E820 内存管理器](https://biscuitos.github.io/blog/MMU-E820/)
+
+### 3 内核启动从实模式切换到保护模式
 
 - 禁止NMI中断
 - 使能A20地址线
@@ -203,7 +285,7 @@
 - 设置全局描述符表
 - 切换进入保护模式
 
-#### 4 切换到64位模式
+### 4 切换到64位模式
 
 - 必要时重新加载内存段寄存器
 - 栈的建立和CPU的确认
@@ -212,9 +294,9 @@
 - 初期页表初始化
 - 切换到长模式
 
-#### 5 内核解压
+### 5 内核解压
 
-### 内核初始化流程
+## 内核初始化流程
 
 `start_kernel`函数的主要目的是完成内核初始化并启动祖先进程(1号进程)。在祖先进程启动之前`start_kernel`函数做了很多事情，如锁验证器,根据处理器标识ID初始化处理器，开启cgroups子系统，设置每CPU区域环境，初始化VFS Cache机制，初始化内存管理，rcu,vmalloc,scheduler(调度器),IRQs(中断向量表),ACPI(中断可编程控制器)以及其它很多子系统。
 
@@ -227,3 +309,5 @@
 1. [Linux源代码阅读——内核引导](http://home.ustc.edu.cn/~boj/courses/linux_kernel/1_boot.html)
 2. [【译】计算机启动过程 – How Computers Boot Up](http://blog.kongfy.com/2014/03/%E8%AF%91%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B-how-computers-boot-up/)
 3. [《Linux内核修炼之道》第4章“系统初始化”](http://reader.epubee.com/books/mobile/bf/bf988d31c8fcba1f1ecdc622808256f4/text00013.html)
+4. [Linux 内核揭秘](https://xinqiu.gitbooks.io/linux-insides-cn/content/)
+5. [initramfs 简介，一个新的 initial RAM disks 模型](https://blog.csdn.net/love_gaohz/article/details/41012375)

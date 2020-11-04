@@ -42,6 +42,16 @@
 
 4. EFI firmwares in general switch to protected mode within a few instructions of exiting processor reset. Switching to protected mode is done early on in the so-called "SEC Phase" of EFI firmware initialization. Technically, 32-bit and greater x86 processors don't even start in real mode proper, but in what is colloquially known as unreal mode. (The initial segment descriptor for the CS register does not describe the conventional real mode mapping and is what makes this "unreal".)
 
+5. 除了极少数嵌入式X86 CPU之外，现在大部分电脑和所有的x86服务器的UEFI/BIOS都存储在一块NOR Flash中，这块Flash通过SPI接口和南桥PCH相连。
+
+6. NOR Flash和我们用在SSD里面的Flash一个显著的不同就是它是字节寻址的，而不是块寻址，这就意味着它可以XIP，也就是eXecute in place，我粗陋的翻译为原地执行代码，而不需要加载Load到某块内存中执行。这个特性十分重要，因为在上电启动后，内存初始化还没有进行，没有内存可供使用，虽然我们可以将Cache偷过来做内存用一段时间（Cache As RAM，CAR），但总是没有直接用起来方便。
+
+7. 由于安全性的问题，近期的电脑几乎都引入了Boot Guard的特性。因为Boot Guard要验证BIOS的一致性，需要读取大部分BIOS内容，所以现在是ACM会将BIOS整个加载到Cache As RAM进行验证，验证通过后，就会直接运行Reset Vector。所以，现在很多情况下，答案变成了Boot Guard ACM会加载UEFI/BIOS。
+
+### References for UEFI
+
+1. [UEFI代码是由谁加载的？](https://www.zhihu.com/question/342720591/answer/1152995242)
+
 ### EFI executables
 
 1. The UEFI spec defines an **executable format** and requires all UEFI firmwares be capable of executing code in this format. When you write a bootloader for native UEFI, you write in this format.
@@ -115,8 +125,9 @@
 
 ### Questions for UEFI
 
-1. UEFI 运行过程中的内存管理？
+1. UEFI 运行过程中的内存管理？一开始使用ROM内存，后来怎么使用RAM内存的？
 2. ESP是何时挂载的？
+3. UEFI是否从实模式切换到保护模式？
 
 ## Boot loader
 
@@ -180,8 +191,9 @@ It is relatively easy to boot GNU/Linux from GRUB, because it somewhat resembles
 
 ##### Questions
 
-1. grub如何跳转到内核代码的`_start`标号处？
-2. initrd是何时解压和挂载的？
+1. grub如何跳转到内核代码的`_start`标号处？据说是跳到`code32_start`，`code32_start`对应的代码在哪里？
+2. grub的内存管理是怎样的？分页管理？
+3. grub是否从实模式切换到保护模式？
 
 #### grub.efi
 
@@ -294,6 +306,21 @@ It is relatively easy to boot GNU/Linux from GRUB, because it somewhat resembles
 - 初期页表初始化
 - 切换到长模式
 
+#### 长模式
+
+1. 长模式是 x86_64 系列处理器的原生模式。64位 模式提供了一些新特性，比如：
+    - 从 r8 到 r15 8个新的通用寄存器，并且所有通用寄存器都是64位的了。
+    - 64位指令指针 - RIP;
+    - 新的操作模式 - 长模式;
+    - 64位地址和操作数;
+    - RIP 相对寻址
+
+2. 为了切换到 64位 模式，我们需要完成以下操作：
+    - 启用 PAE;
+    - 建立页表并且将顶级页表的地址放入 cr3 寄存器;
+    - 启用 EFER.LME ;
+    - 启用分页;
+
 ### 5 内核解压
 
 ## 内核初始化流程
@@ -302,6 +329,15 @@ It is relatively easy to boot GNU/Linux from GRUB, because it somewhat resembles
 
 - 初期中断和异常处理
 - 初始化内存页
+
+## 其他
+
+### 段式内存管理
+
+#### Questions
+
+1. Q: Linux 操作系统现在还使用段式内存管理吗？还是只使用分页管理？
+    - A: x86-64体系在长模式下不再使用段式内存管理，只使用分页管理，但为了后向兼容，x86-64体系仍然支持段式内存管理。
 
 
 ## 参考资料

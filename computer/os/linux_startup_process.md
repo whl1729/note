@@ -6,7 +6,7 @@
     - UEFI
     - Boot loader
     - kernel
-    - systemd
+    - Init process
 
 ## BIOS
 
@@ -29,7 +29,7 @@
 
 4. 可引导设备列表存储在在 BIOS 配置中, BIOS 将根据其中配置的顺序，尝试从不同的设备上寻找引导程序。对于硬盘，BIOS 将尝试寻找引导扇区。
 
-## UEFI
+## Unified Extensible Firmware Interface (UEFI)
 
 1. UEFI replaces the traditional BIOS on PCs. There’s no way to switch from BIOS to UEFI on an existing PC. You need to buy new hardware that supports and includes UEFI, as most new computers do. Most UEFI implementations provide BIOS emulation so you can choose to install and boot old operating systems that expect a BIOS instead of UEFI, so they’re backwards compatible.
 
@@ -256,7 +256,7 @@ It is relatively easy to boot GNU/Linux from GRUB, because it somewhat resembles
 10. [Linux启动流程：从启动到 GRUB](https://www.binss.me/blog/boot-process-of-linux-grub/)
 11. [按下开机键后，电脑都干了些什么？](https://www.zhihu.com/question/22364502)
 
-## 内核引导过程
+## Kernel
 
 ### 1 内核设置
 
@@ -306,6 +306,10 @@ It is relatively easy to boot GNU/Linux from GRUB, because it somewhat resembles
 - 初期页表初始化
 - 切换到长模式
 
+#### Questions
+
+1. 长模式下还需要使用gdt吗？
+
 #### 长模式
 
 1. 长模式是 x86_64 系列处理器的原生模式。64位 模式提供了一些新特性，比如：
@@ -323,12 +327,45 @@ It is relatively easy to boot GNU/Linux from GRUB, because it somewhat resembles
 
 ### 5 内核解压
 
-## 内核初始化流程
+### 6 内核初始化
 
 `start_kernel`函数的主要目的是完成内核初始化并启动祖先进程(1号进程)。在祖先进程启动之前`start_kernel`函数做了很多事情，如锁验证器,根据处理器标识ID初始化处理器，开启cgroups子系统，设置每CPU区域环境，初始化VFS Cache机制，初始化内存管理，rcu,vmalloc,scheduler(调度器),IRQs(中断向量表),ACPI(中断可编程控制器)以及其它很多子系统。
 
 - 初期中断和异常处理
 - 初始化内存页
+
+### initrd
+
+1. initrd是一个临时文件系统，由bootload负责加载到内存中，里面包含了基本的可执行程序和驱动程序。在linux初始化的初级阶段，它提供了一个基本的运行环境。当成功加载磁盘文件系统后，系统将切换到磁盘文件系统并卸载initrd。
+
+
+### rootfs
+
+### tmpfs
+
+1. rootfs是基于内存的文件系统，所有操作都在内存中完成；也没有实际的存储设备，所以不需要设备驱动程序的参与。基于以上原因，linux在启动阶段使用rootfs文件系统，当磁盘驱动程序和磁盘文件系统成功加载后，linux系统会将系统根目录从rootfs切换到磁盘文件系统。
+
+#### References for initrd
+
+1. [linux文件系统初始化过程(3)---加载initrd(上)](https://www.cnblogs.com/wuchanming/p/3769736.html)
+2. [Why is it that my initrd only has one directory, namely, 'kernel'?](https://unix.stackexchange.com/questions/163346/why-is-it-that-my-initrd-only-has-one-directory-namely-kernel)
+3. [The difference between initrd and initramfs?](https://stackoverflow.com/questions/10603104/the-difference-between-initrd-and-initramfs)
+4. [浅谈linux中的根文件系统（rootfs的原理和介绍）](https://blog.csdn.net/LEON1741/article/details/78159754)
+
+## Init process
+
+### systemd
+
+1. The central responsibility of an init system is to bring up userspace. And a good init system does that fast. Unfortunately, the traditional SysV init system was not particularly fast.
+
+2. For a fast and efficient boot-up two things are crucial:
+    - To start less. Starting less means starting fewer services or deferring the starting of services until they are actually needed.
+    - To start more in parallel. If we have to run something, we should not serialize its start-up (as sysvinit does), but run it all at the same time, so that the available CPU and disk IO bandwidth is maxed out, and hence the overall start-up time minimized.
+
+### References for Init process
+
+1. [Rethinking PID 1](http://0pointer.de/blog/projects/systemd.html)
+2. [Systemd 入门教程：命令篇](Systemd 入门教程：命令篇)
 
 ## 其他
 

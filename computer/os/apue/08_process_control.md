@@ -272,3 +272,47 @@ int fexecve(int fd, char *const argv[], char *const envp[]);
 7. The handling of open files depends on the value of the close-on-exec flag for each descriptor.
     - Every open descriptor in a process has a close-on-exec flag. If this flag is set, the descriptor is closed across an exec. Otherwise, the descriptor is left open across the exec.
     - The default is to leave the descriptor open across the exec unless we specifically set the close-on-exec flag using fcntl.
+
+### 8.11 Changing User IDs and Group IDs
+
+1. In general, we try to use the **least-privilege** model when we design our applications.  According to this model, our programs should use the least privilege necessary to accomplish any given task. This reduces the risk that security might be compromised by a malicious user trying to trick our programs into using their privileges in unintended ways.
+
+2. We can set the real user ID and effective user ID with the setuid function. Similarly, we can set the real group ID and the effective group ID with the setgid function.
+```
+#include <unistd.h>
+
+int setuid(uid_t uid);
+int setgid(gid_t gid);
+
+// Both return: 0 if OK, −1 on error
+```
+
+3. There are rules for who can change the IDs. (Everything we describe for the user ID also applies to the group ID.)
+    - If the process has superuser privileges, the setuid function sets the real user ID, effective user ID, and saved set-user-ID to uid.
+    - If the process does not have superuser privileges, but uid equals either the real user ID or the saved set-user-ID, setuid sets only the effective user ID to uid. The real user ID and the saved set-user-ID are not changed.
+    - If neither of these two conditions is true, errno is set to EPERM and -1 is returned.
+
+4. We can make a few statements about the three user IDs that the kernel maintains.
+    - Only a superuser process can change the real user ID. Normally, the real user ID is set by the login(1) program when we log in and never changes. Because login is a superuser process, it sets all three user IDs when it calls setuid.
+    - The effective user ID is set by the exec functions only if the set-user-ID bit is set for the program file. If the set-user-ID bit is not set, the exec functions leave the effective user ID as its current value. We can call setuid at any time to set the effective user ID to either the real user ID or the saved set-user-ID. Naturally, we can’t set the effective user ID to any random value.
+    - The saved set-user-ID is copied from the effective user ID by exec. If the file’s set-user-ID bit is set, this copy is saved after exec stores the effective user ID from the file’s user ID.
+
+5. Historically, BSD supported the swapping of the real user ID and the effective user ID with the setreuid function.
+```
+#include <unistd.h>
+
+int setreuid(uid_t ruid, uid_t euid);
+int setregid(gid_t rgid, gid_t egid);
+
+// Both return: 0 if OK, −1 on error
+```
+
+6. POSIX.1 includes the two functions seteuid and setegid. These functions are similar to setuid and setgid, but only the effective user ID or effective group ID is changed.
+```
+#include <unistd.h>
+
+int seteuid(uid_t uid);
+int setegid(gid_t gid);
+
+// Both return: 0 if OK, −1 on error
+```

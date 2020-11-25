@@ -316,3 +316,38 @@ int setegid(gid_t gid);
 
 // Both return: 0 if OK, −1 on error
 ```
+
+### 8.12 Interpreter Files
+
+1. All contemporary UNIX systems support interpreter files. These files are text files that begin with a line of the form
+```
+#! pathname [ optional-argument ]
+```
+
+2. The space between the exclamation point and the pathname is optional.
+
+3. The pathname is normally an absolute pathname, since no special operations are performed on it (i.e., PATH is not used).
+
+4. The recognition of these files is done within the kernel as part of processing the exec system call. The actual file that gets executed by the kernel is not the interpreter file, but rather the file specified by the pathname on the first line of the interpreter file. (Note: Be sure to differentiate between the interpreter file—a text file that begins with #!—and the interpreter, which is specified by the pathname on the first line of the interpreter file.)
+
+5. A common use for the optional argument following the interpreter pathname is to specify the `-f` option for programs that support this option.
+
+6. Interpreter files are useful for the following reasons:
+    - They hide that certain programs are scripts in some other language.
+    - Interpreter scripts provide an efficiency gain.
+    - Interpreter scripts let us write shell scripts using shells other than /bin/sh.
+
+### 8.13 system Function
+
+1. It is convenient to execute a command string from within a program.
+
+2. ISO C defines the system function, but its operation is strongly system dependent.  POSIX.1 includes the system interface, expanding on the ISO C definition to describe its behavior in a POSIX environment.
+```
+#include <stdlib.h>
+int system(const char *cmdstring);
+```
+
+3. Because system is implemented by calling fork, exec, and waitpid, there are three types of return values.
+    - If either the fork fails or waitpid returns an error other than EINTR, system returns -1 with errno set to indicate the error.
+    - If the exec fails, implying that the shell can’t be executed, the return value is as if the shell had executed exit(127).
+    - Otherwise, all three functions—fork, exec, and waitpid—succeed, and the return value from system is the termination status of the shell, in the format specified for waitpid.

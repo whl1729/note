@@ -351,3 +351,49 @@ int system(const char *cmdstring);
     - If either the fork fails or waitpid returns an error other than EINTR, system returns -1 with errno set to indicate the error.
     - If the exec fails, implying that the shell can’t be executed, the return value is as if the shell had executed exit(127).
     - Otherwise, all three functions—fork, exec, and waitpid—succeed, and the return value from system is the termination status of the shell, in the format specified for waitpid.
+
+### 8.14 Process Accounting
+
+1. Most UNIX systems provide an option to do process accounting. When enabled, the kernel writes an accounting record each time a process terminates. These accounting records typically contain a small amount of binary data with the name of the command, the amount of CPU time used, the user ID and group ID, the starting time, and so on.
+
+### 8.16 Process Scheduling
+
+1. Historically, the UNIX System provided processes with only coarse control over their scheduling priority. The scheduling policy and priority were determined by the kernel. A process could choose to run with lower priority by adjusting its nice value (thus a process could be "nice" and reduce its share of the CPU by adjusting its nice value). Only a privileged process was allowed to increase its scheduling priority. (Question: it seems that we can increase out process's priority by decreasing its nice value?)
+
+2. In the Single UNIX Specification, nice values range from 0 to (2\*NZERO)−1, although some implementations support a range from 0 to 2\*NZERO. Lower nice values have higher scheduling priority. Although this might seem backward, it actually makes sense: the more nice you are, the lower your scheduling priority is. NZERO is the default nice value of the system.
+
+3. A process can retrieve and change its nice value with the nice function. With this function, a process can affect only its own nice value; it can’t affect the nice value of any other process.
+```
+#include <unistd.h>
+
+int nice(int incr);
+
+// Returns: new nice value − NZERO if OK, −1 on error
+```
+
+4. The incr argument is added to the nice value of the calling process.
+    - If incr is too large, the system silently reduces it to the maximum legal value.
+    - If incr is too small, the system silently increases it to the minimum legal value.
+    - Because -1 is a legal successful return value, we need to clear errno before calling nice and check its value if nice returns -1. If the call to nice succeeds and the return value is -1, then errno will still be zero. If errno is nonzero, it means that the call to nice failed.
+
+5. The getpriority function can be used to get the nice value for a process, just like the nice function. However, getpriority can also get the nice value for a group of related processes.
+```
+#include <sys/resource.h>
+
+int getpriority(int which, id_t who);
+
+// Returns: nice value between −NZERO and NZERO−1 if OK, −1 on error
+```
+
+6. The which argument can take on one of three values: PRIO_PROCESS to indicate a process, PRIO_PGRP to indicate a process group, and PRIO_USER to indicate a user ID.  The which argument controls how the who argument is interpreted and the who argument selects the process or processes of interest. If the who argument is 0, then it indicates the calling process, process group, or user (depending on the value of the which argument). When which is set to PRIO_USER and who is 0, the real user ID of the calling process is used. When the which argument applies to more than one process, the highest priority (lowest value) of all the applicable processes is returned.
+
+7. The setpriority function can be used to set the priority of a process, a process group, or all the processes belonging to a particular user ID.
+```
+#include <sys/resource.h>
+
+int setpriority(int which, id_t who, int value);
+
+// Returns: 0 if OK, −1 on error
+```
+
+8. The which and who arguments are the same as in the getpriority function. The value is added to NZERO and this becomes the new nice value.

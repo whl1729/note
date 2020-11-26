@@ -397,3 +397,28 @@ int setpriority(int which, id_t who, int value);
 ```
 
 8. The which and who arguments are the same as in the getpriority function. The value is added to NZERO and this becomes the new nice value.
+
+### 8.17 Process Times
+
+1. Any process can call the times function to obtain time values for itself and any terminated children.
+```
+#include <sys/times.h>
+
+clock_t times(struct tms *buf );
+
+// Returns: elapsed wall clock time in clock ticks if OK, −1 on error
+```
+
+2. This function fills in the tms structure pointed to by buf :
+```
+struct tms {
+    clock_t tms_utime; /* user CPU time */
+    clock_t tms_stime; /* system CPU time */
+    clock_t tms_cutime; /* user CPU time, terminated children */
+    clock_t tms_cstime; /* system CPU time, terminated children */
+};
+```
+
+3. Note that the structure does not contain any measurement for the wall clock time.  Instead, the function returns the wall clock time as the value of the function, each time it’s called. This value is measured from some arbitrary point in the past, so we can’t use its absolute value; instead, we use its relative value. For example, we call times and save the return value. At some later time, we call times again and subtract the earlier return value from the new return value. The difference is the wall clock time.
+
+4. All the clock_t values returned by this function are converted to seconds using the number of clock ticks per second—the _SC_CLK_TCK value returned by sysconf.

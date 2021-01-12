@@ -12,15 +12,21 @@
 
 3. The C standard is now maintained and developed by the ISO/IEC international standardization working group for the C programming language, known as ISO/IEC JTC1/SC22/WG14, or WG14 for short.
 
-4. The intent of the ISO C standard is to provide portability of conforming C programs to a wide variety of operating systems, not only the UNIX System. This standard defines not only the syntax and semantics of the programming language but also a standard library.
+4. The intent of the ISO C standard is to provide **portability of conforming C programs to a wide variety of operating systems**, not only the UNIX System. This standard defines not only the **syntax and semantics** of the programming language but also a **standard library**.
 
-5. In 1999, the ISO C standard was updated and approved as **ISO/IEC 9899:1999**, largely to improve support for applications that perform numerical processing.
+5. This standard defines not only the **syntax and semantics** of the programming language but also a **standard library**.
+
+6. In 1999, the ISO C standard was updated and approved as **ISO/IEC 9899:1999**, largely to improve support for applications that perform numerical processing.
+
+7. ISO C标准定义了24个必需的头文件，POSIX也定义了若干必需的头文件和可选的头文件。
 
 #### 2.2.2 IEEE POSIX
 
-1. POSIX is a family of standards initially developed by the IEEE (Institute of Electrical and Electronics Engineers). POSIX stands for **Portable Operating System Interface**.
+1. POSIX is a family of standards initially developed by the IEEE (Institute of Electrical and Electronics Engineers). POSIX stands for **Portable Operating System Interface**. It originally referred only to the IEEE Standard 1003.1-1988 — the operating system interface — but was later extended to include **many of the standards and draft standards with the 1003 designation**, including the shell and utilities (1003.2).
 
-2. The goal of the **1003.1** operating system interface standard is to promote the portability of applications among various UNIX System environments. This standard defines the services that an operating system must provide if it is to be "POSIX compliant", and has been adopted by most computer vendors.
+2. The goal of the **1003.1** operating system interface standard is to promote the portability of applications among various UNIX System environments. This standard defines the services that an operating system must provide if it is to be "POSIX compliant", and has been adopted by most computer vendors. Although the 1003.1 standard is based on the UNIX operating system, the standard is **not restricted** to UNIX and UNIX-like systems.
+
+3. Because the 1003.1 standard specifies an **interface** and not an implementation, no distinction is made between system calls and library functions. All the routines in the standard are called **functions**.
 
 3. The 1988 version, IEEE Standard 1003.1-1988, was modified and submitted to the International Organization for Standardization. No new interfaces or features were added, but the text was revised. The resulting document was published as IEEE Standard **1003.1-1990**. This is also International Standard **ISO/IEC 9945-1:1990**. This standard was commonly referred to as **POSIX.1**.
 
@@ -28,9 +34,9 @@
 
 #### 2.2.3 The Single UNIX Specification
 
-1. **The Single UNIX Specification**, a superset of the POSIX.1 standard, specifies additional interfaces that extend the functionality provided by the POSIX.1 specification. POSIX.1 is equivalent to the Base Specifications portion of the Single UNIX Specification.
+1. The Single UNIX Specification, a **superset** of the POSIX.1 standard, specifies additional interfaces that extend the functionality provided by the POSIX.1 specification. POSIX.1 is equivalent to the Base Specifications portion of the Single UNIX Specification.
 
-2. The **X/Open System Interfaces (XSI)** option in POSIX.1 describes optional interfaces and defines which optional portions of POSIX.1 must be supported for an implementation to be deemed **XSI conforming**. These include file synchronization, thread stack address and size attributes, thread process-shared synchronization, and the `_XOPEN_UNIX` symbolic constant. **Only XSIconforming implementations can be called UNIX systems**.
+2. The **X/Open System Interfaces (XSI)** option in POSIX.1 describes optional interfaces and defines which optional portions of POSIX.1 must be supported for an implementation to be deemed **XSI conforming**. These include file synchronization, thread stack address and size attributes, thread process-shared synchronization, and the `_XOPEN_UNIX` symbolic constant. **Only XSI-conforming implementations can be called UNIX systems**.
 
 ### 2.3 UNIX System Implementations
 
@@ -60,8 +66,8 @@
 ### 2.5 Limits
 
 1. Two types of limits are needed:
-    - Compile-time limits (e.g., what’s the largest value of a short integer?)
-    - Runtime limits (e.g., how many bytes in a filename?)
+    - **Compile-time limits** (e.g., what’s the largest value of a short integer?)
+    - **Runtime limits** (e.g., how many bytes in a filename?)
 
 2. Compile-time limits can be defined in headers that any program can include at compile time. But runtime limits require the process to call a function to obtain the limit’s value.
 
@@ -117,6 +123,8 @@ long fpathconf(int fd, int name);
     - Runtime options that are not associated with a file or a directory are identified with the `sysconf` function.
     - Runtime options that are associated with a file or a directory are discovered by calling either the `pathconf` or the `fpathconf` function.
 
+3. Options 用来描述系统是否支持某些功能。
+
 ### 2.7 Feature Test Macros
 
 1. Most implementations can add their own definitions to these headers, in addition to the POSIX.1 and XSI definitions. If we want to compile a program so that it depends only on the POSIX definitions and doesn’t conflict with any implementation-defined constants, we need to define the constant `_POSIX_C_SOURCE`. All the POSIX.1 headers use this constant to exclude any implementation-defined definitions when `_POSIX_C_SOURCE` is defined.
@@ -135,7 +143,7 @@ long fpathconf(int fd, int name);
 
 ### 2.9 Differences Between Standards
 
-1. Conflicts are unintended, but if they should arise, POSIX.1 defers to the ISO C standard.
+1. Conflicts are unintended, but if they should arise, **POSIX.1 defers to the ISO C standard**.
 
 2. ISO C defines the function clock to return the amount of CPU time used by a process. The value returned is a `clock_t` value, but ISO C **doesn’t specify its units**. Thus we must take care when using variables of type `clock_t` so that we don’t mix variables with different units.
 

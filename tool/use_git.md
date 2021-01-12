@@ -52,3 +52,7 @@
         - refactor
         - perf
         - test
+
+13. [Git - Windows AND linux line-endings](https://stackoverflow.com/questions/34610705/git-windows-and-linux-line-endings)
+    - On Windows: `git config --global core.autocrlf true`
+    - On Linux: `git config --global core.autocrlf input`

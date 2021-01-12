@@ -22,6 +22,12 @@ controllers/utils/utils.go:135:2: undefined: InitRecord
 
 2. beego http超时时间大约为6分钟。（待确认）
 
+3. 使用beego/logs模块时，要进行如下设置才能正常显示文件名和行号：
+```
+	logs.EnableFuncCallDepth(true)
+	logs.SetLogFuncCallDepth(3)
+```
+
 ## 数据类型
 
 1. Go语言变量声明后的默认值
@@ -48,7 +54,7 @@ controllers/utils/utils.go:135:2: undefined: InitRecord
     - C.float
     - C.double
 
-3. Go string convert to C char*
+3. Go string convert to C char\*
     ```
     cs := C.CString("Hello from stdio")
 	defer C.free(unsafe.Pointer(cs))

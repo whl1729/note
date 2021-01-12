@@ -31,11 +31,11 @@ unbreakable: un-(不自由词素) + break(自由词素) + -able(不自由语素)
 
 ## 象形起源
 英文字母的象形起源如下面几幅图片所示：
-![a-z](fig_of_alphabet/a-g.jpg)
-![h-n](fig_of_alphabet/h-n.jpg)
-![o-s](fig_of_alphabet/o-s.jpg)
-![t-x](fig_of_alphabet/t-x.jpg)
-![yz](fig_of_alphabet/yz.jpg)
+![a-z](images/a-g.jpg)
+![h-n](images/h-n.jpg)
+![o-s](images/o-s.jpg)
+![t-x](images/t-x.jpg)
+![yz](images/yz.jpg)
 
 ### 英语所属的语系和语族
 英语属于印欧语系中的日耳曼语族，最初源自古印欧语，以西日耳曼语为主形成了古英语，而后进一步融合斯坎的纳维亚语、法语、拉丁语、希腊语、西班牙语等语言逐步形成现代英语。

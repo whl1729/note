@@ -79,6 +79,8 @@ iptables -A INPUT -i wlp2s0 -s 192.168.0.104 -j DROP
 // 删除过滤条件（先找出对应行号再删除）
 iptables -L --line-numbers
 iptables -D INPUT some-number
+// 永久保存iptables设置
+sudo iptables-save | sudo tee /etc/network/iptables.rules
 ```
 
 4. 使用curl来发送oauth 2.0请求：参考[How do I perform common OAuth 2.0 tasks using curl commands](https://backstage.forgerock.com/knowledge/kb/article/a45882528)

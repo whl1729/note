@@ -51,6 +51,14 @@
 gsettings set org.gnome.desktop.interface cursor-blink-timeout 1
 ```
 
+11. 设置特定文件格式的缩进规则
+```
+augroup FileTypeSpecificAutocommands
+    autocmd FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd FileType php setlocal tabstop=2 softtabstop=2 shiftwidth=2
+augroup END
+```
+
 ## 常用
 
 1. [vim-tabe多标签切换](https://blog.csdn.net/xs1326962515/article/details/77837017)

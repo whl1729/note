@@ -59,6 +59,11 @@ augroup FileTypeSpecificAutocommands
 augroup END
 ```
 
+12. 解决git status 不能显示中文的问题
+```
+git config --global core.quotepath false
+```
+
 ## 常用
 
 1. [vim-tabe多标签切换](https://blog.csdn.net/xs1326962515/article/details/77837017)

@@ -112,6 +112,7 @@
 ## Q9：我有哪些疑问？
 
 1. Q: 空元素有哪些？空元素有两种写法吗？（`<br>` 或`</br>`）
+  A: 空元素有`<area>, <base>, <br>, <col>, <embed>, <hr>, <img>, <input>, <link>, <meta>, <param>, <source>, <track>, <wbr>`。HTML的空元素有两种写法：`<br>`或`<br\>`。其中前者是官方写法，后者是为了兼容XML/XHTML的写法。注意XML/XHTML中不支持前者的写法。
 
 ## Q10：这篇文档说得有道理吗？为什么？
 

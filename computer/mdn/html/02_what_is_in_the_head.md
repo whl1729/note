@@ -129,15 +129,26 @@ started with developing web sites and applications.">
 
 ## Q9：我有哪些疑问？
 
-1. metadata 只存在于head中吗？可以出现在body中吗？
-  - 答：看了一些网页的源代码，发现metadata 可以存在于head中，也可以出现在body中。
+1. Q: metadata 只存在于head中吗？可以出现在body中吗？
+  - A: 看了一些网页的源代码，发现metadata 可以存在于head中，也可以出现在body中。
 
-2. `<link>`元素只存在于head中吗？可以出现在body中吗？
-  - 答：是的，`<link>`元素只存在于head中，不可以在body中。因为`<link>`元素用来描述当前文档与外部资源的关系，应该放在头部。
+2. Q: `<link>`元素只存在于head中吗？可以出现在body中吗？
+  - A: 是的，`<link>`元素只存在于head中，不可以在body中。因为`<link>`元素用来描述当前文档与外部资源的关系，应该放在头部。
 
-3. head元素里面的script一般用来干啥？如何决定一个script应该放在head还是body？
+3. Q: head元素里面的script一般用来干啥？如何决定一个script应该放在head还是body？
+  - A: script放在head还是body，影响的是该script的被运行的时间。如果把script放在head，并且该脚本会做一些渲染的工作，而渲染的对象是定义在body中，会导致渲染失败。一般有以下惯例：
+    - Place library script such as the jQuery library in the head section.
+    - Place normal script in the head unless it becomes a performance/page load issue.
+    - Place script that impacts the render of the page at the end of the body
 
-4. script文件的加载策略是怎样的？
+4. Q: script文件的加载策略是怎样的？
+  - A: 在没有特别注明的情况下，按照出现的顺序来加载。但我们也可以通过`async`或`defer`等方式来改变加载方式。下面列举影响加载策略的几种做法：
+    - 一种老式的做法是把script元素放在body元素的最后面。这样能确保HTML DOM元素加载完成后才执行脚本，但可能带来性能损耗。
+    - 可以把要执行的逻辑定义在一个函数内，然后监听到"DOMContentLoaded"事件后再执行这个函数。`document.addEventListener("DOMContentLoaded", function() { ... });`
+    - 使用async属性，可以在不堵塞页面渲染的同时下载脚本，下载完就会执行脚本，因此不能保证脚本之间的执行顺序，也不能保证HTML DOM元素加载完成后才执行脚本。
+    - 使用defer属性，可以保证HTML DOM加载完成后再执行脚本，并且按照script的出现顺序来执行。
+
+5. Q: js 脚本间的作用域关系是怎样的？一个脚本如何调用另一个脚本的函数？
 
 ## Q10：这篇文档说得有道理吗？为什么？
 

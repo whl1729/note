@@ -71,7 +71,7 @@
 6. Some attributes of anchor
   - href: specifies the web address for the link.
   - title: specifies extra information about the link, such as a description of the page that is being linked to. This appears as a tooltip when a cursor hovers over the element.
-  - target: specifies the browsing context used to display the link.
+  - target: specifies the browsing context used to display the link. `target="_blank"` means using a new tab to load the URL.
 
 7. **Boolean attributes**
   - The presence of a boolean attribute on an element represents the true value, and the absence of the attribute represents the false value.

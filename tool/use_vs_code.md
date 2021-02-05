@@ -1,5 +1,13 @@
 # vs code使用笔记
 
+## 常见问题
+
+1. 使用vs code remote-ssh 连接服务器时报ssh timeout，可以尝试关闭以下配置：
+  - 参考[why ssh connection timed out in vscode?](https://stackoverflow.com/questions/59978826/why-ssh-connection-timed-out-in-vscode)
+```
+"remote.SSH.useLocalServer": false
+```
+
 ## 环境配置
 
 1. IntelliSense configuration settings editor UI

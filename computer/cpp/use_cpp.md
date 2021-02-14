@@ -1,5 +1,11 @@
 # C++ 使用笔记
 
+## 编程规范
+
+1. C++的头文件使用`.h`后缀还是`.hpp`后缀？
+  - 参考[\*.h or \*.hpp for your class definitions](https://stackoverflow.com/questions/152555/h-or-hpp-for-your-class-definitions)
+  - 没有强制性要求。一个简单的做法是：C++头文件都使用`.hpp`后缀，方便与C头文件区分开来。
+
 ## 编译问题
 
 1. 如果编译链接多个文件时出现“multiple definition...”的错误，检查是否把报错的函数定义在头文件了，这样如果多个文件都包含了该头文件，则对应的函数定义会被复制多份。

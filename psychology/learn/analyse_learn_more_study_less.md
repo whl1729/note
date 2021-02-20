@@ -193,19 +193,19 @@ Picture Linking, Notes Compression, Don't "Study"
 
 > Depth exploration requires that you create links into information. Instead of just understanding a formula, you understand its proof. You understand why the proof was developed and by whom. Now, through depth exploration, your formula becomes supported underneath a foundation of other linked ideas.
 
-伍注：深度拓展，指理解知识的来龙去脉，知其然也要知其所以然。简单地说就是问为什么：为什么是这样的？为什么发展成这样的？为什么需要它？（有一点点像深度搜索）
+伍注：深度拓展，指理解知识的来龙去脉，知其然也要知其所以然。这里要解决的问题是：为什么是这样的？为什么发展成这样的？为什么需要它？（有一点点像深度搜索）
 
 > Information doesn’t stand alone. What formulas are similar to this one in function or design? What other discoveries were made at the same time, by the same person or in the same field? What other facts surround this one?
 
 > Lateral exploration requires that you create links around information. Usually this means that you take models and link information between them. Relating one event that occurred in Ancient Greece with another event that took place in Ancient China.
 
-伍注：水平拓展，指类比相似的知识点。相似点可以是时间、地点、发现者、主题、核心思想等等。（有一点点像广度搜索）
+伍注：水平拓展，指联系相似或相关的知识点。这里要解决的问题是：有哪些类似或相关的知识点？它们之间的联系是什么？相似点或相关点可以是时间、地点、发现者、主题、核心思想等等。（有一点点像广度搜索）
 
 > Information follows patterns, those patterns can be found in other information. Can I compare this formula to a natural event, like water flowing or driving a car? How does this discovery relate to a completely different historical event? How is this idea similar to completely different ideas.
 
 > Methods such as metaphor and visceralization work well within vertical exploration.
 
-伍注：纵向拓展，指在看似无关联的知识点之间寻找联系。可以应用比喻法和内在化法来进行纵向拓展。
+伍注：纵向拓展，指在看似无关联的知识点之间寻找联系。这里要解决的问题是：能否将它与生活中的例子、自然事物、历史事件或其他领域联系起来？可以应用比喻法和内在化法来进行纵向拓展。
 
 > Creating diagrams can help with vertical, lateral and depth exploration. Metaphor and visceralization both work best with vertical exploration. However, holistic learning doesn't need to be fancy, just by getting curious and asking questions you can explore an idea.
 

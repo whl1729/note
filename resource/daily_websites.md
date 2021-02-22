@@ -64,6 +64,17 @@
 
 - [Rust Blog](https://blog.rust-lang.org/)
 - [Inside Rust Blog](https://blog.rust-lang.org/inside-rust/index.html)
+- [Rust语言中文社区](https://rustcc.cn/)
+- [Rust日报](https://rustcc.cn/section?id=f4703117-7e6b-4caf-aa22-a3ad3db6898f)
+- [2021年Rust语言中文精选](https://www.yuque.com/chaosbot/rust_magazine_2021)
+
+### C++
+
+- [CPP](https://www.cplusplus.com/)
+- [Standard C++ News](https://isocpp.org/blog/category/news)
+- [Microsoft C++ Team Blog](https://devblogs.microsoft.com/cppblog/)
+- [InfoQ C++ News](https://www.infoq.com/CPlusPlus/news/)
+- [CppCon News](https://cppcon.org/category/news/)
 
 ### Golang
 

@@ -11,3 +11,9 @@
 4. Cargo expects your source files to live inside the src directory. The top-level project directory is just for README files, license information, configuration files, and anything else not related to your code. Using Cargo helps you organize your projects.
 
 5. `cargo check` quickly checks your code to make sure it compiles but doesn’t produce an executable
+
+6. Basic usages of cargo:
+  - We can build a project using cargo build.
+  - We can build and run a project in one step using cargo run.
+  - We can build a project without producing a binary to check for errors using cargo check.
+  - Instead of saving the result of the build in the same directory as our code, Cargo stores it in the target/debug directory.

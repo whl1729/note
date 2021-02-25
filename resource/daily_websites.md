@@ -14,7 +14,7 @@
 - [Standard C++ News](https://isocpp.org/blog/category/news)
 - [Microsoft C++ Team Blog](https://devblogs.microsoft.com/cppblog/)
 - [InfoQ C++ News](https://www.infoq.com/CPlusPlus/news/)
-- [CppCon News](https://cppcon.org/category/news/)
+- [Sutter's Mill](https://herbsutter.com/)
 
 ### Golang
 

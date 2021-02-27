@@ -8,6 +8,26 @@
 "remote.SSH.useLocalServer": false
 ```
 
+2. [vscode配置浏览html文件快捷键][vscode_html]
+  - Use `ctrl + shift + p` (or F1) to open the Command Palette.
+  - Type in `Tasks: Configure Task`. Selecting it will open the tasks.json file. Delete the script displayed and replace it by the following:
+```
+{
+    "version": "2.0.0",
+    "command": "Chrome",
+    "linux": {
+        "command": "/usr/bin/google-chrome-stable"
+    },
+    "args": [
+        "${file}"
+    ]
+}
+```
+  - Save the file.
+  - Switch back to your html file, and press `ctrl + shift + b` to view your page in your Web Browser.
+
+  [vscode_html]: https://stackoverflow.com/questions/30039512/how-to-view-an-html-file-in-the-browser-with-visual-studio-code
+
 ## 环境配置
 
 1. IntelliSense configuration settings editor UI

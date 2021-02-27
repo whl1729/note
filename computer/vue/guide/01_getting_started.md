@@ -20,7 +20,9 @@
 
 > 备注：找出关键词，并确认这些关键词在使用时的含义。
 
+- directive
 - declarative rendering
+- component
 
 ## Q6：这个文档的关键句是什么？
 
@@ -34,7 +36,9 @@
 
 伍注：vue的一个核心概念：declarative rendering
 
-> The **component system** is another important concept in Vue, because it’s an abstraction that allows us to build large-scale applications composed of small, self-contained, and often reusable components.
+> The `v-bind` attribute you are seeing is called a **directive**. Directives are prefixed with `v-` to indicate that they are special attributes provided by Vue, and as you may have guessed, they apply special reactive behavior to the rendered DOM.
+
+> The **component system** is another important concept in Vue, because it’s an abstraction that allows us to build large-scale applications composed of small, self-contained, and often reusable components. If we think about it, almost any type of application interface can be abstracted into a tree of components.
 
 伍注：vue的另一个核心概念：component
 
@@ -47,6 +51,16 @@
 > 备注：作者已经解决了哪些问题？未解决哪些问题？在未解决的问题当中，哪些是作者认为自己无法解决的？
 
 ## Q9：我有哪些疑问？
+
+### Q9.1: Html可以自定义属性吗？
+
+### Q9.2: Html可以自定义元素吗？
+
+### Q9.3: Vue 的`v-if`、`v-bind`等属性不是合法的html属性？
+
+### Q9.4: Vue 的`v-bind`、`v-if`、`v-for`最终是如何转换为合法的Html代码的？
+
+### Q9.5: Vue 的组件与Html 的元素有什么区别？
 
 ## Q10：这个文档说得有道理吗？为什么？
 

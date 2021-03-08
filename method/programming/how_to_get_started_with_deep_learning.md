@@ -11,7 +11,7 @@
   
 2. 第五节课后，开始查看与课程平行的外部资料。如3blue1brown推出的神经网络讲解课程。
   
-3. 吴恩达在讲神经网络时有点快，建议补充阅读一些资料。如Michael A. Nielsen的书[Neural Networks and Deep Learning][nndl]。
+3. 吴恩达在讲神经网络时有点快，建议补充阅读一些资料。如Michael A. Nielsen的书[Neural Networks and Deep Learning][nndl]。建议阅读这本书的前两章，与吴恩达的课程并行。当你熟悉更多概念后，开始搞深度学习时，可以再看书中的其余部分。
   
 4. 推荐阅读[Christopher Olah的博客][colah]。
 
@@ -39,6 +39,12 @@
   [fast.ai]: https://course.fast.ai/
   [cs231n]: http://cs231n.stanford.edu/
 
+### [Jacky Yang的回答][jacky_yang]
+
+1. 推荐一个ppt：台湾李宏毅教授写的《Deep Learning Tutorial》
+
+  [jacky_yang]: https://www.zhihu.com/question/26006703/answer/129209540
+
 ### [kyan的回答][kyan]
 
 1. 推荐复旦大学教授邱锡鹏的教学资料。
@@ -46,6 +52,6 @@
 
 ### [Ruhjkg的回答][Ruhjkg]
 
-1. 推荐台大的李宏毅教授的课程。
+1. 推荐台大的李宏毅教授的课程。B站上有视频教程。
 
   [Ruhjkg]: https://www.zhihu.com/question/26006703/answer/162454310

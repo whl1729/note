@@ -40,6 +40,22 @@
 - [Linux Journal](https://www.linuxjournal.com/)
 - [Ubuntu Blog](https://ubuntu.com/blog)
 
+## 人工智能
+
+## 自动驾驶
+
+- [Waymo Blog](https://blog.waymo.com/)
+- [Cruise Medium](https://medium.com/cruise)
+- [Uber Engineering Blog](https://eng.uber.com/)
+- [Ford Motor Company's AV LLC Blog](https://medium.com/self-driven)
+- [AutoX - Medium](https://medium.com/autox)
+- [Aurora Blog](https://aurora.tech/blog)
+- [Voyage News](https://news.voyage.auto/)
+- [Nuro Medium](https://medium.com/nuro)
+- [新闻中心 - 小马智行](https://pony.ai/zh/press.html)
+- [媒体动态 – TuSimple](https://www.tusimple.com/%e5%aa%92%e4%bd%93%e5%8a%a8%e6%80%81/)
+- [最新消息 - Weride](https://www.weride.ai/media)
+
 ## 新闻
 
 - [人民网](http://www.people.com.cn/)

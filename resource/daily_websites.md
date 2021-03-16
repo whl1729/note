@@ -42,6 +42,19 @@
 
 ## 人工智能
 
+- [机器之心](https://www.jiqizhixin.com/)
+- [PaperWeekly | 机器之心](https://www.jiqizhixin.com/columns/paperweekly)
+- [量子位](https://www.qbitai.com/)
+- [Synced](https://syncedreview.com/)
+- [OpenAI Blog](https://www.openai.com/blog/)
+- [AI Weekly](http://aiweekly.co/)
+- [DeepMind](https://deepmind.com/blog)
+- [Google AI Blog](https://ai.googleblog.com/)
+- [Microsoft Research Blog](https://www.microsoft.com/en-us/research/blog/)
+- [Facebook AI Blog](https://ai.facebook.com/blog/)
+- [Baidu Research Blog](http://research.baidu.com/Blog)
+- [NVIDIA Blog](https://blogs.nvidia.com/blog/category/deep-learning/)
+
 ## 自动驾驶
 
 - [Waymo Blog](https://blog.waymo.com/)
@@ -56,16 +69,25 @@
 - [媒体动态 – TuSimple](https://www.tusimple.com/%e5%aa%92%e4%bd%93%e5%8a%a8%e6%80%81/)
 - [最新消息 - Weride](https://www.weride.ai/media)
 
-## 新闻
+## 电子通信
 
-- [人民网](http://www.people.com.cn/)
-- [新华网](http://www.xinhuanet.com/)
-- [澎湃新闻](https://www.thepaper.cn/)
-- [参考消息](http://m.cankaoxiaoxi.com/)
-- [CNN](https://us.cnn.com/)
+- [C114通信网](http://www.c114.com.cn/)
+- [通信人家园](https://www.txrjy.com/forum.php)
+- [电子发烧友](http://www.elecfans.com/)
+- [极客公园](http://www.geekpark.net/)
+- [新闻 - 华为](https://www.huawei.com/cn/news)
+- [心声社区](http://xinsheng.huawei.com/cn/index/guest.html)
+
+## 科学技术
+
+- [Science News](https://www.sciencemag.org/news/latest-news)
+- [Naturn News](https://www.nature.com/news)
+- [Science American](https://www.scientificamerican.com/)
+- [科创论坛](https://www.kechuang.org/)
 
 ## 行业动态
 
+- [Hacker News](https://news.ycombinator.com/news)
 - [36氪](https://36kr.com/)
 - [腾讯科技](https://new.qq.com/ch/tech/)
 - [极客公园](https://www.geekpark.net/)
@@ -86,10 +108,17 @@
 
 - [美团技术团队](https://tech.meituan.com/)
 - [微软亚洲研究院-新闻中心](https://www.msra.cn/zh-cn/news)
-- [Microsoft Research Blog](https://www.microsoft.com/en-us/research/blog/)
 - [Microsoft Developers Blog](https://devblogs.microsoft.com/)
-- [AI | Google Blog](https://blog.google/technology/ai/)
 - [Google Technology Blog](https://blog.google/technology)
 - [Facebook Engineering](https://engineering.fb.com/)
 - [Twitter Engineering Blog](https://blog.twitter.com/engineering/en_us.html)
 - [IBM Developer](https://developer.ibm.com/)
+
+## 新闻
+
+- [人民网](http://www.people.com.cn/)
+- [新华网](http://www.xinhuanet.com/)
+- [澎湃新闻](https://www.thepaper.cn/)
+- [参考消息](http://m.cankaoxiaoxi.com/)
+- [CNN](https://us.cnn.com/)
+

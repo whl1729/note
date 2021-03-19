@@ -9,7 +9,20 @@ cmake ..
 cmake --build .
 ```
 
+## 安装方法
+
+```
+cmake --install . --prefix "/home/myuser/installdir"
+```
+
 ## 语法
+
+### some useful variables
+
+- CMAKE_SOURCE_DIR: The path to the top level of the source tree.
+- CMAKE_CURRENT_SOURCE_DIR: The path to the source directory currently being processed.
+- PROJECT_BINARY_DIR: Full path to build directory for project. This is the binary directory of the most recent project() command.
+- PROJECT_SOURCE_DIR: This is the source directory of the last call to the project() command made in the current directory scope or one of its parents.
 
 ### set cmake version requirement
 ```
@@ -46,16 +59,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 Notice:
 - If `CMAKE_CXX_STANDARD_REQUIRED` is set to ON, then the value of the CXX_STANDARD target property is treated as a requirement. If this property is OFF or unset, the CXX_STANDARD target property is treated as optional and may "decay" to a previous standard if the requested is not available.
 
-### add a library
+### add a normal library
 
 suppose we want to create a library named math_functions, which is located in the math_functions subdirectory. Add It has two files: math_functions.h and mysqrt.cpp.
 
 ```cmake
-// in the library directory, create a CMakeLists.txt and put the following lines in it:
+# in the library directory, create a CMakeLists.txt and put the following lines in it:
 add_library(math_functions mysqrt.cpp)
 target_include_directories(math_functions INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
-// in the top-level CMakeLists.txt, add the following lines:
+# in the top-level CMakeLists.txt, add the following lines:
 option(USE_MYMATH "Use tutorial provided math implementation" ON)
 
 configure_file(demo_config.h.in demo_config.h)
@@ -72,6 +85,20 @@ target_link_libraries(demo PUBLIC ${EXTRA_LIBS})
 target_include_directries(demo PUBLIC ${PROJECT_BINARY_DIR} ${EXTRA_INCLUDES})
 ```
 
+### add an imported libraries
+
+```cmake
+# type should be one of STATIC/SHARED/MODULE/UNKNOWN/OBJECT/INTERFACE
+add_library(<name> <type> IMPORTED [GLOBAL])
+```
+
+### install rules
+
+```cmake
+install(TARGETS Tutorial DESTINATION bin)
+install(FILES "${PROJECT_BINARY_DIR}/TutorialConfig.h" DESTINATION include)
+```
+
 ## FAQs
 
 ### Q2. 使用target_include_directories配置头文件目录时应该使用`PUBLIC/PRIVATE/INTERFACE`中的哪一个？
@@ -85,5 +112,10 @@ target_include_directries(demo PUBLIC ${PROJECT_BINARY_DIR} ${EXTRA_INCLUDES})
 
 > CMake is a generator of buildsystems. It can produce Makefiles, it can produce Ninja build files, it can produce KDEvelop or Xcode projects, it can produce Visual Studio solutions. From the same starting point, the same CMakeLists.txt file. So if you have a platform-independent project, CMake is a way to make it buildsystem-independent as well.
 
-  [cmake_make]: https://stackoverflow.com/questions/25789644/difference-between-using-makefile-and-cmake-to-compile-the-code
-  [cmake_include]: https://leimao.github.io/blog/CMake-Public-Private-Interface/
+  [cmake_make]: https:#stackoverflow.com/questions/25789644/difference-between-using-makefile-and-cmake-to-compile-the-code
+  [cmake_include]: https:#leimao.github.io/blog/CMake-Public-Private-Interface/
+
+## Reference
+
+1. [cmake tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index.html)
+2. [cmake help documentation](https://cmake.org/cmake/help/latest/index.html)

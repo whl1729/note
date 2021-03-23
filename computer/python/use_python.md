@@ -1,6 +1,6 @@
-## Python使用笔记
+# Python使用笔记
 
-### Question
+## Question
 
 - [ ] Q: 什么时候使用 classmethod？什么时候不该使用 classmethod？
 - [ ] Q: 定义 class 时，是否需要在最外层声明数据成员？
@@ -10,31 +10,53 @@
 - [ ] Q: classmethod不能访问`__init__`里面的属性，是因为`__init__`仅当创建instance时才会被调用吗？
 - [ ] Q: Python 的 import 顺序是怎样的？考虑 multi_factory_tool 应该如何 import utils？ import 模块的规范是怎样的？
 
-### 编程实践
+## 编程实践
 
 1. 为了避免各种奇奇怪怪的import问题，我总结了以下方案（不成熟，待完善）：
     - python 入口脚本永远放在项目根目录下
     - import 同一项目的其他package或module时，均使用绝对路径的方式。
 
-### 基础知识
+## 基础知识
 
 1. Ellipsis(`...`): Using the Ellipsis literal as the body of a function does nothing. It's purely a matter of style if you use it instead of pass or some other statement.
 
-2. [How does Python's super() work with multiple inheritance?](https://stackoverflow.com/questions/3277367/how-does-pythons-super-work-with-multiple-inheritance):
+2. [How does Python's super() work with multiple inheritance?][super]:
     - `super(MyClass, self).__init__()` provides the next `__init__` method according to the used Method Resolution Ordering (MRO) algorithm in the context of the complete inheritance hierarchy.
 
-### Python shell
+3. [Ellipsis in numpy.array][array_ellipsis]
+```
+In [223]: cube
+Out[223]:
+array([[[1, 2],
+        [3, 4]],
+
+       [[5, 6],
+        [7, 8]]])
+
+In [224]: cube[..., ::-1]
+Out[224]:
+array([[[2, 1],
+        [4, 3]],
+
+       [[6, 5],
+        [8, 7]]])
+```
+
+  [super]: https://stackoverflow.com/questions/3277367/how-does-pythons-super-work-with-multiple-inheritance
+  [array_ellipsis]: https://stackoverflow.com/questions/772124/what-does-the-ellipsis-object-do
+
+## Python shell
 
 1. Python shell清屏: `Ctrl-L`
 
-### 环境配置
+## 环境配置
 
 1. 安装vim插件
 ```
 Plugin 'davidhalter/jedi-vim'
 ```
 
-### 使用 pyenv 来管理 python 版本
+## 使用 pyenv 来管理 python 版本
 
 1. 安装 Python 基本依赖
 ```
@@ -49,7 +71,7 @@ pyenv global 3.8.3
 pip install ipython
 ```
 
-### 使用 pyinstaller 打包 python 程序
+## 使用 pyinstaller 打包 python 程序
 
 1. 使用 pyinstaller 打包 multi_factory_tools 时报错：
 ```

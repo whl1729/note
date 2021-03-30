@@ -16,7 +16,7 @@
 - [Microsoft C++ Team Blog](https://devblogs.microsoft.com/cppblog/)
 - [InfoQ C++ News](https://www.infoq.com/CPlusPlus/news/)
 - [Sutter's Mill](https://herbsutter.com/)
-- [C++ Tipes](https://abseil.io/tips/)
+- [C++ Tips](https://abseil.io/tips/)
 
 ### Golang
 

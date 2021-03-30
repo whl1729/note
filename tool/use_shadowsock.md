@@ -5,7 +5,17 @@
 
 ## 操作步骤
 
+### 安装shadowsocks-qt5
+
+1. 添加ppa源。apt update时可能会报错，这时将`/etc/apt/sources.list.d/hzwhuang-ubuntu-ss-qt5-bionic.list`里面的"bionic"改为"xenial"，再apt update一次就可以了。
+```
+sudo add-apt-repository ppa:hzwhuang/ss-qt5
+sudo apt-get update
+sudo apt-get install shadowsocks-qt5
+```
+
 ### 安装及配置shadowsocks
+
 1. 使用`sudo apt install shadowsocks`命令下载shadowsocks
 2. 创建/etc/shadowsocks.json文件并配置以下内容：
 ```
@@ -25,8 +35,10 @@
     - 修改主机的shadowsocks配置：勾选“允许其他设备连入”
 
 ### 安装及配置SwitchyOmega
+
 1. 在[SwitchyOmega的github网站](https://github.com/FelisCatus/SwitchyOmega/releases)下载`SwitchyOmega_Chromium.crx`文件
 2. 打开[chrome拓展程序页面](chrome://extensions/)，并将crx文件拖到此页面
 3. 配置SwitchyOmega连接的服务器ip和端口号等信息
+
 > 在我的Ubuntu下`protocol`选择`http`翻墙失败，选择`sock5`则翻墙成功。
 

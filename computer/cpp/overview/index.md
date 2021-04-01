@@ -1,4 +1,4 @@
-# xxx 语言概览
+# C++ 语言概览
 
 ## 目录
 
@@ -38,7 +38,7 @@
 
 ## Q3 语言发展
 
-### q3.1 这门语言是什么时候、由谁、在哪里发明的？
+### Q3.1 这门语言是什么时候、由谁、在哪里发明的？
 
 1. 1979年，在AT&T 贝尔实验室工作的丹麦计算机科学家Bjarne Stroustrup开始研究**C with Classs**，这是C++的前身。
 
@@ -46,7 +46,7 @@
 
 3. 1985年10月，C++的第一个商用版本发布。
 
-### q3.2 为什么要发明这门语言？
+### Q3.2 为什么要发明这门语言？
 
 1. 想写类似Simula67风格的、高效的系统程序。因此需要更好的类型检查、数据抽象和面向对象编程。
 2. 想发明一门兼备高效和优雅的语言。
@@ -56,9 +56,9 @@
 
 > The specific tasks that caused me to start designing and implementing C++ (initially called "C with Classes") had to do with distributing operating system facilities across a network.
 
-### q3.3 这门语言由什么组织来管理？
+### Q3.3 这门语言由什么组织来管理？
 
-### q3.4 这门语言由诞生到现在经历了哪些变化？
+### Q3.4 这门语言由诞生到现在经历了哪些变化？
 
 ### Q3.5 这门语言的最新版本是多少？工业界主流使用的版本是多少？
 

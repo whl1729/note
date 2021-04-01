@@ -71,6 +71,12 @@ pyenv global 3.8.3
 pip install ipython
 ```
 
+2. 解决pyenv install速度慢的问题
+  - 到淘宝镜像网站上下载对应的安装包，放在`~/.pyenv/cache`目录下，再执行pyenv install即可。
+```
+export v=2.7.6; wget https://npm.taobao.org/mirrors/python/$v/Python-$v.tar.xz -P ~/.pyenv/cache/; pyenv install $v
+```
+
 ## 使用 pyinstaller 打包 python 程序
 
 1. 使用 pyinstaller 打包 multi_factory_tools 时报错：

@@ -92,6 +92,12 @@ target_include_directries(demo PUBLIC ${PROJECT_BINARY_DIR} ${EXTRA_INCLUDES})
 add_library(<name> <type> IMPORTED [GLOBAL])
 ```
 
+### add libraries directories
+
+```cmake
+link_directories([AFTER|BEFORE] directory1 [directory2 ...])
+```
+
 ### install rules
 
 ```cmake

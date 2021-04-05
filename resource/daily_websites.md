@@ -82,7 +82,7 @@
 ## 科学技术
 
 - [Science News](https://www.sciencemag.org/news/latest-news)
-- [Naturn News](https://www.nature.com/news)
+- [Nature News](https://www.nature.com/news)
 - [Science American](https://www.scientificamerican.com/)
 - [科创论坛](https://www.kechuang.org/)
 

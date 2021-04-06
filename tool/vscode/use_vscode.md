@@ -1,4 +1,13 @@
-# vs code使用笔记
+# vscode 使用笔记
+
+## 提高开发效率的技巧
+
+### 创建代码模板
+
+1. [Snippets in Visual Studio Code][snippets]
+  - `File > Preferences > User Snippets`
+
+  [snippets]: https://code.visualstudio.com/docs/editor/userdefinedsnippets
 
 ## 常见问题
 

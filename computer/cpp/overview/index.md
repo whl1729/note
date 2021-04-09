@@ -68,6 +68,17 @@
 
 ### Q4.1 这门语言有哪些资源？
 
+- [isocpp][isocpp]
+  - Tour
+  - Core Guidelines
+  - FAQs
+- [cplusplus][cplusplus]
+  - Information
+  - Articles
+
+  [isocpp]: https://isocpp.org/
+  [cplusplus]: http://www.cplusplus.com/
+
 ### Q4.2 这门语言有哪些社区？
 
 ### Q4.3 这门语言有哪些专家？

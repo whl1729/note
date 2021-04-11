@@ -44,12 +44,63 @@
 
 ### 1 Getting Started
 
-> Some of the goals of the new system were as follows:
+- Some of the goals of the new system were as follows:
   - Speed
   - Simple design
   - Strong support for non-linear development (thousands of parallel branches)
   - Fully distributed
   - Able to handle large projects like the Linux kernel efficiently (speed and data size)
+
+- Snapshots, Not Differences.
+  - The major difference between Git and any other VCS (Subversion and friends included) is **the way Git thinks about its data**.
+  - Most other systems store information as a list of file-based changes.
+  - Git thinks about its data more like a stream of snapshots.
+
+- Nearly Every Operation Is Local.
+
+- Git Has Integrity.
+  - Everything in Git is checksummed before it is stored and is then referred to by that checksum.
+  - The mechanism that Git uses for this checksumming is called a **SHA-1 hash**.
+
+- Git Generally Only Adds Data.
+
+- Git has three main states that your files can reside in: **modified, staged, and committed**. This leads us to the three main sections of a Git project: **the working tree, the staging area, and the Git directory**.
+
+- You can view all of your settings and where they are coming from using:
+  ```
+  $ git config --list --show-origin
+  ```
+
+- 3 equvialent ways to get help
+  ```
+  $ git help <verb>
+  $ git <verb> --help
+  $ man git-<verb>
+  ```
+
+- You can ask for the more concise "help" output with the `-h` option, such as `git add -h`
+
+### 2 Git Basics
+
+- Short Status
+```
+git status -s or git status --short
+```
+
+- The rules for the patterns you can put in the .gitignore file are as follows:
+  - Blank lines or lines starting with # are ignored.
+  - Standard **glob patterns** work, and will be applied recursively throughout the entire working tree.
+  - You can start patterns with a forward slash (/) to avoid recursivity.
+  - You can end patterns with a forward slash (/) to specify a directory.
+  - You can negate a pattern by starting it with an exclamation point (!).
+
+- `git rm` removes a file both from your tracked files and from your working directory.
+
+- `git mv` renames a file.
+
+- `git log`
+  - `-p` or `--patch` shows the difference (the patch output) introduced in each commit.
+  - `-2` limits the number of log entries.
 
 ## Q7：作者是怎么论述的？
 

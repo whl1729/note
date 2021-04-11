@@ -1,4 +1,6 @@
-# git使用笔记
+# git 使用笔记
+
+## 常见用法
 
 1. 使用alias来精简命令：
 在\~/.bashrc文件里增加相应alias命令，比如`alias gad='git add .'`
@@ -56,3 +58,8 @@
 13. [Git - Windows AND linux line-endings](https://stackoverflow.com/questions/34610705/git-windows-and-linux-line-endings)
     - On Windows: `git config --global core.autocrlf true`
     - On Linux: `git config --global core.autocrlf input`
+
+## 参考资料
+
+1. [Git Immersion](https://gitimmersion.com/index.html)
+2. [Git Reference](http://git.github.io/git-reference/)

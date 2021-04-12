@@ -101,6 +101,50 @@ git status -s or git status --short
 - `git log`
   - `-p` or `--patch` shows the difference (the patch output) introduced in each commit.
   - `-2` limits the number of log entries.
+  - `--stat` see some abbreviated stats for each commit.
+  - `--pretty` changes the log output formats. The value can be `oneline, short, full, fuller`.
+  - `--graph` adds a nice little ASCII graph.
+  - `--name-only` show the list of files modified.
+  - `--name-status` show the list of files affected with added/modified/deleted information as well.
+
+- Limiting Log Output
+  - `--since`
+  - `--until`
+  - `--author`
+  - `--grep`
+  - `-S function_name` takes a string and shows only those commits that changed the number of occurrences of that string.
+  - `-- path/to/file`  limit the log output to commits that introduced a change to certained files. This is always the last option and is generally preceded by double dashes (--) to separate the paths from the options.
+
+- Undo Things
+  - Unstaging a Staged File: `git reset HEAD READ.md`
+  - Unmodifying a Modified File: `git checkout -- READ.md`
+
+- Working with Remotes
+  - `git remote -v`
+  - `git remote add <shortname> <url>`
+  - `git fetch <remote>` goes out to that remote project and pulls down all the data from that remote project that you don’t have yet. After you do this, you should have references to **all the branches** from that remote.
+  - `git pull <remote>` automatically fetch and then merge that remote branch into your current branch.
+  - `git remote show origin` see more information about a particular remote
+  - `git remote rename pb paul`
+  - `git remote remove`
+
+- Taggings
+  - `git tag -l` or `git tag --list`
+  - `git tag -a v1.4 -m "my version 1.4 [certain-commit-checksum]` annotated tags
+  - `git tag v1.4-lw`
+  - `git show v1.4-lw`
+  - `git push origin --tags` By default, the git push command doesn’t transfer tags to remote servers.
+  - `git tag -d v1.4-lw`
+
+- Aliases
+  ```
+  git config --global alias.co checkout
+  git config --global alias.br branch
+  git config --global alias.ci commit
+  git config --global alias.st status
+  git config --global alias.unstage 'reset HEAD --'
+  git config --global alias.last 'log -1 HEAD'
+  ```
 
 ## Q7：作者是怎么论述的？
 

@@ -28,6 +28,7 @@ gsettings set org.gnome.desktop.peripherals.touchpad click-method areas
     - create a `.desktop` file (you can copy an existing `.desktop` file and modify it)
     - drag-drop the file to the desktop
     - double click on that file on the desktop, and it will warn you that it’s an ‘untrusted application launcher’ so click on Trust and Launch.
+    - 如果命令比较简单，可以直接在Exec参数配置命令，比如：`bash -c "cd /tmp && ./run.sh"`
     - 如果你想运行多条命令，可以写成一个脚本，再将`Exec`配置成调用该脚本。
 
 ## 软件包管理

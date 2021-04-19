@@ -144,6 +144,12 @@ git status -s or git status --short
   git config --global alias.st status
   git config --global alias.unstage 'reset HEAD --'
   git config --global alias.last 'log -1 HEAD'
+  git config --global alias.ll 'log --oneline'
+  git config --global alias.rv 'remote -v'
+  git config --global alias.d 'diff'
+  git config --global alias.ph 'push'
+  git config --global alias.pl 'pull'
+  git config --global alias.gl 'config --global -l'
   ```
 
 ## Q7：作者是怎么论述的？

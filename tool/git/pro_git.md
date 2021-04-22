@@ -38,6 +38,12 @@
 
 > 备注：找出关键词，并确认这些关键词在使用时的含义。
 
+- HEAD: 从存在形态来看，HEAD是位于.git目录下的一个文件，里面记录着一个分支(?)，比如`refs/heads/master`。
+
+- blob: certain version of a file in the git repository
+
+- fast-forward: when you try to merge one commit with a commit that can be reached by following the first commit’s history, Git simplifies things by moving the pointer forward because there is no divergent work to merge together.
+
 ## Q6：这本书的关键句是什么？
 
 > 备注：找出关键句，并确认这些关键句所表达的主旨。
@@ -106,6 +112,9 @@ git status -s or git status --short
   - `--graph` adds a nice little ASCII graph.
   - `--name-only` show the list of files modified.
   - `--name-status` show the list of files affected with added/modified/deleted information as well.
+  - `--decorate` show where the branch pointers are pointing.
+  - `--all` show commit history for all branch.
+  - `<some-branch>` show commit history for some-branch.
 
 - Limiting Log Output
   - `--since`
@@ -137,20 +146,73 @@ git status -s or git status --short
   - `git tag -d v1.4-lw`
 
 - Aliases
-  ```
-  git config --global alias.co checkout
-  git config --global alias.br branch
-  git config --global alias.ci commit
-  git config --global alias.st status
-  git config --global alias.unstage 'reset HEAD --'
-  git config --global alias.last 'log -1 HEAD'
-  git config --global alias.ll 'log --oneline'
-  git config --global alias.rv 'remote -v'
-  git config --global alias.d 'diff'
-  git config --global alias.ph 'push'
-  git config --global alias.pl 'pull'
-  git config --global alias.gl 'config --global -l'
-  ```
+```
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+git config --global alias.unstage 'reset HEAD --'
+git config --global alias.last 'log -1 HEAD'
+git config --global alias.ll 'log --oneline'
+git config --global alias.rv 'remote -v'
+git config --global alias.d 'diff'
+git config --global alias.ph 'push'
+git config --global alias.pl 'pull'
+git config --global alias.gl 'config --global -l'
+```
+
+### 3 Git branching
+
+- When you make a commit, Git stores a commit object that
+  - contains a pointer to the snapshot of the content you staged
+  - pointers to the commit or commits that directly came before this commit
+
+- Staging the files
+  - computes a checksum for each one
+  - stores that version of the file in the Git repository
+  - adds that checksum to the staging area
+
+> 伍注：以上解释了`git add`时发生了什么。
+
+- Running git commit
+  - Git checksums each subdirectory
+  - Stores them as a tree object in the Git repository
+  - Creates a commit object that has the metadata and a pointer to the root project tree so it can re-create that snapshot when needed.  
+
+> 伍注：以上解释了`git commit`时发生了什么。
+
+- A branch in Git is simply a lightweight movable pointer to one of these commits.
+
+> 伍注：以上解释了 git branch 的本质：指向某个 commit 的指针。
+
+- Switching branches
+  - moves HEAD to point to that branch.
+
+> 伍注：以上解释了`git checkout`时发生了什么：HEAD将指向那个分支。
+
+- Because a branch in Git is actually a simple file that contains the 40 character SHA-1 checksum of the commit it points to, branches are cheap to create and destroy. Creating a new branch is as quick and simple as writing 41 bytes to a file (40 characters and a newline).
+
+> 伍注：在 Git 中创建分支非常简单、迅速和高效。
+
+- After you’ve resolved each of these sections in each conflicted file, run git add on each file to mark it as resolved. **Staging the file marks it as resolved in Git.**
+
+- `git mergetool` use a graphical tool to resolve conflicts.
+
+- `git branch`
+  - `-v` see the last commit on each branch.
+  - `--merged` and `--no-merged` filter branches that you have or have not yet merged into the branch you're currently on.
+
+- When a branch contains work that isn’t merged in yet, trying to delete it with `git branch -d` will fail, you can force it with `-D`.
+
+- git workflows
+  - Long-Running Branched: several levels of stability
+    - master: having only code that is entirely **stable**
+    - develop or next: they aren't necessarily always stable
+  - Topic Branches
+    - hotfix, iss53 (issue #53), dumbidea
+
+- remote branches
+  - Remote-tracking branches are references to the state of remote branches.
 
 ## Q7：作者是怎么论述的？
 
@@ -167,6 +229,8 @@ git status -s or git status --short
 ### Q9.2: Git 是如何实现其设计目标的？
 
 > 备注：《Pro Git》第1.2节提到：Git的设计目标包括Speed, Simple design等。
+
+### Q9.3: Git 是如何保存数据的？
 
 ## Q10：这本书说得有道理吗？为什么？
 

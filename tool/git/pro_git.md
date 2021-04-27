@@ -163,6 +163,8 @@ git config --global alias.gl 'config --global -l'
 
 ### 3 Git branching
 
+> 伍注：在Git里面每个file/commit/tree都被视为一个对象，在`.git/objects`中能找到对应的压缩后的内容。
+
 - When you make a commit, Git stores a commit object that
   - contains a pointer to the snapshot of the content you staged
   - pointers to the commit or commits that directly came before this commit
@@ -214,6 +216,31 @@ git config --global alias.gl 'config --global -l'
 - remote branches
   - Remote-tracking branches are references to the state of remote branches.
 
+### 10 Git Internals
+
+- Git is fundamentally a **content-addressable** filesystem with a VCS user interface written on top of it.
+
+> 伍注：这句话值得反复揣摩：Git是一个内容可寻址（Question: 啥意思？）的文件系统，这个文件系统提供了一个版本管理的用户接口。
+
+- `.git` directory
+  - The description file is used only by the GitWeb program.
+  - The config file contains your project-specific configuration options.
+  - The info directory keeps a global exclude file for ignored patterns that you don’t want to track in a .gitignore file.
+  - The hooks directory contains your client- or server-side hook scripts.
+  - The objects directory stores all the content for your database.
+  - The refs directory stores pointers into commit objects in that data (branches, tags, remotes and more).
+  - The HEAD file points to the branch you currently have checked out.
+  - The index file is where Git stores your staging area information.
+
+- The core parts of Git: `HEAD`, `index`, `objects` and `refs`.
+
+> 伍注：注意！这里圈出了Git的重点。
+
+- Git Objects
+  - `git hash-object` would take the content you handed to it and merely return the unique key that would be used to store it in your Git database, (which is a SHA-1 hash)
+  - `git cat-file` is sort of a Swiss army knife for inspecting Git objects.
+  - `git cat-file -p` would first figure out the type of content, then display it appropriately.
+
 ## Q7：作者是怎么论述的？
 
 > 备注：从关键句中找出作者的论述结构。可以列举出作者的主要论点及次要论点，并分析其层次关系和逻辑关系。
@@ -231,6 +258,8 @@ git config --global alias.gl 'config --global -l'
 > 备注：《Pro Git》第1.2节提到：Git的设计目标包括Speed, Simple design等。
 
 ### Q9.3: Git 是如何保存数据的？
+
+### Q9.4: Git 里面每个tree对象对应一个目录吗？
 
 ## Q10：这本书说得有道理吗？为什么？
 

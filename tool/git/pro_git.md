@@ -240,6 +240,32 @@ git config --global alias.gl 'config --global -l'
   - `git hash-object` would take the content you handed to it and merely return the unique key that would be used to store it in your Git database, (which is a SHA-1 hash)
   - `git cat-file` is sort of a Swiss army knife for inspecting Git objects.
   - `git cat-file -p` would first figure out the type of content, then display it appropriately.
+  - `git cat-file -s` shows the object size
+  - `git cat-file -t` shows the object type
+  - Tree objects store the filenames of a group of files
+
+- Git References
+  - In some rare cases the HEAD file may contain the SHA-1 value of a git object. This happens when you checkout a tag, commit, or remote branch, which puts your repository in "detached HEAD" state.
+  - A tag object generally points to a commit rather than a tree. It’s like a branch reference, but it never moves — it always points to the same commit but gives it a friendlier name.
+
+- Packfiles
+  - The initial format in which Git saves objects on disk is called a "loose" object format. However, occasionally Git **packs up** several of these objects into a single binary file called a "packfile" in order to save space and be more efficient. Git does this if you have too many loose objects around, if you run the `git gc` command manually, or if you push to a remote server.
+  - `git verify-pack -v` Validate packed Git archive files.
+
+- refspec
+  - The format of the refspec is, first, an optional +, followed by `<src>:<dst>`, where `<src>` is the pattern for references on the remote side and `<dst>` is where those references will be tracked locally. The + tells Git to update the reference even if it isn’t a fast-forward.
+  - Deleting references from the remote server: `git push origin --delete topic`
+
+- Transfer Protocols
+  - The Dumb Protocol: HTTP
+  - The Smart Protocol: SSH
+
+- Maintenance and Data Recovery
+  - `git gc` The "gc" stands for garbage collect
+  - `git reflog`
+  - `git log -g`
+  - `git fsck --full`
+  - Removing Objects
 
 ## Q7：作者是怎么论述的？
 

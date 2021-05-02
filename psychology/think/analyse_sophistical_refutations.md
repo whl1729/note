@@ -142,6 +142,10 @@ Surgeons are criminals.
 
 #### 逻辑学名著
 
+- A Concise Introduction to Logic（简明逻辑学导论）
+- Irving M. Copi, Carl Cohen Introduction to Logic （逻辑学导论）
+- Logic: A Very Short Introduction （简明逻辑学）
+
 ### Q11.3：其他领域/学科有没有相关的知识点？日常生活中有没有类似的现象？
 
 > 备注：纵向拓展，指在看似无关联的知识点之间寻找联系。可以应用比喻法和内在化法来进行纵向拓展。

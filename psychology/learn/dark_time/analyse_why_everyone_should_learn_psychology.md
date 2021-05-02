@@ -82,6 +82,8 @@
 
 ### Q9.3: 亚里士多德是如何归类辩论中的各种谬误？
 
+亚里士多德在《辩谬篇》中总结了13类的谬误，详见[sophistical refutations](../../think/analyse_sophistical_refutations.md)
+
 ### Q9.4: 我们的逻辑有哪些谬误？
 
 ## Q10：这个文档说得有道理吗？为什么？

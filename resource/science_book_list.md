@@ -27,6 +27,14 @@
 - [ ] 天才在左疯子在右
 - [x] 你的灯亮着吗？发现问题的真正所在
 
+## B81 逻辑学
+
+- [ ] A Concise Introduction to Logic（简明逻辑学导论）
+- [ ] Irving M. Copi, Carl Cohen Introduction to Logic （逻辑学导论）
+- [ ] Logic: A Very Short Introduction （[简明逻辑学][short_logic]）
+
+  [short_logic]: https://wxflogic.gitbook.io/logic/
+
 ## B84 心理学
 
 - [ ] 性学三论

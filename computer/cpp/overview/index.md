@@ -40,17 +40,15 @@
 
 ### Q3.1 这门语言是什么时候、由谁、在哪里发明的？
 
-1. 1979年，在AT&T 贝尔实验室工作的丹麦计算机科学家Bjarne Stroustrup开始研究**C with Classs**，这是C++的前身。
-
-2. 1983年，C++的第一个版本开始在AT&T内部使用，C++的名字也是这时候确定的。
-
-3. 1985年10月，C++的第一个商用版本发布。
+- 1979年，在AT&T 贝尔实验室工作的丹麦计算机科学家Bjarne Stroustrup开始研究**C with Classs**，这是C++的前身。
+- 1983年，C++的第一个版本开始在AT&T内部使用，C++的名字也是这时候确定的。
+- 1985年10月，C++的第一个商用版本发布。
 
 ### Q3.2 为什么要发明这门语言？
 
-1. 想写类似Simula67风格的、高效的系统程序。因此需要更好的类型检查、数据抽象和面向对象编程。
-2. 想发明一门兼备高效和优雅的语言。
-3. 导火索是开发一个分布式系统工具。
+- 想写类似Simula67风格的、高效的系统程序。因此需要更好的类型检查、数据抽象和面向对象编程。
+- 想发明一门兼备高效和优雅的语言。
+- 导火索是开发一个分布式系统工具。
 
 > I wanted to write efficient systems programs in the styles encouraged by Simula67. To do that, I added facilities for better type checking, data abstraction, and object-oriented programming to C. The more general aim was to design a language in which I could write programs that were both efficient and elegant. Many languages force you to choose between those two alternatives.
 

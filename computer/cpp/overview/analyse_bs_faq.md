@@ -86,6 +86,47 @@
   - object-oriented programming is "ad hoc polymorphism" （ad hoc 多态）
   - In the context of C++, generic programming resolves all names at compile time; it does not involve dynamic (run-time) dispatch. This has led generic programming to become dominant in areas where run-time performance is important.
 
+#### Why does C++ allow unsafe code?
+
+- Reasons
+  - to access hardware directly (e.g. to treat an integer as a pointer to (address of) a device register)
+  - to achieve optimal run-time and space performance (e.g. unchecked access to elements of an array and unchecked access to an object through a pointer)
+  - to be compatible with C
+
+- Avoid unsafe code whenever you don't actually need one of those three features:
+  - don't use casts
+  - keep arrays out of interfaces (hide them in the innards of high-performance functions and classes where they are needed and write the rest of the program using proper strings, vectors, etc.)
+  - avoid `void*` (keep them inside low-level functions and data structures if you really need them and present type safe interfaces, usually templates, to your users)
+  - avoid unions
+  - if you have any doubts about the validity of a pointer, use a smart pointer instead,
+  - don't use "naked" news and deletes (use containers, resource handles, etc., instead)
+  - don't use ...-style variadic functions ("printf style")
+  - Avoid macros excpt for include guards
+
+### Learning C++
+
+#### What is the best book to learn C++ from?
+
+- For freshman: Programming: Principles and Practice using C++
+- Classical textbook: The C++ Programming Language (4th edition)
+- Quick overview: A Tour of C++ (second edition)
+- why C++ is the way it is: The Design and Evolution of C++ (D&E)
+- up-to-date follow-up to D&E: Thriving in a Crowded and Changing World: C++ 2006-2020
+
+#### Why are you so keen on portability?
+
+- Successful software is long-lived; life-spans of decades are not uncommon.
+- Being tied to a single platform or single vendor, limits the application/program's potential use.
+
+### C and C++
+
+#### Do you really think that C and C++ could be merged into a single language?
+
+- [C and C++: Case Studies in Compatibility](https://www.stroustrup.com/examples_short.pdf)
+- [C and C++: A Case for Compatibility](https://www.stroustrup.com/compat_short.pdf)
+- [C and C++: Siblings](https://www.stroustrup.com/siblings_short.pdf)
+- [Sibling rivalry: C and C++](https://www.stroustrup.com/sibling_rivalry.pdf)
+
 ## Q7：作者是怎么论述的？
 
 > 备注：从关键句中找出作者的论述结构。
@@ -120,6 +161,15 @@
 - [isocpp.org C++ FAQ](https://isocpp.org/faq)
 - [A Tour of C++](https://isocpp.org/tour)
 - [Why C++ is not just an Object-Oriented Programming Language](https://www.stroustrup.com/oopsla.pdf)
+- History
+  - [A History of C++: 1979-1991](https://www.stroustrup.com/hopl2.pdf)
+  - [Evolving a language in and for the real world: C++ 1991-2006](https://www.stroustrup.com/hopl-almost-final.pdf)
+  - [Thriving in a Crowded and Changing World: C++ 2006-2020](https://dl.acm.org/doi/pdf/10.1145/3386320)
+- [Learning Standard C++ as a New Language](https://www.stroustrup.com/new_learning.pdf)
+
+#### Bjarne Stroustrup 视频资源
+
+- [Bjarne Stroustrup's 2012 "Going Native" Keynote](https://channel9.msdn.com/Events/GoingNative/GoingNative-2012/Keynote-Bjarne-Stroustrup-Cpp11-Style)
 
 ### Q11.3：其他领域/学科有没有相关的知识点？日常生活中有没有类似的现象？
 

@@ -103,6 +103,18 @@
   - don't use ...-style variadic functions ("printf style")
   - Avoid macros excpt for include guards
 
+#### What is C++?
+
+C++ is a general-purpose programming language with a bias towards systems programming that
+  - is a better C
+  - supports data abstraction
+  - supports object-oriented programming
+  - supports generic programming
+
+#### Is it true that ...?
+
+- C++ supports several useful programming techniques, including, traditional procedural programming, object-oriented programming, and generic programming.
+
 ### Learning C++
 
 #### What is the best book to learn C++ from?
@@ -118,6 +130,14 @@
 - Successful software is long-lived; life-spans of decades are not uncommon.
 - Being tied to a single platform or single vendor, limits the application/program's potential use.
 
+#### Why is C++ so BIG?
+
+- What you must do - in any language - is to **pick a subset, get working writing code, and gradually learn more of the language, its libraries, and its tools.**
+
+#### Is C++ an Object-Oriented language?
+
+- To be a really effective C++ programmer, you must use the abstraction mechanisms and the type system in a way that fits reasonably with their intent. Trying to ignore or defeat the C++ type system is a most frustrating experience.
+
 ### C and C++
 
 #### Do you really think that C and C++ could be merged into a single language?
@@ -126,6 +146,18 @@
 - [C and C++: A Case for Compatibility](https://www.stroustrup.com/compat_short.pdf)
 - [C and C++: Siblings](https://www.stroustrup.com/siblings_short.pdf)
 - [Sibling rivalry: C and C++](https://www.stroustrup.com/sibling_rivalry.pdf)
+
+### Etc C++ Questions
+
+#### Why doesn't C++ have garbage collection?
+
+- I don't like garbage. I don't like littering. My ideal is to **eliminate the need for a garbage colletor by not producting any garbage**. That is now possible. Tools supporting and enforcing the programming techniques that achieves that are being produced. For an overview, see [A brief introduction to C++'s model for type- and resource-safety][resource_model].
+
+  [resource_model]: https://www.stroustrup.com/resource-model.pdf
+
+#### Why doesn't C++ provide a "finally" construct?
+
+- The "resource acquisition is initialization (RAII)" technique: The basic idea is to represent a resource by a local object, so that the local object's destructor will release the resource.
 
 ## Q7：作者是怎么论述的？
 

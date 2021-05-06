@@ -216,6 +216,24 @@ git config --global alias.gl 'config --global -l'
 - remote branches
   - Remote-tracking branches are references to the state of remote branches.
 
+### 7 Git Tools
+
+#### 7.11 Submodules
+
+- `git submodule add`: add a new submodule
+
+> 伍注：`submodule add` 会在仓库根目录创建一个`.gitmodules`文件，里面记录submodule的路径，该文件的内容也会拷贝到`.git/config`。
+
+- `git submodule init`: initialize your local configuration file when you first clone a project that contain submodules
+
+> 伍注：`submodule init` 会将`.gitmodules`的内容拷贝到`.git/config`，但不会拉取submodule的任何内容到本地submodule目录。
+
+- `git submodule update`: fetch all the data from that project and check out the appropriate commit listed in your superproject
+
+> 伍注：`submodule update` 会拉取sumodule的内容到本地submodule目录。
+
+- `git submodule update --init --recursive`: 推荐使用这条命令。即合并了上述两条命令，也递归拉取submodule的submodule。
+
 ### 10 Git Internals
 
 - Git is fundamentally a **content-addressable** filesystem with a VCS user interface written on top of it.

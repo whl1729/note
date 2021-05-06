@@ -21,11 +21,16 @@
 
 ## 常见问题
 
+- windows vscode 配置使用 git bash
+  - `File > Preferences > Settings`
+  - Search for `Integrated > Shell: Windows`
+  - Edit "terminal.integrated.shell.windows" to your git bash path
+
 - 使用vs code remote-ssh 连接服务器时报ssh timeout，可以尝试关闭以下配置：
   - 参考[why ssh connection timed out in vscode?](https://stackoverflow.com/questions/59978826/why-ssh-connection-timed-out-in-vscode)
-```
-"remote.SSH.useLocalServer": false
-```
+  ```
+  "remote.SSH.useLocalServer": false
+  ```
 
 - [vscode配置浏览html文件快捷键][html_preview]
   - Use `ctrl + shift + p` (or F1) to open the Command Palette.
@@ -60,9 +65,7 @@
 
   [html_indent]: https://stackoverflow.com/questions/34174207/how-to-change-indentation-in-visual-studio-code
 
-## 环境配置
-
 - IntelliSense configuration settings editor UI
-    - You can get to the IntelliSense configuration settings editor UI through the command palette (Ctrl+Shift+P) and running the C/C++: Edit configurations (UI) command. The c_cpp_properties.json file can be opened by running the C/C++: Edit configurations (JSON) command. 
+    - You can get to the IntelliSense configuration settings editor UI through the command palette (Ctrl+Shift+P) and running the C/C++: Edit configurations (UI) command. The c_cpp_properties.json file can be opened by running the C/C++: Edit configurations (JSON) command.
     - When configuring IntelliSense for the first time, VS Code will open the UI editor or JSON file based on your workbench.settings.editor setting. If workbench.settings.editor is set to “ui”, then the UI editor will open by default, and if it is set to “json”, then the JSON file will open by default. You can view that setting under VS Code preferences → settings → “Workbench Settings Editor”.
 

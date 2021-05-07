@@ -2,6 +2,10 @@
 
 ## 最近使用
 
+- [Wudao-dict][wudao]: 有道词典命令行版本
+
+  [wudao]: https://github.com/ChestnutHeng/Wudao-dict
+
 - disable cursor blinking on ubuntu 16.04
 ```
 gsettings set org.gnome.desktop.interface cursor-blink false

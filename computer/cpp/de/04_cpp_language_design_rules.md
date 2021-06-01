@@ -64,7 +64,59 @@
   - Provide comprehensive support for each supported style
   - Don't try to force People
 
+> 伍注：如何记忆「一般性规则」呢？首先，它们基本上是社会工程学层面（与人打交道）的规则。
+> 前3条体现了「实用主义」：问题驱动、不求完美、当下能用。
+> 第4条是针对编译器设计者，第5条和第6条对于从其他语言迁移到C++语言的开发者比较重要，第7条和第8条则是针对所有开发者。
+> 可见，这些规则大部分与人相关。
+
 - The right motivation for a change to C++ is for several independent programmers to demonstrate how the language is insufficiently expressive for their projects.
+
+#### 4.3 Design Support Rules
+
+- The design support rules relate primarily to C++'s role in supporting design based on notions of **data abstraction and object-oriented programming**. That is, they are more concerned with the language's role as a support for **thinking and expression of high-level ideas**.
+
+- Design support rules
+  - Support sound design notions
+  - Provide facilities for program organization
+  - Say what you mean
+  - All features must be affordable
+  - It is more important to allow a useful feature than to prevent every misuse
+  - Support composition of software from separately developed parts
+
+> 伍注：如何记忆「设计性规则」呢？
+> 第3条、第2条和第6条按照从小到大的顺序讨论了语句、代码块、程序整体的设计原则：语句要有较强的表达能力、代码块具有组织性、程序间具有可组合性。
+> 第1条、第4条和第5条则从一致性、成本和作用讨论了引入一个新特性需要考虑的原则：每个特性都要符合整体设计原则、每个特性都必须是能够负担的、允许一个有用的特性比防止各种误用更重要。
+
+#### 4.4 Language-Technical Rules
+
+- The language-technical rules address questions of **how things are expressed in C++** rather than questions of what can be expressed.
+
+- Language-technical rules
+  - No implicit violations of the static type system
+  - Provide as good support for user-defined types as for built-in types
+  - Locality is good
+  - Avoid order dependencies
+  - If in doubt, pick the variant of a feature that is easiest to teach
+  - Syntax matters (often in perverse ways)
+  - Preprocessor usage should be eliminated
+
+> 伍注：如何记忆「技术性规则」呢？不妨从一个最简单的C++ Hello world程序来逐行分析。
+> 除掉注释外，第一行往往是`#include`语句，这些语言需要被预处理器处理，而第7条规则是讨论预处理器的：应该避免使用预处理器（然而时至今日依然无法做到）。
+> 接下来是函数声明，需要提供参数类型和返回值类型，而第1条和第2条规则是讨论类型的：不能隐式违反静态类型系统、为用户定义类型提供与内建类型同样好的支持。
+> 接下来是变量，包括局部变量和全局变量，第3条是提倡局部化，第4条则是讨论全局变量声明等带来的顺序依赖问题。
+> 最后是各种语法。第6条阐明语法的重要性，第5条也和语法有点沾边，可以理解为使用更容易教的语法。
+
+#### 4.5 Low-Level Programming Support Rules
+
+- Use traditional (dumb) linkers
+- No gratuitous incompatibilities with C
+- Leave no room for a lower-level language below C++ (except assembler)
+- What you don't use, you don't pay for (zero-overhead rule)
+- If in doubt, provide means for manual control
+
+> 伍注：如何记忆「低级程序设计规则」呢？
+> 首先，低级程序设计当然涉及到链接器、汇编器和C语言，而前3条规则分别讨论这三个东西。
+> 第4条和第5条规则，依然可以理解为为了与C语言匹敌而提出的规则：零开销规则、提高手工控制手段，总之性能不可以输给C语言。
 
 ### Q6：作者是怎么论述的？
 

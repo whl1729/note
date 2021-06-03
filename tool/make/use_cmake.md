@@ -1,5 +1,13 @@
 # cmake 使用笔记
 
+## 编写方法
+
+### 编译动态链接库
+
+1. 参考[How to create a shared library with cmake?][cmake_so]
+
+  [cmake_so]: https://stackoverflow.com/questions/17511496/how-to-create-a-shared-library-with-cmake
+
 ## 编译方法
 
 ```

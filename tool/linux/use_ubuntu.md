@@ -2,6 +2,15 @@
 
 ## 最近使用
 
+- [安装中文字体][cn_font]
+```
+fc-list :lang=zh  // 查看已安装字体
+sudo apt install ttf-wqy-zenhei fonts-wqy-microhei
+sudo apt install fonts-arphic-gbsn00lp fonts-arphic-gkai00mp fonts-arphic-bsmi00lp fonts-arphic-bkai00mp
+```
+
+  [cn_font]: https://www.cnblogs.com/Jimc/p/10302267.html
+
 - [Wudao-dict][wudao]: 有道词典命令行版本
 
   [wudao]: https://github.com/ChestnutHeng/Wudao-dict

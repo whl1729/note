@@ -13,6 +13,10 @@
 - [ ] 穿越计算机的迷雾
 - [ ] 大话处理器
 
+## TP301.5 计算理论
+
+- [ ] Introduction to the Theory of Computation （计算理论导引）
+
 ## TP301.6 算法
 
 - [ ] Programming Pearls（编程珠玑）

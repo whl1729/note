@@ -115,3 +115,8 @@
 ## 网络
 
 - [apache](http://apache.org/)
+
+## 网站开发
+
+- [Smashing Magazine](https://www.smashingmagazine.com/)
+

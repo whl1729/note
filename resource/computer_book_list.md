@@ -183,15 +183,17 @@
 
 ## Html/Xml/CSS/AJAX/JSON/Javascript/PHP
 
-- [ ] JavaScript权威指南
-- [ ] CSS权威指南
-- [ ] CSS实战手册
+- [ ] JavaScript DOM 编程艺术
 - [ ] JavaScript高级程序设计
 - [ ] JavaScript语言精粹与编程实践
+- [ ] You Don't Know JavaScript （你不知道的JavaScript）
+- [ ] JavaScript: The Good Parts （JavaScript语言精粹）
+- [ ] High Performance JavaScript （高性能JavaScript）
+- [ ] Eloquent JavaScript
+- [ ] CSS: The Definitive Guide （CSS权威指南）
+- [ ] Head First HTML&CSS
 - [ ] 高性能网站建设指南
 - [ ] HTTP权威指南
-- [ ] HTML5权威指南
-- [ ] HTML & XHTML权威指南
 
 ## Python
 

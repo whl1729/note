@@ -26,13 +26,30 @@
 
 ### Python
 
-- [Python Blog](https://www.python.org/blogs/)
+- [Python Docs](https://docs.python.org/3/)
+- [A Byte of Python](https://python.swaroopch.com/)
+- [The Hitchhiker’s Guide to Python](https://docs.python-guide.org/)
+- [Dive Into Python 3](https://diveintopython3.net/)
+- [Full Stack Python](https://www.fullstackpython.com/)
+- [Python Cookbook](https://python3-cookbook.readthedocs.io/zh_CN/latest/preface.html)
 - [Python Insider](https://blog.python.org/)
 
 ### JavaScript
 
+- [JavaScript MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- [JavaScript W3Schools](https://www.w3schools.com/js/default.asp)
+- [ES6 入门教程](https://es6.ruanyifeng.com/)
+- [Eloquent JavaScript](https://eloquentjavascript.net/)
+- [You Don't Know Js](https://github.com/getify/You-Dont-Know-JS)
 - [InfoQ JavaScript News](https://www.infoq.com/javascript/news/)
 - [JavaScript Weekly Archives](https://javascriptweekly.com/issues)
+
+### HTML/CSS
+
+- [HTML W3Schools](https://www.w3schools.com/html/default.asp)
+- [HTML MDN](https://developer.mozilla.org/en-US/docs/Web/HTML)
+- [CSS W3Schools](https://www.w3schools.com/css/default.asp)
+- [CSS MDN](https://developer.mozilla.org/en-US/docs/Web/CSS)
 
 ## 操作系统
 

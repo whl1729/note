@@ -98,65 +98,95 @@
 2. Class Object
   - When a class definition is left normally (via the end), a class object is created.
   - This is basically a wrapper around the contents of the namespace created by the class definition.
-  - The original local scope (the one in effect just before the class definition was entered) is reinstated, and the class object is bound here to the class name given in the class definition header.
 
-> Question: What is a class object? Is a class object created after the class definition finished?
+> 伍注：在Python中，有「Everything is Object」的说法。按我目前的理解，Class Object其实就相当于Class Type，而Instance Object就是Class Object的实例。
 
 3. Class objects support two kinds of operations: **attribute references and instantiation.**
   - Attribute references use the standard syntax used for all attribute references in Python: obj.name.
   - Class instantiation uses function notation.
+  - `__init__`
+    - Many classes like to create objects with instances customized to a specific initial state. Therefore a class may define a special method named `__init__()`.
+    - When a class defines an `__init__()` method, class instantiation automatically invokes `__init__()` for the newly-created class instance.
 
-> 伍注：Python的attribute是不是相当于C++的data member？好像不对，应该是member，包括data member和function member。
+> 伍注：Python的attribute相当于C++的member，包括data member和function member。
 
-4. `__init__`
-  - The instantiation operation ("calling" a class object) creates an empty object.
-  - Many classes like to create objects with instances customized to a specific initial state. Therefore a class may define a special method named `__init__()`.
-  - When a class defines an `__init__()` method, class instantiation automatically invokes `__init__()` for the newly-created class instance.
-
-5. Attribute Reference
+4. Instance Objects
   - The only operations understood by instance objects are **attribute references**.
   - There are two kinds of valid attribute names: **data attributes and methods**.
+  - Data attribute
+    - Data attributes correspond to "instance variables" in Smalltalk, and to **"data members"** in C++. （伍注：Python data attribute类似于C++ data member）
+    - Data attributes need not be declared; like local variables, they spring into existence when they are first assigned to.
+  - Method
+    - A method is a function that "belongs to" an object.
+    - In Python, the term method is not unique to class instances: other object types can have methods as well. （伍注：method也可以隶属于实体对象之外的其他对象）
+    - For example, list objects have methods called append, insert, remove, sort, and so on. （Question：为啥`list.append`不是function而是method？）
 
-6. Data attribute
-  - Data attributes correspond to "instance variables" in Smalltalk, and to **"data members"** in C++. （伍注：Python data attribute类似于C++ data member）
-  - Data attributes need not be declared; like local variables, they spring into existence when they are first assigned to.
+    ```python
+    foo = [1, 2, 3]
+    foo.append(4)
+    // The foregoing code is equal to
+    list.append(foo, 4)
+    ```
 
-7. Method
-  - A method is a function that "belongs to" an object.
-  - In Python, the term method is not unique to class instances: other object types can have methods as well.
-  - For example, list objects have methods called append, insert, remove, sort, and so on.
+> 伍注：Class Object比Instance Object多支持一个操作：实例化。事实上，后者正是前者通过实例化得到的。
 
-8. Method Object vs Function Object
-  - Valid method names of an instance object depend on its class. By definition, all attributes of a class that are function objects define corresponding methods of its instances. So in our example, x.f is a valid method reference, since MyClass.f is a function, but x.i is not, since MyClass.i is not. But x.f is not the same thing as MyClass.f — it is a method object, not a function object.
-  - Question: How to understand "x.f is a method object, not a function object."?
+5. Method Object vs Function Object
+  - All attributes of a class that are **function objects** define corresponding **methods** of its instances.
+  - The special thing about methods is that the instance object is passed as the first argument of the function.
+  - In general, calling a method with a list of n arguments is equivalent to calling the corresponding function with an argument list that is created by inserting the method’s instance object before the first argument.
+  - In our example, x.f is a valid method reference, since MyClass.f is a function. But x.f is not the same thing as MyClass.f — it is a method object, not a function object.
+  - The call `x.f()` is exactly equivalent to `MyClass.f(x)`.
 
-9. The special thing about methods is that the instance object is passed as the first argument of the function. In our example, the call `x.f()` is exactly equivalent to `MyClass.f(x)`. In general, calling a method with a list of n arguments is equivalent to calling the corresponding function with an argument list that is created by inserting the method’s instance object before the first argument.
+> 伍注：[functions vs methods][func_method]也提到: Methods only differ from regular functions in that the object instance is prepended to the other arguments. 
+> 也就是说，method与普通函数的区别仅在于前者在调用时会添加对象实体作为第一个参数。
 
-10. When a non-data attribute of an instance is referenced, the instance’s class is searched. If the name denotes a valid class attribute that is a function object, a **method object** is created by packing (pointers to) the instance object and the function object just found together in an abstract object: this is the method object. When the method object is called with an argument list, a new argument list is constructed from the instance object and the argument list, and the function object is called with this new argument list.
+  [func_method]: https://docs.python.org/3/howto/descriptor.html#functions-and-methods
 
-11. Instance variables are for data unique to each instance and class variables are for attributes and methods shared by all instances of the class.
+6. Dive into Method Object
+  - When a non-data attribute of an instance is referenced, the instance’s class is searched.
+  - If the name denotes a valid class attribute that is a function object, a **method object** is created by packing (pointers to) the instance object and the function object just found together in an abstract object: this is the method object.
+  - When the method object is called with an argument list, a new argument list is constructed from the instance object and the argument list, and the function object is called with this new argument list.
 
-12. **Shared data can have possibly surprising effects with involving mutable objects such as lists and dictionaries.** Correct design of the class should use an instance variable instead.
+7. Instance variables vs Class variables
+  - Instance variables are for data unique to each instance and class variables are for attributes and methods shared by all instances of the class.
+  - **Shared data can have possibly surprising effects with involving mutable objects such as lists and dictionaries.** Correct design of the class should use an instance variable instead.
 
 ### 9.4 Random Remarks
 
 1. If the same attribute name occurs in both an instance and in a class, then attribute lookup prioritizes the instance.
 
-2. Data attributes may be referenced by methods as well as by ordinary users ("clients") of an object. In other words, classes are not usable to implement pure abstract data types. In fact, **nothing in Python makes it possible to enforce data hiding — it is all based upon convention.** (On the other hand, the Python implementation, written in C, can completely hide implementation details and control access to an object if necessary; this can be used by extensions to Python written in C.)
+2. Data hiding
+  - Data attributes may be referenced by methods as well as by ordinary users ("clients") of an object. In other words, classes are not usable to implement pure abstract data types.
+  - In fact, **nothing in Python makes it possible to enforce data hiding — it is all based upon convention.** 
+  - On the other hand, the Python implementation, written in C, can completely hide implementation details and control access to an object if necessary; this can be used by extensions to Python written in C.
 
-3. Clients should use data attributes with care — clients may mess up invariants maintained by the methods by stamping on their data attributes. Note that clients may add data attributes of their own to an instance object without affecting the validity of the methods, as long as name conflicts are avoided — again, a naming convention can save a lot of headaches here.（伍注：这样带来的一个问题是：当你访问class的一个数据属性时，如果你不慎拼写错误，python也不会报错。）
+> 伍注：Python不支持数据封装。用户总能访问类里面的所有成员——一切只能靠自觉。
 
-4. There is **no shorthand** for referencing data attributes (or other methods!) from within methods. I find that this actually increases the readability of methods: there is no chance of confusing local variables and instance variables when glancing through a method.
+3. Clients should use data attributes with care.
+  - Clients may mess up invariants maintained by the methods by stamping on their data attributes.
+  - Note that clients may add data attributes of their own to an instance object without affecting the validity of the methods, as long as name conflicts are avoided.
+  - Again, a naming convention can save a lot of headaches here.
 
-5. Often, the first argument of a method is called self. This is nothing more than a **convention**: the name self has absolutely no special meaning to Python. Note, however, that by not following the convention your code may be less readable to other Python programmers, and it is also conceivable that a class browser program might be written that relies upon such a convention.
+> 伍注：因此，当你给对象实体的一个数据成员赋值时，如果你不慎拼写错误，python也不会报错，而是为这个实体添加了一个新成员。
+> 当然，避免这个错误的一个方法是：永远使用getter和setter函数，不要直接操作数据成员。
+
+4. There is **no shorthand** for referencing data attributes (or other methods!) from within methods.
+  - I find that this actually increases the readability of methods: there is no chance of confusing local variables and instance variables when glancing through a method.
+
+5. use self according to the convention
+  - Often, the first argument of a method is called self. This is nothing more than a **convention**: the name self has absolutely no special meaning to Python.
+  - Note, however, that by not following the convention your code may be less readable to other Python programmers, and it is also conceivable that a class browser program might be written that relies upon such a convention.
 
 6. Methods may call other methods by using method attributes of the self argument.
+
+> 伍注：在method里调用类里面的非method函数时，不能使用`self.func()`，而应该用`MyClass.func()`。
 
 7. Each value is an object, and therefore has a class (also called its type). It is stored as object.`__class__`.
 
 ### 9.5 Inheritance
 
-1. If a requested attribute is not found in the class, the search proceeds to look in the base class. This rule is applied recursively if the base class itself is derived from some other class.
+1. Search attribute recursively
+  - If a requested attribute is not found in the class, the search proceeds to look in the base class. This rule is applied recursively if the base class itself is derived from some other class.
 
 2. Derived classes may override methods of their base classes. Because methods have no special privileges when calling other methods of the same object, **a method of a base class that calls another method defined in the same base class may end up calling a method of a derived class that overrides it.** (For C++ programmers: **all methods in Python are effectively virtual.**)
 

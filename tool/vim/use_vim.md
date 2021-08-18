@@ -2,6 +2,14 @@
 
 ## 最近使用
 
+- [vim snippets][snippets]
+  - Type the "snippet trigger" and press TAB in insert mode to evaluate the snippet block.
+  - Use Ctrl + j to jump forward within the snippet.
+  - Use Ctrl + k to jump backward within the snippet.
+  - Use Ctrl + l to list all the snippets available for the current file-type
+
+  [snippets]: https://bhupesh-v.github.io/learn-how-to-use-code-snippets-vim-cowboy/
+
 - Visual 模式下插入文字：按 「Shift + i」
 
 - 查找单词时要求完全匹配：`/\<word\>`

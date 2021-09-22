@@ -1,5 +1,10 @@
 # JavaScript 使用笔记
 
+## 库
+
+- JavaScript Assertion Library: Chai
+  - should不支持对null或undefined变量执行断言，此时改用expect更合适
+
 ## 疑问
 
 - `Number` 和 `number`的区别是什么？`String` 和 `string`的区别是什么？

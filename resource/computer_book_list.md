@@ -119,6 +119,22 @@
 - [ ] Programming Language Pragmatics（程序设计语言：实践之路）
 - [ ] Concepts of Programming Languages（程序设计语言概念）
 
+## TP311.3 软件架构与软件设计
+
+- [ ] Agile Software Development, Principles, Patterns, and Practices (敏捷软件开发 原则、模式和实践)
+- [ ] The Design of Design (设计原本)
+- [ ] Patterns of Enterprise Application Architecture (企业应用架构模式)
+- [ ] The Architecture of Open Source Applications
+- [ ] Pattern-oriented software architecture (面向模式的软件架构)
+- [ ] Fundamentals of Software Architecture: An Engineering Approach (软件架构：架构模式、特征及实践指南)
+- [ ] Patterns, Principles, and Practices of Domain-Driven Design (领域驱动设计模式、原理与实践)
+- [ ] Domain-Driven Design: Tackling Complexity in the Heart of Software (领域驱动设计：软件核心复杂性应对之道)
+- [ ] Domain-Driven Design Distilled (领域驱动设计精粹)
+- [ ] Implementing Domain-Driven Design (实现领域驱动设计)
+- [ ] 解构领域驱动设计
+- [ ] Clean Architecture (架构整洁之道)
+- [ ] 97 Things Every Software Architect Should Know: Collective Wisdom from the Experts
+
 ## TP311.4 编程方法
 
 - [ ] Design Patterns: Elements of Reusable Object-Oriented Software
@@ -131,6 +147,10 @@
 - [ ] The Pragmatic Programmer（程序员修炼之道）
 - [ ] Working Effectively with Legacy Code（修改代码的艺术）
 - [ ] The Art of Unix Programming（Unix编程艺术）
+- [ ] Writing Solid Code (编程精粹)
+- [ ] The Productive Programmer (卓有成效的程序员)
+- [ ] The Clean Coder：A Code of Conduct for Professional Programmers (程序员的职业素养)
+- [ ] The Art of Readable Code: Simple and Practical Techniques for Writing Better Code (编写可读代码的艺术)
 
 ## TP311.5 软件工程
 
@@ -139,6 +159,9 @@
 - [ ] Peopleware（人件）
 - [ ] 软件随想录
 - [ ] 程序开发心理学
+- [ ] Rapid Development (快速软件开发)
+- [ ] 大道至简：软件工程实践者的思想
+- [ ] 走出软件作坊
 
 ## TP20 人工智能科普
 

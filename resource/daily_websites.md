@@ -58,6 +58,20 @@
 - [Linux Journal](https://www.linuxjournal.com/)
 - [Ubuntu Blog](https://ubuntu.com/blog)
 
+## 技术动态
+
+- [阿里云藏经阁](https://developer.aliyun.com/ebook)
+- [腾讯云社区专栏](https://cloud.tencent.com/developer/column)
+- [腾讯全端AlloyTeam团队博客](http://www.alloyteam.com/page/0/)
+- [美团技术团队](https://tech.meituan.com/)
+- [微软亚洲研究院-新闻中心](https://www.msra.cn/zh-cn/news)
+- [Microsoft Developers Blog](https://devblogs.microsoft.com/)
+- [Google Technology Blog](https://blog.google/technology)
+- [Facebook Engineering](https://engineering.fb.com/)
+- [Twitter Engineering Blog](https://blog.twitter.com/engineering/en_us.html)
+- [IBM Developer](https://developer.ibm.com/)
+- [V2EX](https://www.v2ex.com/)
+
 ## 人工智能
 
 - [机器之心](https://www.jiqizhixin.com/)
@@ -72,36 +86,6 @@
 - [Facebook AI Blog](https://ai.facebook.com/blog/)
 - [Baidu Research Blog](http://research.baidu.com/Blog)
 - [NVIDIA Blog](https://blogs.nvidia.com/blog/category/deep-learning/)
-
-## 自动驾驶
-
-- [Waymo Blog](https://blog.waymo.com/)
-- [Cruise Medium](https://medium.com/cruise)
-- [Uber Engineering Blog](https://eng.uber.com/)
-- [Ford Motor Company's AV LLC Blog](https://medium.com/self-driven)
-- [AutoX - Medium](https://medium.com/autox)
-- [Aurora Blog](https://aurora.tech/blog)
-- [Voyage News](https://news.voyage.auto/)
-- [Nuro Medium](https://medium.com/nuro)
-- [新闻中心 - 小马智行](https://pony.ai/zh/press.html)
-- [媒体动态 – TuSimple](https://www.tusimple.com/%e5%aa%92%e4%bd%93%e5%8a%a8%e6%80%81/)
-- [最新消息 - Weride](https://www.weride.ai/media)
-
-## 电子通信
-
-- [C114通信网](http://www.c114.com.cn/)
-- [通信人家园](https://www.txrjy.com/forum.php)
-- [电子发烧友](http://www.elecfans.com/)
-- [极客公园](http://www.geekpark.net/)
-- [新闻 - 华为](https://www.huawei.com/cn/news)
-- [心声社区](http://xinsheng.huawei.com/cn/index/guest.html)
-
-## 科学技术
-
-- [Science News](https://www.sciencemag.org/news/latest-news)
-- [Nature News](https://www.nature.com/news)
-- [Science American](https://www.scientificamerican.com/)
-- [科创论坛](https://www.kechuang.org/)
 
 ## 行业动态
 
@@ -122,15 +106,36 @@
 - [IT BusinessEdge](https://www.itbusinessedge.com/)
 - [Futurism](https://futurism.com/)
 
-## 技术动态
+## 自动驾驶
 
-- [美团技术团队](https://tech.meituan.com/)
-- [微软亚洲研究院-新闻中心](https://www.msra.cn/zh-cn/news)
-- [Microsoft Developers Blog](https://devblogs.microsoft.com/)
-- [Google Technology Blog](https://blog.google/technology)
-- [Facebook Engineering](https://engineering.fb.com/)
-- [Twitter Engineering Blog](https://blog.twitter.com/engineering/en_us.html)
-- [IBM Developer](https://developer.ibm.com/)
+- [Waymo Blog](https://blog.waymo.com/)
+- [Cruise Medium](https://medium.com/cruise)
+- [Uber Engineering Blog](https://eng.uber.com/)
+- [Ford Motor Company's AV LLC Blog](https://medium.com/self-driven)
+- [AutoX - Medium](https://medium.com/autox)
+- [Aurora Blog](https://aurora.tech/blog)
+- [Voyage News](https://news.voyage.auto/)
+- [Nuro Medium](https://medium.com/nuro)
+- [新闻中心 - 小马智行](https://pony.ai/press?lang=zh)
+- [媒体动态 – TuSimple](https://www.tusimple.com/media-coverage-tusimple/)
+- [最新消息 - Weride](https://www.weride.ai/media)
+
+## 电子通信
+
+- [C114通信网](http://www.c114.com.cn/)
+- [通信人家园](https://www.txrjy.com/forum.php)
+- [电子发烧友](http://www.elecfans.com/)
+- [极客公园](http://www.geekpark.net/)
+- [新闻 - 华为](https://www.huawei.com/cn/news)
+- [心声社区](http://xinsheng.huawei.com/cn/index/guest.html)
+
+## 科学技术
+
+- [Science News](https://www.sciencemag.org/news/latest-news)
+- [Nature News](https://www.nature.com/news)
+- [Science American](https://www.scientificamerican.com/)
+- [科创论坛](https://www.kechuang.org/)
+
 
 ## 新闻
 

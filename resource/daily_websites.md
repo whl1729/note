@@ -6,9 +6,9 @@
 
 - [Rust Blog](https://blog.rust-lang.org/)
 - [Inside Rust Blog](https://blog.rust-lang.org/inside-rust/index.html)
+- [This Week in Rust](https://this-week-in-rust.org/)
 - [Rust语言中文社区](https://rustcc.cn/)
 - [2021年Rust语言中文精选](https://www.yuque.com/chaosbot/rust_magazine_2021)
-- [This Week in Rust](https://this-week-in-rust.org/)
 
 ### C++
 
@@ -22,10 +22,13 @@
 
 - [Go Blog](https://blog.golang.org/index)
 - [Golang News](https://golangnews.com/)
-- [Golang Weekly Archives](https://golangweekly.com/issues)
+- [Golang Weekly](https://golangweekly.com/issues)
 
 ### Python
 
+- [Python Weekly in 2021](https://python.thisweekin.io/archive/2021)
+- [PyCoder's Weekly](https://pycoders.com/issues)
+- [Awesome Python Weekly](https://python.libhunt.com/newsletter/archive)
 - [Python Docs](https://docs.python.org/3/)
 - [A Byte of Python](https://python.swaroopch.com/)
 - [The Hitchhiker’s Guide to Python](https://docs.python-guide.org/)
@@ -36,20 +39,28 @@
 
 ### JavaScript
 
+- [JavaScript Weekly](https://javascriptweekly.com/issues)
+- [Node Weekly](https://nodeweekly.com/issues)
 - [JavaScript MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 - [JavaScript W3Schools](https://www.w3schools.com/js/default.asp)
 - [ES6 入门教程](https://es6.ruanyifeng.com/)
 - [Eloquent JavaScript](https://eloquentjavascript.net/)
 - [You Don't Know Js](https://github.com/getify/You-Dont-Know-JS)
-- [InfoQ JavaScript News](https://www.infoq.com/javascript/news/)
-- [JavaScript Weekly Archives](https://javascriptweekly.com/issues)
 
 ### HTML/CSS
 
+- [CSS Weekly](https://css-weekly.com/archives/)
 - [HTML W3Schools](https://www.w3schools.com/html/default.asp)
 - [HTML MDN](https://developer.mozilla.org/en-US/docs/Web/HTML)
 - [CSS W3Schools](https://www.w3schools.com/css/default.asp)
 - [CSS MDN](https://developer.mozilla.org/en-US/docs/Web/CSS)
+
+## 网站开发
+
+- [Frontend Focus](https://frontendfoc.us/issues)
+- [Web Design Weekly](https://web-design-weekly.com/archive/)
+- [WebTools Weekly](https://webtoolsweekly.com/archive)
+- [W3C NEWS](https://www.w3.org/blog/news/)
 
 ## 操作系统
 
@@ -60,6 +71,7 @@
 
 ## 技术动态
 
+- [Hacker News](https://news.ycombinator.com/news)
 - [阿里云藏经阁](https://developer.aliyun.com/ebook)
 - [腾讯云社区专栏](https://cloud.tencent.com/developer/column)
 - [腾讯全端AlloyTeam团队博客](http://www.alloyteam.com/page/0/)
@@ -89,7 +101,6 @@
 
 ## 行业动态
 
-- [Hacker News](https://news.ycombinator.com/news)
 - [36氪](https://36kr.com/)
 - [腾讯科技](https://new.qq.com/ch/tech/)
 - [极客公园](https://www.geekpark.net/)
@@ -135,7 +146,6 @@
 - [Nature News](https://www.nature.com/news)
 - [Science American](https://www.scientificamerican.com/)
 - [科创论坛](https://www.kechuang.org/)
-
 
 ## 新闻
 

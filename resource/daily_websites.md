@@ -26,8 +26,9 @@
 
 ### Python
 
-- [Python Weekly in 2021](https://python.thisweekin.io/archive/2021)
+- [Pythonic News](https://news.python.sc/)
 - [PyCoder's Weekly](https://pycoders.com/issues)
+- [Python Weekly](https://www.pythonweekly.com/)
 - [Awesome Python Weekly](https://python.libhunt.com/newsletter/archive)
 - [Python Docs](https://docs.python.org/3/)
 - [A Byte of Python](https://python.swaroopch.com/)
@@ -101,6 +102,7 @@
 
 ## 行业动态
 
+- [国家统计局-统计数据](http://www.stats.gov.cn/tjsj/)
 - [36氪](https://36kr.com/)
 - [腾讯科技](https://new.qq.com/ch/tech/)
 - [极客公园](https://www.geekpark.net/)

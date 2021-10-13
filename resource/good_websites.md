@@ -86,10 +86,15 @@
 
 - [Python Blog](https://www.python.org/blogs/)
 - [Python Insider](https://blog.python.org/)
+- [What the f*ck Python!](https://github.com/satwikkansal/wtfpython)
+- [Full Stack Python](https://www.fullstackpython.com/)
 
 ### JavaScript
 
 - [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- [JavaScript Is Sexy](http://javascriptissexy.com/)
+- [JavaScript: The Right Way](http://jstherightway.org/)
+- [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript)
 
 ## 操作系统
 

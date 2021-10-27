@@ -81,6 +81,7 @@ git remote add whl git@github.com:whl1729/spark.git
   - `git whatchanged` 每次修改的文件列表
   - `git whatchanged --stat` 每次修改的文件列表, 及文件修改的统计
   - `git show` 显示最后一次的文件改变的具体内容
+  - `git log -S string --source --all -p` 显示字符串的修改历史
 
 - [突破github的100M单个大文件上传限制](https://blog.csdn.net/Tyro_java/article/details/53440666)
 

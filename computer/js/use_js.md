@@ -2,8 +2,27 @@
 
 ## 库
 
-- JavaScript Assertion Library: Chai
-  - should不支持对null或undefined变量执行断言，此时改用expect更合适
+### chai
+
+- Chai: JavaScript Assertion Library
+
+- should不支持对null或undefined变量执行断言，此时改用expect更合适
+
+### axios
+
+如果请求参数中含有数组，axios最终构造出来的url会带有`[]`，可能会导致请求失败。
+这时，可以参考[这个ISSUE][1]的做法：
+
+```javascript
+var qs = require('qs');
+
+axios.get('api/', {
+    'params': {'country': ['PL', 'RU']}
+    'paramsSerializer': function(params) {
+       return qs.stringify(params, {arrayFormat: 'repeat'})
+    },
+})
+```
 
 ## 疑问
 
@@ -87,3 +106,5 @@ ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/" npm install
 ```
 npm install --global windows-build-tools
 ```
+
+  [1]: https://github.com/axios/axios/issues/604

@@ -2,75 +2,90 @@
 
 ## 常见用法
 
+- [Delete large files][10]
+
+  ```shell
+  git filter-branch --prune-empty -d /dev/shm/scratch \
+    --index-filter "git rm --cached -f --ignore-unmatch oops.iso" \
+    -- --all
+  ```
+
+  ```shell
+  git update-ref -d refs/original/refs/heads/master
+  git reflog expire --expire=now --all
+  git gc --prune=now
+  ```
+
 - [Delete a branch locally and remotely][9]
 
-```shell
-git push -d <remote_name> <branch_name>
-git branch -d <branch_name>
-```
+  ```shell
+  git push -d <remote_name> <branch_name>
+  git branch -d <branch_name>
+  ```
 
 - [git lola][8]
 
-```
-[alias]
-        lol = log --graph --decorate --pretty=oneline --abbrev-commit
-        lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
-```
+  ```
+  [alias]
+          lol = log --graph --decorate --pretty=oneline --abbrev-commit
+          lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+  ```
 
-- [replace master branch with another branch][1]
+- [Replace master branch with another branch][1]
 
-```shell
-git checkout seotweaks
-git merge -s ours master
-git checkout master
-git merge seotweaks
-```
+  ```shell
+  git checkout seotweaks
+  git merge -s ours master
+  git checkout master
+  git merge seotweaks
+  ```
 
 - git lfs
   - ubuntu 16.04使用`sudo apt install git-lfs`安装git-lfs时，下载deb文件的速度可能很慢，这时可以到官网下载tar.gz文件到本地，解压后再安装。
-  - git pull 或 git clone 一个使用git lfs管理大文件的仓库时，只会拉取最新版本的大文件到本地，而不是拉取所有历史版本的大文件，等到需要时（比如切换到一个历史分支）再拉取，这样可以提高效率和节省空间。
+  - git pull 或 git clone 一个使用git lfs管理大文件的仓库时，只会拉取最新版本的大文件到本地，而不是拉取所有历史版本的大文件，
+    等到需要时（比如切换到一个历史分支）再拉取，这样可以提高效率和节省空间。
 
-```shell
-git lfs install
-git lfs track "*.avi"
-git add .gitattributes
-```
+  ```shell
+  git lfs install
+  git lfs track "*.avi"
+  git add .gitattributes
+  ```
 
 - 设置 git pull 默认 rebase
 
-```shell
-git config --global pull.base true
-```
+  ```shell
+  git config --global pull.base true
+  ```
 
 - 使用alias来精简命令：
 
-```shell
-git config --global alias.ci 'commit'
-```
+  ```shell
+  git config --global alias.ci 'commit'
+  ```
 
 - 设置默认push的远程仓库：
 
-```shell
-git config --global push.default simple
-```
+  ```shell
+  git config --global push.default simple
+  ```
 
 - 设置git使用的编辑器：
 
-```shell
-git config --global core.editor "vim"
-```
+  ```shell
+  git config --global core.editor "vim"
+  ```
 
 - 查看远程仓库的地址：
 
-```shell
-git remote -v
-```
+  ```shell
+  git remote -v
+  ```
 
 - 添加远程仓库：
 
-```shell
-git remote add whl git@github.com:whl1729/spark.git
-```
+  ```shell
+  git remote add whl git@github.com:whl1729/spark.git
+  ```
 
 - `git diff`命令详解：
   - `git diff <filename>`：查看文件在工作目录与暂存区的差别。如果还没 add 进暂存区，则查看文件自身修改前后的差别。
@@ -130,3 +145,4 @@ git remote add whl git@github.com:whl1729/spark.git
   [7]: http://git.github.io/git-reference/
   [8]: http://blog.kfish.org/2010/04/git-lola.html
   [9]: https://stackoverflow.com/questions/2003505/how-do-i-delete-a-git-branch-locally-and-remotely
+  [10]: https://stackoverflow.com/questions/2100907/how-to-remove-delete-a-large-file-from-commit-history-in-the-git-repository/2158271#2158271

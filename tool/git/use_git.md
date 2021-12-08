@@ -2,6 +2,13 @@
 
 ## 常见用法
 
+- [Delete a branch locally and remotely][9]
+
+```shell
+git push -d <remote_name> <branch_name>
+git branch -d <branch_name>
+```
+
 - [git lola][8]
 
 ```
@@ -122,4 +129,4 @@ git remote add whl git@github.com:whl1729/spark.git
   [6]: https://gitimmersion.com/index.html
   [7]: http://git.github.io/git-reference/
   [8]: http://blog.kfish.org/2010/04/git-lola.html
-
+  [9]: https://stackoverflow.com/questions/2003505/how-do-i-delete-a-git-branch-locally-and-remotely

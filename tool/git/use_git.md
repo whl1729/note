@@ -2,9 +2,15 @@
 
 ## 常见用法
 
-- [replace master branch with another branch][replace_master]
+- [git lola][8]
 
-  [replace_master]: https://stackoverflow.com/questions/2862590/how-to-replace-master-branch-in-git-entirely-from-another-branch
+```
+[alias]
+        lol = log --graph --decorate --pretty=oneline --abbrev-commit
+        lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+```
+
+- [replace master branch with another branch][1]
 
 ```shell
 git checkout seotweaks
@@ -68,7 +74,7 @@ git remote add whl git@github.com:whl1729/spark.git
   - `git diff --cached <commit> <filename>`：查看已经 add 进暂存区但是尚未 commit 的内容同某一次 commit 的内容差异。
   - `git diff <commit> <commit>`：查看某两次commit之间的差别。
 
-- [Git User Manual](https://mirrors.edge.kernel.org/pub/software/scm/git/docs/user-manual.html)
+- [Git User Manual][2]
 
 - 查看某次提交的详细修改信息：`git show COMMIT`
 
@@ -83,12 +89,12 @@ git remote add whl git@github.com:whl1729/spark.git
   - `git show` 显示最后一次的文件改变的具体内容
   - `git log -S string --source --all -p` 显示字符串的修改历史
 
-- [突破github的100M单个大文件上传限制](https://blog.csdn.net/Tyro_java/article/details/53440666)
+- [突破github的100M单个大文件上传限制][3]
 
 - 解决git pull/push每次都需要输入密码问题：`git config --global credential.helper store`
 
 - git commit规范
-  - [Conventional Commits](https://www.conventionalcommits.org/en/v--0/)
+  - [Conventional Commits][4]
   - commit type
     - fix
     - feat
@@ -99,11 +105,21 @@ git remote add whl git@github.com:whl1729/spark.git
     - perf
     - test
 
-- [Git - Windows AND linux line-endings](https://stackoverflow.com/questions/34610705/git-windows-and-linux-line-endings)
+- [Git - Windows AND linux line-endings][5]
   - On Windows: `git config --global core.autocrlf true`
   - On Linux: `git config --global core.autocrlf input`
 
 ## 参考资料
 
-1. [Git Immersion](https://gitimmersion.com/index.html)
-2. [Git Reference](http://git.github.io/git-reference/)
+1. [Git Immersion][6]
+2. [Git Reference][7]
+
+  [1]: https://stackoverflow.com/questions/2862590/how-to-replace-master-branch-in-git-entirely-from-another-branch
+  [2]: https://mirrors.edge.kernel.org/pub/software/scm/git/docs/user-manual.html
+  [3]: https://blog.csdn.net/Tyro_java/article/details/53440666
+  [4]: https://www.conventionalcommits.org/en/v--0/
+  [5]: https://stackoverflow.com/questions/34610705/git-windows-and-linux-line-endings
+  [6]: https://gitimmersion.com/index.html
+  [7]: http://git.github.io/git-reference/
+  [8]: http://blog.kfish.org/2010/04/git-lola.html
+

@@ -13,8 +13,8 @@
 ## 编程实践
 
 - 为了避免各种奇奇怪怪的import问题，我总结了以下方案（不成熟，待完善）：
-    - python 入口脚本永远放在项目根目录下
-    - import 同一项目的其他package或module时，均使用绝对路径的方式。
+  - python 入口脚本永远放在项目根目录下
+  - import 同一项目的其他package或module时，均使用绝对路径的方式。
 
 - `mypy` python 静态检查工具。
 
@@ -23,10 +23,11 @@
 - Ellipsis(`...`): Using the Ellipsis literal as the body of a function does nothing. It's purely a matter of style if you use it instead of pass or some other statement.
 
 - [How does Python's super() work with multiple inheritance?][super]:
-    - `super(MyClass, self).__init__()` provides the next `__init__` method according to the used Method Resolution Ordering (MRO) algorithm in the context of the complete inheritance hierarchy.
+  - `super(MyClass, self).__init__()` provides the next `__init__` method according to the used Method Resolution Ordering (MRO) algorithm in the context of the complete inheritance hierarchy.
 
 - [Ellipsis in numpy.array][array_ellipsis]
-```
+
+```python
 In [223]: cube
 Out[223]:
 array([[[1, 2],
@@ -54,14 +55,16 @@ array([[[2, 1],
 ## 环境配置
 
 - 安装vim插件
-```
+
+```vim
 Plugin 'davidhalter/jedi-vim'
 ```
 
 ## 使用 pyenv 来管理 python 版本
 
 - 安装 Python 基本依赖
-```
+
+```shell
 sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev
 curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
@@ -75,14 +78,16 @@ pip install ipython
 
 - 解决pyenv install速度慢的问题
   - 到淘宝镜像网站上下载对应的安装包，放在`~/.pyenv/cache`目录下，再执行pyenv install即可。
-```
-export v=2.7.6; wget https://npm.taobao.org/mirrors/python/$v/Python-$v.tar.xz -P ~/.pyenv/cache/; pyenv install $v
-```
+
+  ```shell
+  export v=2.7.6; wget https://npm.taobao.org/mirrors/python/$v/Python-$v.tar.xz -P ~/.pyenv/cache/; pyenv install $v
+  ```
 
 ## 使用 pyinstaller 打包 python 程序
 
-- 使用 pyinstaller 打包 multi_factory_tools 时报错：
-```
+- 使用 pyinstaller 打包 multi_factory_tools 时报错，卸载python，重装时增加"--enable-shared"选项后该问题得到解决：
+
+```shell
 OSError: Python library not found: libpython3.8.so.1.0, libpython3.8m.so.1.0, libpython3.8m.so, libpython3.8mu.so.1.0
     This would mean your Python installation doesn't come with proper library files.
     This usually happens by missing development package, or unsuitable build parameters of Python installation.
@@ -92,8 +97,8 @@ OSError: Python library not found: libpython3.8.so.1.0, libpython3.8m.so.1.0, li
       * apt-get install python-dev
     * If you're building Python by yourself, please rebuild your Python with `--enable-shared` (or, `--enable-framework` on Darwin)
 ```
-    卸载python，重装时增加"--enable-shared"选项后该问题得到解决：
-```
+
+```shell
 pyenv uninstall 3.8.2
 env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.8.2
 ```

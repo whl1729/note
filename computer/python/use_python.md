@@ -12,6 +12,15 @@
 
 ## 编程实践
 
+- Python 编程规范
+  - [PEP 8 -- Style Guide for Python Code][3]
+  - [PEP 20 -- The Zen of Python][4]
+  - [PEP 257 -- Docstring Conventions][5]
+  - [Python file naming convention][6]: 'lowercase' or 'lower_case_with_underscores'
+  - [Linters and formatters][7]
+  - [The Zen of Python by Example][8]
+  - [Structuring Your Project][9]
+
 - 为了避免各种奇奇怪怪的import问题，我总结了以下方案（不成熟，待完善）：
   - python 入口脚本永远放在项目根目录下
   - import 同一项目的其他package或module时，均使用绝对路径的方式。
@@ -22,10 +31,10 @@
 
 - Ellipsis(`...`): Using the Ellipsis literal as the body of a function does nothing. It's purely a matter of style if you use it instead of pass or some other statement.
 
-- [How does Python's super() work with multiple inheritance?][super]:
+- [How does Python's super() work with multiple inheritance?][1]:
   - `super(MyClass, self).__init__()` provides the next `__init__` method according to the used Method Resolution Ordering (MRO) algorithm in the context of the complete inheritance hierarchy.
 
-- [Ellipsis in numpy.array][array_ellipsis]
+- [Ellipsis in numpy.array][2]
 
 ```python
 In [223]: cube
@@ -44,9 +53,6 @@ array([[[2, 1],
        [[6, 5],
         [8, 7]]])
 ```
-
-  [super]: https://stackoverflow.com/questions/3277367/how-does-pythons-super-work-with-multiple-inheritance
-  [array_ellipsis]: https://stackoverflow.com/questions/772124/what-does-the-ellipsis-object-do
 
 ## Python shell
 
@@ -104,3 +110,13 @@ env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.8.2
 ```
 
 - 如果待打包的程序需要动态加载 package 或 module，需要在 pyinstaller 命令后面加上"--hidden-import"参数。
+
+  [1]: https://stackoverflow.com/questions/3277367/how-does-pythons-super-work-with-multiple-inheritance
+  [2]: https://stackoverflow.com/questions/772124/what-does-the-ellipsis-object-do
+  [3]: https://www.python.org/dev/peps/pep-0008/
+  [4]: https://www.python.org/dev/peps/pep-0020/
+  [5]: https://www.python.org/dev/peps/pep-0257/
+  [6]: https://stackoverflow.com/questions/42127593/should-python-class-filenames-also-be-camelcased/42127721#42127721
+  [7]: https://books.agiliq.com/projects/essential-python-tools/en/latest/linters.html
+  [8]: https://github.com/hblanks/zen-of-python-by-example
+  [9]: https://docs.python-guide.org/writing/structure/

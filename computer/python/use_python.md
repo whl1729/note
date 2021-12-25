@@ -1,6 +1,6 @@
 # Python使用笔记
 
-## Question
+## Questions
 
 - [ ] Q: 什么时候使用 classmethod？什么时候不该使用 classmethod？
 - [ ] Q: 定义 class 时，是否需要在最外层声明数据成员？
@@ -27,38 +27,21 @@
 
 - `mypy` python 静态检查工具。
 
-## 基础知识
+## 测试方法
 
-- Ellipsis(`...`): Using the Ellipsis literal as the body of a function does nothing. It's purely a matter of style if you use it instead of pass or some other statement.
+- [Run all Python unit tests in a directory][10]
+  - Use `unittest.TestCase`.
+  - The root directory of all your testcases should be named `test`. (Not `tests` or any others).
+  - You must have an empty (or otherwise) `__init__.py` file in your `test` directory and **any subfolders**.
+  - All your file name should match the pattern `test_*.py`.
 
-- [How does Python's super() work with multiple inheritance?][1]:
-  - `super(MyClass, self).__init__()` provides the next `__init__` method according to the used Method Resolution Ordering (MRO) algorithm in the context of the complete inheritance hierarchy.
+## 工具使用
 
-- [Ellipsis in numpy.array][2]
-
-```python
-In [223]: cube
-Out[223]:
-array([[[1, 2],
-        [3, 4]],
-
-       [[5, 6],
-        [7, 8]]])
-
-In [224]: cube[..., ::-1]
-Out[224]:
-array([[[2, 1],
-        [4, 3]],
-
-       [[6, 5],
-        [8, 7]]])
-```
-
-## Python shell
+### Python shell
 
 - Python shell清屏: `Ctrl-L`
 
-## 环境配置
+### vim 插件
 
 - 安装vim插件
 
@@ -66,7 +49,7 @@ array([[[2, 1],
 Plugin 'davidhalter/jedi-vim'
 ```
 
-## 使用 pyenv 来管理 python 版本
+### 使用 pyenv 来管理 python 版本
 
 - 安装 Python 基本依赖
 
@@ -89,7 +72,7 @@ pip install ipython
   export v=2.7.6; wget https://npm.taobao.org/mirrors/python/$v/Python-$v.tar.xz -P ~/.pyenv/cache/; pyenv install $v
   ```
 
-## 使用 pyinstaller 打包 python 程序
+### 使用 pyinstaller 打包 python 程序
 
 - 使用 pyinstaller 打包 multi_factory_tools 时报错，卸载python，重装时增加"--enable-shared"选项后该问题得到解决：
 
@@ -111,6 +94,33 @@ env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.8.2
 
 - 如果待打包的程序需要动态加载 package 或 module，需要在 pyinstaller 命令后面加上"--hidden-import"参数。
 
+## 基础知识
+
+- Ellipsis(`...`): Using the Ellipsis literal as the body of a function does nothing. It's purely a matter of style if you use it instead of pass or some other statement.
+
+- [Ellipsis in numpy.array][2]
+
+```python
+In [223]: cube
+Out[223]:
+array([[[1, 2],
+        [3, 4]],
+
+       [[5, 6],
+        [7, 8]]])
+
+In [224]: cube[..., ::-1]
+Out[224]:
+array([[[2, 1],
+        [4, 3]],
+
+       [[6, 5],
+        [8, 7]]])
+```
+
+- [How does Python's super() work with multiple inheritance?][1]:
+  - `super(MyClass, self).__init__()` provides the next `__init__` method according to the used Method Resolution Ordering (MRO) algorithm in the context of the complete inheritance hierarchy.
+
   [1]: https://stackoverflow.com/questions/3277367/how-does-pythons-super-work-with-multiple-inheritance
   [2]: https://stackoverflow.com/questions/772124/what-does-the-ellipsis-object-do
   [3]: https://www.python.org/dev/peps/pep-0008/
@@ -120,3 +130,4 @@ env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.8.2
   [7]: https://books.agiliq.com/projects/essential-python-tools/en/latest/linters.html
   [8]: https://github.com/hblanks/zen-of-python-by-example
   [9]: https://docs.python-guide.org/writing/structure/
+  [10]: https://stackoverflow.com/questions/1732438/how-do-i-run-all-python-unit-tests-in-a-directory/43733357#43733357

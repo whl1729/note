@@ -95,7 +95,9 @@ failed to load swrast driver
 - 解决electron下载慢的问题（方法1）
   - 设置 npm 源为 `npm config set registry https://registry.npm.taobao.org/`
   - 使用浏览器，前往 https://npm.taobao.org/mirrors/electron/ 下载你所需要的版本
-  - 将下载的文件拷贝到`~/.cache/electron/`
+  - 将下载的文件拷贝到以下路径：
+    - Windows: `C:\Users\<user>\AppData\Local\electron\Cache`
+    - Linux: `~/.cache/electron/`
 
 - 解决electron下载慢的问题（方法2）
 ```

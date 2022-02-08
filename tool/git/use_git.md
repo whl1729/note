@@ -2,6 +2,15 @@
 
 ## 常见用法
 
+- [Delete a submodule][11]
+  - Delete the relevant line from the `.gitmodules` file.
+  - Stage the .gitmodules changes: `git add .gitmodules`
+  - Delete the relevant section from `.git/config`.
+  - Remove the submodule files from the working tree and index: `git rm --cached path_to_submodule` (no trailing slash).
+  - Remove the submodule's .git directory: `rm -rf .git/modules/path_to_submodule`
+  - Commit the superproject: `git commit -m "Removed submodule <name>"`
+  - Delete the now untracked submodule files: `rm -rf path_to_submodule`
+
 - [Delete large files][10]
 
   ```shell
@@ -146,3 +155,4 @@
   [8]: http://blog.kfish.org/2010/04/git-lola.html
   [9]: https://stackoverflow.com/questions/2003505/how-do-i-delete-a-git-branch-locally-and-remotely
   [10]: https://stackoverflow.com/questions/2100907/how-to-remove-delete-a-large-file-from-commit-history-in-the-git-repository/2158271#2158271
+  [11]: https://stackoverflow.com/a/1260982/11467929

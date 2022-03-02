@@ -53,6 +53,8 @@ typeof(a) // "object"
 
 ### node & npm
 
+- [设置 npm 默认安装目录][2]
+
 - 安装 node 和 npm
 ```
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
@@ -64,7 +66,7 @@ sudo apt-get install -y nodejs
 npm config set registry http://registry.npm.taobao.org/
 ```
 
-- 解决`npm install -g` 权限问题：参考[npm install -g less does not work: EACCES: permission denied](https://stackoverflow.com/questions/33725639/npm-install-g-less-does-not-work-eacces-permission-denied)
+- 解决`npm install -g` 权限问题：参考[npm install -g less does not work: EACCES: permission denied][3]
   - `mkdir ~/.npm-global`
   - `npm config set prefix '~/.npm-global'`
   - Open or create a ~/.profile file and add this line: `export PATH=~/.npm-global/bin:$PATH`
@@ -110,3 +112,5 @@ npm install --global windows-build-tools
 ```
 
   [1]: https://github.com/axios/axios/issues/604
+  [2]: https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally#manually-change-npms-default-directory
+  [3]: https://stackoverflow.com/questions/33725639/npm-install-g-less-does-not-work-eacces-permission-denied

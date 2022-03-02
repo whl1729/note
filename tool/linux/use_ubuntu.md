@@ -2,7 +2,15 @@
 
 ## 最近使用
 
+- Ubuntu 20.04 关闭终端提示音
+  - 在终端中点击右上方的菜单（一个含有三条横线的图标），选择「Preferences」
+  - 点击左侧的「Unamed」菜单栏，在右侧的「Sound」配置下，将「Terminal bell」的 CheckBox 关闭。
+
+- ubuntu 18.04 关闭终端提示音
+  - In order to turn off Ubuntu error sound in Ubuntu 18.04, you need to go Setting > Sound > Sound Effects > Alert Volume > Off.
+
 - [安装中文字体][cn_font]
+
 ```
 fc-list :lang=zh  // 查看已安装字体
 sudo apt install ttf-wqy-zenhei fonts-wqy-microhei
@@ -38,8 +46,6 @@ xmodmap -e "keycode 68=x"  // 将f2的键值68映射到字母x，这时按下f2�
 ```
 gsettings set org.gnome.desktop.peripherals.touchpad click-method areas
 ```
-
-- 解决ubuntu 使用 Tab 补全时会响铃（bell）的问题：`In order to turn off Ubuntu error sound in Ubuntu 18.04, you need to go Setting > Sound > Sound Effects > Alert Volume > Off.`
 
 - 创建桌面快捷方式: 参考[How to Add Application Shortcuts on Ubuntu Desktop](https://itsfoss.com/ubuntu-desktop-shortcut/)
   - go to the directory `/usr/share/applications`

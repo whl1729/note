@@ -69,7 +69,19 @@
 - 使用alias来精简命令：
 
   ```shell
+  git config --global alias.a 'add'
+  git config --global alias.br 'branch'
   git config --global alias.ci 'commit'
+  git config --global alias.co 'checkout'
+  git config --global alias.d 'diff'
+  git config --global alias.l 'log'
+  git config --global alias.last 'log -1 HEAD --stat'
+  git config --global alias.ll 'log --oneline'
+  git config --global alias.ln 'log --name-only'
+  git config --global alias.ph 'push'
+  git config --global alias.pl 'pull'
+  git config --global alias.re 'remote'
+  git config --global alias.st 'status'
   ```
 
 - 设置默认push的远程仓库：

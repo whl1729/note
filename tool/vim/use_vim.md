@@ -2,6 +2,8 @@
 
 ## 最近使用
 
+- [vim paste][1]: 有次无法将vim中的内容拷贝到外部程序，后来设置一下`:set paste`就可以了。待研究。
+
 - [vim snippets][snippets]
   - Type the "snippet trigger" and press TAB in insert mode to evaluate the snippet block.
   - Use Ctrl + j to jump forward within the snippet.
@@ -206,3 +208,5 @@ imap <silent> <F9> <Plug>StopMarkdownPreview
 ## 参考资料
 
 - [如何在 Linux 下利用 Vim 搭建 C/C++ 开发环境? - 韦易笑的回答 - 知乎](https://www.zhihu.com/question/47691414/answer/373700711)
+
+  [1]: https://stackoverflow.com/a/11489440

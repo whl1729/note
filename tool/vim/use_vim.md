@@ -2,6 +2,14 @@
 
 ## 最近使用
 
+- vim nerdtree 设置窗口宽度和高度
+  - `CTRL-W -` Decrease current window height by N (default 1).
+  - `CTRL-W +` Increase current window height by N (default 1).
+  - `CTRL-W <` Decrease current window width by N (default 1).
+  - `CTRL-W >` Increase current window width by N (default 1).
+
+> 备注：以上命令的按键顺序：先按数字 N，再按 `CTRL-W`，最后按`-, +, <, >`之一。
+
 - [vim paste][1]: 有次无法将vim中的内容拷贝到外部程序，后来设置一下`:set paste`就可以了。待研究。
 
 - [vim snippets][snippets]

@@ -2,6 +2,12 @@
 
 ## 常见用法
 
+- 输出结果支持中文显示
+
+  ```bash
+  git config --global core.quotepath off
+  ```
+
 - [Delete a submodule][11]
   - Delete the relevant line from the `.gitmodules` file.
   - Stage the .gitmodules changes: `git add .gitmodules`

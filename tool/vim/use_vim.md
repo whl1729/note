@@ -2,6 +2,8 @@
 
 ## 最近使用
 
+- Saving a read-only file edited in vim: `:w !sudo tee %`
+
 - vim nerdtree 设置窗口宽度和高度
   - `CTRL-W -` Decrease current window height by N (default 1).
   - `CTRL-W +` Increase current window height by N (default 1).

@@ -2,6 +2,14 @@
 
 ## 最近使用
 
+- 查找大文件
+
+  ```bash
+  du -aBM -d 1 . | sort -nr | head -20
+  # or
+  du -cha --max-depth=1 / | grep -E "M|G"
+  ```
+
 - Ubuntu 20.04 关闭终端提示音
   - 在终端中点击右上方的菜单（一个含有三条横线的图标），选择「Preferences」
   - 点击左侧的「Unamed」菜单栏，在右侧的「Sound」配置下，将「Terminal bell」的 CheckBox 关闭。
@@ -11,11 +19,11 @@
 
 - [安装中文字体][cn_font]
 
-```
-fc-list :lang=zh  // 查看已安装字体
-sudo apt install ttf-wqy-zenhei fonts-wqy-microhei
-sudo apt install fonts-arphic-gbsn00lp fonts-arphic-gkai00mp fonts-arphic-bsmi00lp fonts-arphic-bkai00mp
-```
+  ```bash
+  fc-list :lang=zh  // 查看已安装字体
+  sudo apt install ttf-wqy-zenhei fonts-wqy-microhei
+  sudo apt install fonts-arphic-gbsn00lp fonts-arphic-gkai00mp fonts-arphic-bsmi00lp fonts-arphic-bkai00mp
+  ```
 
   [cn_font]: https://www.cnblogs.com/Jimc/p/10302267.html
 
@@ -24,9 +32,10 @@ sudo apt install fonts-arphic-gbsn00lp fonts-arphic-gkai00mp fonts-arphic-bsmi00
   [wudao]: https://github.com/ChestnutHeng/Wudao-dict
 
 - disable cursor blinking on ubuntu 16.04
-```
-gsettings set org.gnome.desktop.interface cursor-blink false
-```
+
+  ```bash
+  gsettings set org.gnome.desktop.interface cursor-blink false
+  ```
 
 - 查看字节序 `lscpu | grep "Byte Order"`
 
@@ -35,17 +44,19 @@ gsettings set org.gnome.desktop.interface cursor-blink false
 - 设置登录时启动：将待启动的脚本放在`/etc/profile.d`目录下。
 
 - 键盘映射
-```
-xev | grep keycode  // 查看某个符号对应的键值
-xmodmap -e "keycode 68=x"  // 将f2的键值68映射到字母x，这时按下f2键时会显示x
-```
+
+  ```bash
+  xev | grep keycode  // 查看某个符号对应的键值
+  xmodmap -e "keycode 68=x"  // 将f2的键值68映射到字母x，这时按下f2键时会显示x
+  ```
 
 - 设置virtualbox虚拟机使用主机代理：在Setting - Network Proxy中，选择Manual，并将http/https/socks的代理ip设置为10.0.2.2（virtual NAT默认网关），port设置为1080.
 
 - 解决ubuntu 18.04触控板右键失灵的问题
-```
-gsettings set org.gnome.desktop.peripherals.touchpad click-method areas
-```
+
+  ```bash
+  gsettings set org.gnome.desktop.peripherals.touchpad click-method areas
+  ```
 
 - 创建桌面快捷方式: 参考[How to Add Application Shortcuts on Ubuntu Desktop](https://itsfoss.com/ubuntu-desktop-shortcut/)
   - go to the directory `/usr/share/applications`
@@ -60,24 +71,27 @@ gsettings set org.gnome.desktop.peripherals.touchpad click-method areas
 - apt-get：适用于 deb 包管理式的操作系统，主要用于自动从互联网软件库中搜索、安装、升级以及卸载软件或者操作系统。
 
 - 查询软件包
-```
-dpkg -l | grep xxx
-apt-cache search <pattern>    // 搜索满足 <pattern> 的软件包。
-apt-cache show/showpkg <package>    // 显示软件包 <package> 的完整描述。
-```
+
+  ```bash
+  dpkg -l | grep xxx
+  apt-cache search <pattern>    // 搜索满足 <pattern> 的软件包。
+  apt-cache show/showpkg <package>    // 显示软件包 <package> 的完整描述。
+  ```
 
 - 删除软件包
-```
-apt-get remove <package>    // 移除 <package> 以及所有依赖的软件包
-```
+
+  ```bash
+  apt-get remove <package>    // 移除 <package> 以及所有依赖的软件包
+  ```
 
 - Ubuntu的软件包获取依赖升级源，可以通过修改 “/etc/apt/sources.list” 文件来修改升级源（需要 root 权限） ；或者修改新立得软件包管理器中 “设置 > 软件库”。
 
 - 设置网络代理（下载国外的安装包失败时检查网络代理是否设置ok）
-```
-export http_proxy=socks5://127.0.0.1:1080
-export https_proxy=socks5://127.0.0.1:1080
-```
+
+  ```bash
+  export http_proxy=socks5://127.0.0.1:1080
+  export https_proxy=socks5://127.0.0.1:1080
+  ```
 
 ## 网络管理
 
@@ -111,7 +125,7 @@ export https_proxy=socks5://127.0.0.1:1080
   - A: 参考[Windows10内置ubuntu子系统安装后中文环境设置](https://blog.csdn.net/KERTORP/article/details/80102143)
 
 - ubuntu下alt + tab切换窗口时,不要把同组的窗口合并的配置方法
-  - 运行 dconf-editor 
+  - 运行 dconf-editor
   - 打开 org/gnome/desktop/wm/keybindings
-  - 可以看到 <alt> Tab 是放在了 switch-application 里面的，要把它拿出来, 放到 switch-windows 中。switch application 就是把相同的窗口合并，这个就是罪魁祸首。
+  - 可以看到 `<alt> Tab` 是放在了 switch-application 里面的，要把它拿出来, 放到 switch-windows 中。switch application 就是把相同的窗口合并，这个就是罪魁祸首。
   - 保存，立马生效。

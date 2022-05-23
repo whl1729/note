@@ -2,6 +2,12 @@
 
 ## 常见用法
 
+- [Highlight whitespace differences in `git.diff`]
+
+  ```bash
+  git config diff.wsErrorHighlight all
+  ```
+
 - 输出结果支持中文显示
 
   ```bash

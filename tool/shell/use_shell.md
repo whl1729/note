@@ -5,7 +5,7 @@
 - 获取当前脚本的绝对路径
 
   ```sh
-  SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P  )"
+  SCRIPTPATH="$(cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P)"
   ```
 
 ## 输入命令
